@@ -1,0 +1,16 @@
+<div class="box" *ngIf="auth.user | async;">
+  <div *ngIf="auth.user | async; then authenticated else guest">
+          <!-- template will replace this div -->
+  </div>
+</div>
+
+<!-- User logged in -->
+<ng-template #authenticated>
+  <div *ngIf="auth.user | async as user">
+    <h3>Welcome, {{ user.displayName }}</h3>
+    <img class="card-img-top" [src]="user.photoURL || 'https://api.adorable.io/avatars/109/fire.png'" width=50px>
+    <p class="text-truncate">{{ user.email }}</p>
+    <button class="button" (click)="logout()">Logout</button>
+  </div>
+</ng-template>
+
