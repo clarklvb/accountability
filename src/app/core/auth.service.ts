@@ -12,12 +12,14 @@ import { NotifyService } from './notify.service';
 
 import { Observable, of } from 'rxjs';
 import { switchMap, startWith, tap, filter } from 'rxjs/operators';
+import { setupTestingRouter } from '@angular/router/testing';
 
 interface User {
   uid: string;
   email?: string | null;
   displayName?: string;
   role?: string;
+  isActive?: boolean;
 }
 
 @Injectable()
@@ -97,7 +99,8 @@ export class AuthService {
       uid: user.uid,
       email: user.email || null,
       displayName: name,
-      role: 'Accountant'
+      role: 'Accountant',
+      isActive: true
     };
     return userRef.set(data, { merge: true });
   }
@@ -107,6 +110,24 @@ export class AuthService {
       `users/${user.uid}`
     );
 
+    this.checkIfActive(user.uid);
+
     return userRef;
+  }
+
+  checkIfActive(id: string) {
+    return this.afs.collection("users").doc(id).ref.get()
+      .then(doc => {
+        if (doc.exists) {
+          if (doc.data().isActive === false) {
+            this.signOut();
+          }
+        } else {
+          console.log("No such document!");
+        }
+      })
+      .catch(function(error) {
+        console.log("Error getting document:", error);
+      });
   }
 }

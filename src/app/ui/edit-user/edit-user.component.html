@@ -12,10 +12,17 @@
   </div>
 
   <label for="role">Role</label>
-  <input type="role" class="input" formControlName="role" name="role" required autocomplete="new-password">
+  <input type="text" class="input" formControlName="role" name="role" required autocomplete="new-password">
 
   <div *ngIf="formErrors.role" class="notification is-danger">
       {{ formErrors.role }}
+  </div>
+
+  <label for="active">Active</label>
+  <input type="checkbox" formControlName="active" name="active" autocomplete="new-password">
+
+  <div *ngIf="formErrors.active" class="notification is-danger">
+      {{ formErrors.active }}
   </div>
 
   <div *ngIf="editUserForm.valid" class="notification is-success">Form is valid</div>

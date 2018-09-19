@@ -4,7 +4,7 @@ import { switchMap } from 'rxjs/operators';
 import { UsersService } from '../../core/users.service';
 import { ReactiveFormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms';
 
-type EditUserFields = 'name' | 'role';
+type EditUserFields = 'name' | 'role' | 'active';
 type FormErrors = { [u in EditUserFields]: string };
 
 @Component({
@@ -19,7 +19,8 @@ export class EditUserComponent implements OnInit {
   editUserForm: FormGroup;
   formErrors: FormErrors = {
     'name': '',
-    'role': ''
+    'role': '',
+    'active': null
   };
   validationMessages = {
     'name': {
@@ -28,6 +29,7 @@ export class EditUserComponent implements OnInit {
     'role': {
       'required': 'Role is required.'
     },
+    'active': {},
   };
   constructor(private route: ActivatedRoute, private router: Router, private userService: UsersService, private fb: FormBuilder,) { }
 
@@ -38,9 +40,11 @@ export class EditUserComponent implements OnInit {
   }
 
   updateUser() {
+    console.log(this.editUserForm.value['active'])
     this.userService.updateUser(this.uid, { 
       displayName: this.editUserForm.value['name'],
-      role: this.editUserForm.value['role']
+      role: this.editUserForm.value['role'],
+      isActive: this.editUserForm.value['active'] || false
     });
 
     return this.router.navigate(['/users']);
@@ -54,6 +58,7 @@ export class EditUserComponent implements OnInit {
       'role': ['', [
         Validators.required
       ]],
+      'active': ['', []],
     });
 
     this.editUserForm.valueChanges.subscribe((data) => this.onValueChanged(data));
