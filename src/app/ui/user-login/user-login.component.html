@@ -1,12 +1,4 @@
-<h1>Please sign in to Accountability</h1>
-<hr>
-
 <div *ngIf="!(auth.user | async); else alreadyLoggedIn">
-  <h3>Social Login</h3>
-  <button (click)="signInWithGoogle()" class="button btn-social btn-google">
-    <i class="fa fa-google fa-lg"></i> Connect Google
-  </button>
-  <hr>
   <user-form></user-form>
 </div>
 

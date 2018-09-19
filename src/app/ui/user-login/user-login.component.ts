@@ -14,11 +14,6 @@ export class UserLoginComponent {
   constructor(public auth: AuthService,
               private router: Router) { }
 
-  async signInWithGoogle() {
-    await this.auth.googleLogin();
-    return await this.afterSignIn();
-  }
-
   private afterSignIn() {
     // Do after login stuff here, such router redirects, toast messages, etc.
     return this.router.navigate(['/']);

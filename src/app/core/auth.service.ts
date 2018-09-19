@@ -18,6 +18,7 @@ interface User {
   email?: string | null;
   photoURL?: string;
   displayName?: string;
+  role?: string;
 }
 
 @Injectable()
@@ -41,21 +42,6 @@ export class AuthService {
       // tap(user => localStorage.setItem('user', JSON.stringify(user))),
       // startWith(JSON.parse(localStorage.getItem('user')))
     );
-  }
-
-  googleLogin() {
-    const provider = new auth.GoogleAuthProvider();
-    return this.oAuthLogin(provider);
-  }
-
-  private oAuthLogin(provider: any) {
-    return this.afAuth.auth
-      .signInWithPopup(provider)
-      .then(credential => {
-        this.notify.update('Welcome to Accountability!', 'success');
-        return this.updateUserData(credential.user);
-      })
-      .catch(error => this.handleError(error));
   }
 
   //// Email/Password Auth ////
@@ -112,8 +98,9 @@ export class AuthService {
       uid: user.uid,
       email: user.email || null,
       displayName: user.displayName || 'nameless user',
-      photoURL: user.photoURL || 'https://goo.gl/Fz9nrQ'
+      photoURL: user.photoURL || 'https://goo.gl/Fz9nrQ',
+      role: 'Accountant'
     };
-    return userRef.set(data);
+    return userRef.set(data, { merge: true });
   }
 }

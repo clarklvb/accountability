@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NotesListComponent } from './notes-list.component';
+import { UserManagementPageComponent } from './user-management-page.component';
 
-xdescribe('NotesListComponent', () => {
-  let component: NotesListComponent;
-  let fixture: ComponentFixture<NotesListComponent>;
+describe('UserManagementPageComponent', () => {
+  let component: UserManagementPageComponent;
+  let fixture: ComponentFixture<UserManagementPageComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NotesListComponent ]
+      declarations: [ UserManagementPageComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(NotesListComponent);
+    fixture = TestBed.createComponent(UserManagementPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

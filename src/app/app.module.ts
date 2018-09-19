@@ -12,7 +12,6 @@ import { environment } from '../environments/environment';
 // Accountability App Modules
 import { CoreModule } from './core/core.module';
 import { UiModule } from './ui/ui.module';
-import { NotesModule } from './notes/notes.module';
 
 // AngularFire2 Modules
 import { AngularFireModule } from 'angularfire2';
@@ -20,6 +19,7 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireStorageModule } from 'angularfire2/storage';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFireFunctionsModule } from 'angularfire2/functions';
+import { HttpModule } from '@angular/http';
 
 @NgModule({
   declarations: [AppComponent],
@@ -27,9 +27,9 @@ import { AngularFireFunctionsModule } from 'angularfire2/functions';
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
     BrowserTransferStateModule,
     AppRoutingModule,
+    HttpModule,
     CoreModule,
     UiModule,
-    NotesModule,
     AngularFireModule.initializeApp(environment.firebase, 'accountability'),
     AngularFirestoreModule,
     AngularFireAuthModule,

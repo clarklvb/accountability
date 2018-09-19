@@ -1,0 +1,24 @@
+<div class="columns">
+  <div *ngFor="let user of allUsers | async" class="column">
+    <div class="card">
+      <header class="card-header">
+        <p class="card-header-title">
+          {{ user.role }}
+        </p>
+      </header>
+      <div class="card-content">
+        <div class="content">
+          <div class="media">
+            <div class="media-content">
+              <p class="title is-4">{{ user.displayName }}</p>
+              <p class="subtitle is-6">{{ user.email }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer class="card-footer">
+        <a href="#" class="card-footer-item">Edit</a>
+      </footer>
+    </div>
+  </div>
+</div>
