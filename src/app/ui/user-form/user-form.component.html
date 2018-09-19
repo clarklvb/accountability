@@ -4,6 +4,13 @@
     <p class="button is-small" (click)="toggleForm()">Already Registered?</p>
     <hr>
 
+    <label for="name">Name</label>
+    <input type="text" class="input" formControlName="name" name="name" required autocomplete="new-password">
+
+    <div *ngIf="formErrors.name" class="notification is-danger">
+      {{ formErrors.name }}
+    </div>
+
     <label for="email">Email</label>
     <input type="email" class="input" formControlName="email" name="email" required autocomplete="new-password">
 
@@ -24,7 +31,7 @@
 </form>
 
 
-<form [formGroup]="userForm" *ngIf="!newUser" (ngSubmit)="login()">
+<form [formGroup]="userLoginForm" *ngIf="!newUser" (ngSubmit)="login()">
 
     <h3>Existing User Login</h3>
     <p class="btn button is-small" (click)="toggleForm()">New User?</p>
@@ -44,11 +51,11 @@
         {{ formErrors.password }}
     </div>
 
-    <button type="submit" class="button" [disabled]="!userForm.valid">Submit</button>
+    <button type="submit" class="button" [disabled]="!userLoginForm.valid">Submit</button>
 
-    <span *ngIf="userForm.valid" class="help is-success">Form Looks Valid</span>
+    <span *ngIf="userLoginForm.valid" class="help is-success">Form Looks Valid</span>
 
-    <a *ngIf="!passReset && userForm.controls.email.valid" class="help is-info" (click)="resetPassword()">Reset Password for {{userForm.value.email}}?</a>
+    <a *ngIf="!passReset && userLoginForm.controls.email.valid" class="help is-info" (click)="resetPassword()">Reset Password for {{userForm.value.email}}?</a>
     <p *ngIf="passReset" class="help is-info">Reset requested. Check your email instructions.</p>
 
 </form>

@@ -16,7 +16,6 @@ import { switchMap, startWith, tap, filter } from 'rxjs/operators';
 interface User {
   uid: string;
   email?: string | null;
-  photoURL?: string;
   displayName?: string;
   role?: string;
 }
@@ -46,12 +45,12 @@ export class AuthService {
 
   //// Email/Password Auth ////
 
-  emailSignUp(email: string, password: string) {
+  emailSignUp(email: string, password: string, name: string) {
     return this.afAuth.auth
       .createUserWithEmailAndPassword(email, password)
       .then(credential => {
         this.notify.update('Welcome to Accountability!', 'success');
-        return this.updateUserData(credential.user); // if using firestore
+        return this.updateUserData(credential.user, name); // if using firestore
       })
       .catch(error => this.handleError(error));
   }
@@ -61,7 +60,7 @@ export class AuthService {
       .signInWithEmailAndPassword(email, password)
       .then(credential => {
         this.notify.update('Welcome back!', 'success');
-        return this.updateUserData(credential.user);
+        return this.getUserData(credential.user);
       })
       .catch(error => this.handleError(error));
   }
@@ -89,7 +88,7 @@ export class AuthService {
   }
 
   // Sets user data to firestore after succesful login
-  private updateUserData(user: User) {
+  private updateUserData(user: User, name?) {
     const userRef: AngularFirestoreDocument<User> = this.afs.doc(
       `users/${user.uid}`
     );
@@ -97,10 +96,17 @@ export class AuthService {
     const data: User = {
       uid: user.uid,
       email: user.email || null,
-      displayName: user.displayName || 'nameless user',
-      photoURL: user.photoURL || 'https://goo.gl/Fz9nrQ',
+      displayName: name,
       role: 'Accountant'
     };
     return userRef.set(data, { merge: true });
+  }
+
+  private getUserData(user: User) {
+    const userRef: AngularFirestoreDocument<User> = this.afs.doc(
+      `users/${user.uid}`
+    );
+
+    return userRef;
   }
 }

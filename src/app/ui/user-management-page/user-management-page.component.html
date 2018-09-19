@@ -1,5 +1,5 @@
-<div class="columns">
-  <div *ngFor="let user of allUsers | async" class="column">
+<div class="columns is-multiline">
+  <div *ngFor="let user of allUsers | async" class="column is-one-third">
     <div class="card">
       <header class="card-header">
         <p class="card-header-title">
@@ -17,7 +17,7 @@
         </div>
       </div>
       <footer class="card-footer">
-        <a href="#" class="card-footer-item">Edit</a>
+        <a [routerLink]="['/edit-user', user.uid]" class="card-footer-item">Edit</a>
       </footer>
     </div>
   </div>

@@ -5,12 +5,14 @@ import { AuthGuard } from './core/auth.guard';
 import { UserLoginComponent } from './ui/user-login/user-login.component';
 import { HomePageComponent } from './ui/home-page/home-page.component';
 import { UserManagementPageComponent } from './ui/user-management-page/user-management-page.component';
+import { EditUserComponent } from './ui/edit-user/edit-user.component';
 
 
 const routes: Routes = [
   { path: '', component: HomePageComponent, canActivate: [AuthGuard] },
   { path: 'login', component: UserLoginComponent },
-  { path: 'users', component: UserManagementPageComponent, canActivate: [AuthGuard]}
+  { path: 'users', component: UserManagementPageComponent, canActivate: [AuthGuard]},
+  { path: 'edit-user/:uid', component: EditUserComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({

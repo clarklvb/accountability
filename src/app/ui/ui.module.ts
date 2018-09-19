@@ -11,6 +11,7 @@ import { NotificationMessageComponent } from './notification-message/notificatio
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UserFormComponent } from './user-form/user-form.component';
 import { UserManagementPageComponent } from './user-management-page/user-management-page.component';
+import { EditUserComponent } from './edit-user/edit-user.component';
 
 @NgModule({
   imports: [CommonModule, RouterModule, ReactiveFormsModule],
@@ -22,7 +23,8 @@ import { UserManagementPageComponent } from './user-management-page/user-managem
     NotificationMessageComponent,
     UserProfileComponent,
     UserFormComponent,
-    UserManagementPageComponent
+    UserManagementPageComponent,
+    EditUserComponent
   ],
   exports: [
     MainNavComponent,

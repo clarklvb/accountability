@@ -3,7 +3,7 @@ import { ReactiveFormsModule, FormGroup, FormBuilder, Validators } from '@angula
 
 import { AuthService } from '../../core/auth.service';
 
-type UserFields = 'email' | 'password';
+type UserFields = 'email' | 'password' | 'name';
 type FormErrors = { [u in UserFields]: string };
 
 @Component({
@@ -14,16 +14,21 @@ type FormErrors = { [u in UserFields]: string };
 export class UserFormComponent implements OnInit {
 
   userForm: FormGroup;
+  userLoginForm: FormGroup;
   newUser = true; // to toggle login or signup form
   passReset = false; // set to true when password reset is triggered
   formErrors: FormErrors = {
     'email': '',
+    'name': '',
     'password': '',
   };
   validationMessages = {
     'email': {
       'required': 'Email is required.',
       'email': 'Email must be a valid email',
+    },
+    'name': {
+      'required': 'Name is required.'
     },
     'password': {
       'required': 'Password is required.',
@@ -36,19 +41,24 @@ export class UserFormComponent implements OnInit {
   constructor(private fb: FormBuilder, private auth: AuthService) { }
 
   ngOnInit() {
-    this.buildForm();
+    if(this.newUser) { this.buildForm(); } else { this.buildLoginForm() }
+  }
+
+  changeForm() {
+    if(this.newUser) { this.buildForm(); } else { this.buildLoginForm() }
   }
 
   toggleForm() {
     this.newUser = !this.newUser;
+    this.changeForm();
   }
 
   signup() {
-    this.auth.emailSignUp(this.userForm.value['email'], this.userForm.value['password']);
+    this.auth.emailSignUp(this.userForm.value['email'], this.userForm.value['password'], this.userForm.value['name']);
   }
 
   login() {
-    this.auth.emailLogin(this.userForm.value['email'], this.userForm.value['password']);
+    this.auth.emailLogin(this.userLoginForm.value['email'], this.userLoginForm.value['password']);
   }
 
   resetPassword() {
@@ -62,6 +72,9 @@ export class UserFormComponent implements OnInit {
         Validators.required,
         Validators.email,
       ]],
+      'name': ['', [
+        Validators.required
+      ]],
       'password': ['', [
         Validators.pattern('^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$'),
         Validators.minLength(6),
@@ -73,10 +86,26 @@ export class UserFormComponent implements OnInit {
     this.onValueChanged(); // reset validation messages
   }
 
+  buildLoginForm() {
+    this.userLoginForm = this.fb.group({
+      'email': ['', [
+        Validators.required,
+        Validators.email,
+      ]],
+      'password': ['', [
+        Validators.pattern('^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$'),
+        Validators.minLength(6),
+        Validators.maxLength(25),
+      ]],
+    });
+
+    this.userLoginForm.valueChanges.subscribe((data) => this.onValueChanged(data));
+    this.onValueChanged(); // reset validation messages
+  }
+
   // Updates validation state on form changes.
   onValueChanged(data?: any) {
-    if (!this.userForm) { return; }
-    const form = this.userForm;
+    const form = this.newUser ? this.userForm : this.userLoginForm;
     for (const field in this.formErrors) {
       if (Object.prototype.hasOwnProperty.call(this.formErrors, field) && (field === 'email' || field === 'password')) {
         // clear previous error message (if any)

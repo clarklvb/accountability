@@ -28,10 +28,19 @@ export class UsersService {
   }
 
   getUser(id: string) {
-    return this.afs.doc<any>(`users/${id}`);
+    return this.afs.collection("users").doc(id).ref.get()
+      .then(function(doc) {
+          if (doc.exists) {
+            return doc.data();
+          } else {
+            console.log("No such document!");
+          }
+      }).catch(function(error) {
+        console.log("Error getting document:", error);
+      });
   }
 
   updateUser(id: string, data: any) {
-    return this.getUser(id).update(data);
+    return this.afs.doc<any>(`users/${id}`).update(data);
   }
 }

@@ -1,0 +1,24 @@
+<form [formGroup]="editUserForm" (ngSubmit)="updateUser()">
+
+  <h3>Edit {{ (user | async)?.displayName }}</h3>
+  <p>{{ (user | async)?.role }}</p>
+  <hr />
+
+  <label for="name">Name</label>
+  <input type="text" class="input" formControlName="name" name="name" required autocomplete="new-password">
+
+  <div *ngIf="formErrors.name" class="notification is-danger">
+    {{ formErrors.name }}
+  </div>
+
+  <label for="role">Role</label>
+  <input type="role" class="input" formControlName="role" name="role" required autocomplete="new-password">
+
+  <div *ngIf="formErrors.role" class="notification is-danger">
+      {{ formErrors.role }}
+  </div>
+
+  <div *ngIf="editUserForm.valid" class="notification is-success">Form is valid</div>
+  <button type="submit" class="button" [disabled]="!editUserForm.valid">Submit</button>
+
+</form>
