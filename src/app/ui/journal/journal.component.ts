@@ -5,6 +5,7 @@ import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/fires
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { AuthService } from '../../core/auth.service';
+import { TransactionsService } from './transactions.service';
 
 type AddJournalFields = 'amount' | 'account';
 type FormErrors = { [u in AddJournalFields]: string };
@@ -16,10 +17,7 @@ type FormErrors = { [u in AddJournalFields]: string };
 })
 export class JournalComponent implements OnInit {
 
-  transactionsCollection: AngularFirestoreCollection;
   transactionsList;
-
-  accountsCollection: AngularFirestoreCollection;
   accountList;
 
   addJournalEntryForm: FormGroup;
@@ -36,13 +34,11 @@ export class JournalComponent implements OnInit {
     },
     'active': {},
   };
-  constructor(private route: ActivatedRoute, private router: Router, private fb: FormBuilder, private afs: AngularFirestore, private authService: AuthService) { }
+  constructor(private route: ActivatedRoute, private router: Router, private fb: FormBuilder, private transactionService: TransactionsService, private authService: AuthService) { }
 
   ngOnInit() {
-    this.accountsCollection = this.afs.collection('chartofaccounts');
-    this.transactionsCollection = this.afs.collection('transactions', (ref) => ref.orderBy('createdAt', 'desc'));
-    this.accountList = this.getAccountList();
-    this.transactionsList = this.getTransactionsList();
+    this.accountList = this.transactionService.getAccountList();
+    this.transactionsList = this.transactionService.getTransactionsList();
     this.buildForm();
   }
 
@@ -54,29 +50,7 @@ export class JournalComponent implements OnInit {
       userId: this.authService.userId,
       createdAt: new Date().getTime()
     }
-    this.transactionsCollection.add(transaction);
-  }
-
-  getAccountList(): Observable<any[]> {
-    return this.accountsCollection.snapshotChanges().pipe(
-      map((actions) => {
-        return actions.map((a) => {
-          const data = a.payload.doc.data();
-          return { id: a.payload.doc.id, ...data };
-        });
-      })
-    );
-  }
-
-  getTransactionsList() {
-    return this.transactionsCollection.snapshotChanges().pipe(
-      map((actions) => {
-        return actions.map((a) => {
-          const data = a.payload.doc.data();
-          return { id: a.payload.doc.id, ...data };
-        });
-      })
-    );
+    this.transactionService.addJournalEntry(transaction);
   }
 
   buildForm() {
