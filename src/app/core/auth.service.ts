@@ -25,6 +25,7 @@ interface User {
 @Injectable()
 export class AuthService {
   user: Observable<User | null>;
+  userId: String;
 
   constructor(
     private afAuth: AngularFireAuth,
@@ -35,6 +36,7 @@ export class AuthService {
     this.user = this.afAuth.authState.pipe(
       switchMap(user => {
         if (user) {
+          this.userId = user.uid;
           return this.afs.doc<User>(`users/${user.uid}`).valueChanges();
         } else {
           return of(null);

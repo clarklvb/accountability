@@ -12,6 +12,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UserFormComponent } from './user-form/user-form.component';
 import { UserManagementPageComponent } from './user-management-page/user-management-page.component';
 import { EditUserComponent } from './edit-user/edit-user.component';
+import { JournalComponent } from './journal/journal.component';
 
 @NgModule({
   imports: [CommonModule, RouterModule, ReactiveFormsModule],
@@ -24,7 +25,8 @@ import { EditUserComponent } from './edit-user/edit-user.component';
     UserProfileComponent,
     UserFormComponent,
     UserManagementPageComponent,
-    EditUserComponent
+    EditUserComponent,
+    JournalComponent
   ],
   exports: [
     MainNavComponent,

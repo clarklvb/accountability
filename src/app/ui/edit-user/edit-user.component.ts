@@ -40,7 +40,6 @@ export class EditUserComponent implements OnInit {
   }
 
   updateUser() {
-    console.log(this.editUserForm.value['active'])
     this.userService.updateUser(this.uid, { 
       displayName: this.editUserForm.value['name'],
       role: this.editUserForm.value['role'],
