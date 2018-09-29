@@ -14,7 +14,7 @@ export class TransactionsService {
 
   constructor(private afs: AngularFirestore, private authService: AuthService) {
     this.accountsCollection = this.afs.collection('chartofaccounts');
-    this.transactionsCollection = this.afs.collection('transactions', (ref) => ref.orderBy('createdAt', 'desc'));
+    this.transactionsCollection = this.afs.collection('transactions', (ref) => ref.where('userId', '==', this.authService.userId).orderBy('createdAt', 'desc'));
   }
 
   addJournalEntry(entry) {
