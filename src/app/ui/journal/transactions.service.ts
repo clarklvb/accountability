@@ -32,6 +32,10 @@ export class TransactionsService {
     );
   }
 
+  deleteTransaction(id: string) {
+    this.transactionsCollection.doc(id).delete();
+  }
+
   getTransactionsList() {
     return this.transactionsCollection.snapshotChanges().pipe(
       map((actions) => {

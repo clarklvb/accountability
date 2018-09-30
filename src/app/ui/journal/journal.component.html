@@ -22,6 +22,6 @@
 <div class="journal-container">
   <div class="journal-entry" *ngFor="let entry of transactionsList | async">
     
-    <span>{{ entry.amount }}</span><span>{{ entry.accountName }}</span><span>Edit</span><span>Delete</span>
+    <span>{{ entry.amount }}</span><span>{{ entry.accountName }}</span><span>Edit</span><a (click)="deleteEntry(entry.id)">Delete</a>
   </div>
 </div>

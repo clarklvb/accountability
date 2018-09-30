@@ -53,6 +53,10 @@ export class JournalComponent implements OnInit {
     this.transactionService.addJournalEntry(transaction);
   }
 
+  deleteEntry(id: string) {
+    this.transactionService.deleteTransaction(id);
+  }
+
   buildForm() {
     this.addJournalEntryForm = this.fb.group({
       'amount': ['', [
