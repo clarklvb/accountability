@@ -13,7 +13,7 @@ export class TransactionsService {
   accountsCollection: AngularFirestoreCollection;
 
   constructor(private afs: AngularFirestore, private authService: AuthService) {
-    this.accountsCollection = this.afs.collection('chartofaccounts');
+    this.accountsCollection = this.afs.collection('chartofaccounts', (ref) => ref.orderBy('name', 'asc'));
     this.transactionsCollection = this.afs.collection('transactions', (ref) => ref.where('userId', '==', this.authService.userId).orderBy('createdAt', 'desc'));
   }
 

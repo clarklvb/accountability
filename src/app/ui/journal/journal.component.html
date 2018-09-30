@@ -13,7 +13,6 @@
       <select class="input" formControlName="account" name="account" required autocomplete="new-password">
         <option *ngFor="let account of accountList | async" [ngValue]="account">{{ account.name }}</option>
       </select>
-      <div *ngIf="addJournalEntryForm.valid" class="notification is-success">Form is valid</div>
     </div>
     <button type="submit" class="button" [disabled]="!addJournalEntryForm.valid">Submit</button>
   </div>
@@ -21,14 +20,18 @@
 
 <table class="table">
   <thead>
-    <th>Amount</th>
+    <th>Date</th>
     <th>Account</th>
+    <th>Debit</th>
+    <th>Credit</th>
     <th>Options</th>
   </thead>
   <tbody>
     <tr *ngFor="let entry of transactionsList | async">
-      <td class="entry-amount">{{ entry.amount }}</td>
+      <td>{{ entry.createdAt | date }}</td>
       <td>{{ entry.accountName }}</td>
+      <td><span *ngIf="entry.normalSide === 'debit'">{{ entry.amount }}</span></td>
+      <td><span *ngIf="entry.normalSide === 'credit'">{{ entry.amount }}</span></td>
       <td>Edit <a class="entry-option" (click)="deleteEntry(entry.id)">Delete</a></td>
     </tr>
   </tbody>

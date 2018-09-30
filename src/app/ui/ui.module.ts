@@ -13,6 +13,7 @@ import { UserFormComponent } from './user-form/user-form.component';
 import { UserManagementPageComponent } from './user-management-page/user-management-page.component';
 import { EditUserComponent } from './edit-user/edit-user.component';
 import { JournalComponent } from './journal/journal.component';
+import { ModalComponent } from './modal/modal.component';
 
 @NgModule({
   imports: [CommonModule, RouterModule, ReactiveFormsModule],
@@ -26,14 +27,16 @@ import { JournalComponent } from './journal/journal.component';
     UserFormComponent,
     UserManagementPageComponent,
     EditUserComponent,
-    JournalComponent
+    JournalComponent,
+    ModalComponent
   ],
   exports: [
     MainNavComponent,
     LoadingSpinnerComponent,
     NotificationMessageComponent,
     UserProfileComponent,
-    UserFormComponent
+    UserFormComponent,
+    ModalComponent
   ]
 })
 export class UiModule {}
