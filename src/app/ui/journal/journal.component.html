@@ -1,22 +1,27 @@
 <form [formGroup]="addJournalEntryForm" (ngSubmit)="addJournalEntry()">
-
   <h3>Add New Entry</h3>
-  <hr />
-  <label for="amount">Amount</label>
-  <input type="text" class="input" formControlName="amount" name="amount" required autocomplete="new-password">
-  <div *ngIf="formErrors.amount" class="notification is-danger">
-    {{ formErrors.amount }}
+  <div class="add-entry-form">
+    <div class="flex-group">
+      <label for="amount">Amount</label>
+      <input type="text" class="input" formControlName="amount" name="amount" required autocomplete="new-password">
+      <div *ngIf="formErrors.amount" class="notification is-danger">
+        {{ formErrors.amount }}
+      </div>
+    </div>
+    <div class="flex-group">
+      <label for="account">Account</label>
+      <select class="input" formControlName="account" name="account" required autocomplete="new-password">
+        <option *ngFor="let account of accountList | async" [ngValue]="account">{{ account.name }}</option>
+      </select>
+      <div *ngIf="addJournalEntryForm.valid" class="notification is-success">Form is valid</div>
+    </div>
+    <button type="submit" class="button" [disabled]="!addJournalEntryForm.valid">Submit</button>
   </div>
-  <label for="account">Account</label>
-  <select class="input" formControlName="account" name="account" required autocomplete="new-password">
-    <option *ngFor="let account of accountList | async" [ngValue]="account">{{ account.name }}</option>
-  </select>
-  <div *ngIf="addJournalEntryForm.valid" class="notification is-success">Form is valid</div>
-  <button type="submit" class="button" [disabled]="!addJournalEntryForm.valid">Submit</button>
 </form>
 
 <div class="journal-container">
   <div class="journal-entry" *ngFor="let entry of transactionsList | async">
-    {{ entry.amount }}: {{ entry.accountName }}
+    
+    <span>{{ entry.amount }}</span><span>{{ entry.accountName }}</span><span>Edit</span><span>Delete</span>
   </div>
 </div>

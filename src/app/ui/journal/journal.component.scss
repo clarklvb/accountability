@@ -1,0 +1,23 @@
+.journal-container {
+  width: 50%;
+  margin: 0 auto;
+
+  .journal-entry {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+.add-entry-form {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .flex-group {
+    padding-right: 2em;
+  }
+
+  button {
+    margin-top: 1.2em;
+  }
+}
