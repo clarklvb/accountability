@@ -3,7 +3,7 @@
   <div class="add-entry-form">
     <div class="flex-group">
       <label for="amount">Amount</label>
-      <input type="text" class="input" formControlName="amount" name="amount" required autocomplete="new-password">
+      <input type="number" class="input" formControlName="amount" name="amount" required autocomplete="new-password">
       <div *ngIf="formErrors.amount" class="notification is-danger">
         {{ formErrors.amount }}
       </div>
@@ -19,9 +19,17 @@
   </div>
 </form>
 
-<div class="journal-container">
-  <div class="journal-entry" *ngFor="let entry of transactionsList | async">
-    
-    <span>{{ entry.amount }}</span><span>{{ entry.accountName }}</span><span>Edit</span><a (click)="deleteEntry(entry.id)">Delete</a>
-  </div>
-</div>
+<table class="table">
+  <thead>
+    <th>Amount</th>
+    <th>Account</th>
+    <th>Options</th>
+  </thead>
+  <tbody>
+    <tr *ngFor="let entry of transactionsList | async">
+      <td class="entry-amount">{{ entry.amount }}</td>
+      <td>{{ entry.accountName }}</td>
+      <td>Edit <a class="entry-option" (click)="deleteEntry(entry.id)">Delete</a></td>
+    </tr>
+  </tbody>
+</table>
