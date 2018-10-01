@@ -30,8 +30,8 @@
     <tr *ngFor="let entry of transactionsList | async">
       <td>{{ entry.createdAt | date }}</td>
       <td>{{ entry.accountName }}</td>
-      <td><span *ngIf="entry.normalSide === 'debit'">{{ entry.amount }}</span></td>
-      <td><span *ngIf="entry.normalSide === 'credit'">{{ entry.amount }}</span></td>
+      <td><span *ngIf="entry.normalSide === 'debit'">{{ entry.amount | currency }}</span></td>
+      <td><span *ngIf="entry.normalSide === 'credit'">{{ entry.amount | currency }}</span></td>
       <td>Edit <a class="entry-option" (click)="deleteEntry(entry.id)">Delete</a></td>
     </tr>
   </tbody>
