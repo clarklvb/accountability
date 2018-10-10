@@ -1,0 +1,22 @@
+<div class="columns">
+  <div class="column is-8">
+    <table class="table">
+      <thead>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Normal Side</th>
+        <th>Enabled</th>
+        <th>Options</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let account of accounts | async">
+          <td>{{ account.name }}</td>
+          <td>{{ account.category }}</td>
+          <td>{{ account.normalside }}</td>
+          <td>{{ account.enabled }}</td>
+          <td>Edit <a class="entry-option" (click)="deleteAccount(account.id)">Delete</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

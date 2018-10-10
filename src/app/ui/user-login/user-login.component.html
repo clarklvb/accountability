@@ -1,9 +1,3 @@
-<div *ngIf="!(auth.user | async); else alreadyLoggedIn">
+<div *ngIf="!(auth.user | async)" class="container mt-10">
   <user-form></user-form>
 </div>
-
-<ng-template #alreadyLoggedIn>
-  <p class="text-success">
-    You are logged in <i class="fa fa-thumbs-up"></i>
-  </p>
-</ng-template>

@@ -14,6 +14,7 @@ import { UserManagementPageComponent } from './user-management-page/user-managem
 import { EditUserComponent } from './edit-user/edit-user.component';
 import { JournalComponent } from './journal/journal.component';
 import { ModalComponent } from './modal/modal.component';
+import { ChartofaccountsComponent } from './chartofaccounts/chartofaccounts.component';
 
 @NgModule({
   imports: [CommonModule, RouterModule, ReactiveFormsModule],
@@ -28,7 +29,8 @@ import { ModalComponent } from './modal/modal.component';
     UserManagementPageComponent,
     EditUserComponent,
     JournalComponent,
-    ModalComponent
+    ModalComponent,
+    ChartofaccountsComponent
   ],
   exports: [
     MainNavComponent,

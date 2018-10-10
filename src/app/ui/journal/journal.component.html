@@ -1,38 +1,37 @@
-<form [formGroup]="addJournalEntryForm" (ngSubmit)="addJournalEntry()">
-  <h3>Add New Entry</h3>
-  <div class="add-entry-form">
-    <div class="flex-group">
+<div class="columns">
+  <form [formGroup]="addJournalEntryForm" (ngSubmit)="addJournalEntry()" class="column is-4">
+    <div class="add-entry-form">
       <label for="amount">Amount</label>
       <input type="number" class="input" formControlName="amount" name="amount" required autocomplete="new-password">
       <div *ngIf="formErrors.amount" class="notification is-danger">
         {{ formErrors.amount }}
       </div>
-    </div>
-    <div class="flex-group">
       <label for="account">Account</label>
       <select class="input" formControlName="account" name="account" required autocomplete="new-password">
         <option *ngFor="let account of accountList | async" [ngValue]="account">{{ account.name }}</option>
       </select>
     </div>
     <button type="submit" class="button" [disabled]="!addJournalEntryForm.valid">Submit</button>
+  </form>
+  
+  <div class="column is-8">
+    <table class="table">
+      <thead>
+        <th>Date</th>
+        <th>Account</th>
+        <th>Debit</th>
+        <th>Credit</th>
+        <th>Options</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let entry of transactionsList | async">
+          <td>{{ entry.createdAt | date }}</td>
+          <td>{{ entry.accountName }}</td>
+          <td><span *ngIf="entry.normalSide === 'debit'">{{ entry.amount | currency }}</span></td>
+          <td><span *ngIf="entry.normalSide === 'credit'">{{ entry.amount | currency }}</span></td>
+          <td>Edit <a class="entry-option" (click)="deleteEntry(entry.id)">Delete</a></td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-</form>
-
-<table class="table">
-  <thead>
-    <th>Date</th>
-    <th>Account</th>
-    <th>Debit</th>
-    <th>Credit</th>
-    <th>Options</th>
-  </thead>
-  <tbody>
-    <tr *ngFor="let entry of transactionsList | async">
-      <td>{{ entry.createdAt | date }}</td>
-      <td>{{ entry.accountName }}</td>
-      <td><span *ngIf="entry.normalSide === 'debit'">{{ entry.amount | currency }}</span></td>
-      <td><span *ngIf="entry.normalSide === 'credit'">{{ entry.amount | currency }}</span></td>
-      <td>Edit <a class="entry-option" (click)="deleteEntry(entry.id)">Delete</a></td>
-    </tr>
-  </tbody>
-</table>
+</div>

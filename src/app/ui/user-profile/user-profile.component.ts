@@ -12,8 +12,5 @@ export class UserProfileComponent {
 
   constructor(public auth: AuthService, private router: Router) { }
 
-  logout() {
-    this.auth.signOut();
-    return this.router.navigate(['/login']);
-  }
+  
 }
