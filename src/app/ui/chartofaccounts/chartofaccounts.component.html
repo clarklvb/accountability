@@ -1,5 +1,5 @@
 <div class="columns">
-  <div class="column is-8">
+  <div class="column is-8" *ngIf="(auth.user | async) as user">
     <table class="table">
       <thead>
         <th>Name</th>
@@ -14,7 +14,7 @@
           <td>{{ account.category }}</td>
           <td>{{ account.normalside }}</td>
           <td>{{ account.enabled }}</td>
-          <td>Edit <a class="entry-option" (click)="deleteAccount(account.id)">Delete</a></td>
+          <td *ngIf="user.role === 'Admin' || user.role === 'Manager'">Edit <a class="entry-option" (click)="deleteAccount(account.id)" *ngIf="user.role === 'Admin'">Delete</a></td>
         </tr>
       </tbody>
     </table>
