@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { AuthService } from '../../core/auth.service';
+import { Router } from '@angular/router';
 
 type UserFields = 'email' | 'password' | 'name';
 type FormErrors = { [u in UserFields]: string };
@@ -38,7 +39,7 @@ export class UserFormComponent implements OnInit {
     },
   };
 
-  constructor(private fb: FormBuilder, private auth: AuthService) { }
+  constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) { }
 
   ngOnInit() {
     if(this.newUser) { this.buildForm(); } else { this.buildLoginForm() }
@@ -58,7 +59,8 @@ export class UserFormComponent implements OnInit {
   }
 
   login() {
-    this.auth.emailLogin(this.userLoginForm.value['email'], this.userLoginForm.value['password']);
+    this.auth.emailLogin(this.userLoginForm.value['email'], this.userLoginForm.value['password'])
+      .then(() => this.router.navigate(['/']));
   }
 
   resetPassword() {
