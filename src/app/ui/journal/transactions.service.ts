@@ -36,6 +36,10 @@ export class TransactionsService {
     this.transactionsCollection.doc(id).delete();
   }
 
+  toggleApproval(id: string, value: boolean) {
+    this.transactionsCollection.doc(id).update({approved: value});
+  }
+
   getTransactionsList() {
     return this.transactionsCollection.snapshotChanges().pipe(
       map((actions) => {
