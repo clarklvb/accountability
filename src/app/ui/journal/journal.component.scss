@@ -1,4 +1,4 @@
-input[name="desc"] {
+  input[name="desc"] {
     max-width: 350px;
   }
   
@@ -17,6 +17,7 @@ input[name="desc"] {
   
   .credit-account-name {
     padding-left: 4em;
+    max-width: 350px;
   }
   
   .transaction-table tbody {
@@ -26,4 +27,8 @@ input[name="desc"] {
   h1 {
     font-weight: bold;
     font-size: 30px;
+  }
+
+  .approve-link {
+    padding-right: 1.2em;
   }
