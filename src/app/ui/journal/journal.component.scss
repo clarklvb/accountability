@@ -1,33 +1,29 @@
 input[name="desc"] {
-  min-width: 350px;
-}
+    max-width: 350px;
+  }
+  
+  select[name="debitAccount"] {
+    max-width: 300px;
+  }
+  
+  select[name="creditAccount"] {
+    max-width: 300px;
+    margin-left: 50px
+  }
+  
+  .rows {
+    border-bottom: 1px solid #ffffff
+  }
+  
+  .credit-account-name {
+    padding-left: 4em;
+  }
+  
+  .transaction-table tbody {
+    border-bottom: 1px solid #dbdbdb;
+  }
 
-select[name="debitAccount"] {
-  width: 500px;
-}
-
-select[name="creditAccount"] {
-  width: 500px;
-  margin-left: 50px
-}
-
-.rows {
-  border-bottom: 1px solid #ffffff
-}
-
-.credit-account-name {
-  padding-left: 4em;
-}
-
-.transaction-table tbody {
-  border-bottom: 1px solid #dbdbdb;
-}
-
-.approve-link {
-  margin-right: 2em;
-}
-
-.date-row {
-  max-width: 200px;
-  min-width: 200px;
-}
+  h1 {
+    font-weight: bold;
+    font-size: 30px;
+  }
