@@ -1,20 +1,24 @@
 input[name="desc"] {
-    max-width: 350px;
+  max-width: 350px;
 }
 
 select[name="debitAccount"] {
-    max-width: 250px;
+  max-width: 300px;
 }
 
 select[name="creditAccount"] {
-    max-width: 250px;
-    margin-left: 50px
+  max-width: 300px;
+  margin-left: 50px
 }
 
 .rows {
-    border-bottom: 1px solid #ffffff
+  border-bottom: 1px solid #ffffff
 }
 
-#journal-form {
+.credit-account-name {
+  padding-left: 4em;
+}
 
+.transaction-table tbody {
+  border-bottom: 1px solid #dbdbdb;
 }

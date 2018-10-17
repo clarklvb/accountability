@@ -38,24 +38,26 @@
         </thead>
         <tbody>
           <tr>
-            <td class="rows"><input class="input" type="text" name="desc" placeholder="Description for transaction."></td>
+            <td class="rows"><input class="input" type="text" name="desc" formControlName="description" placeholder="Description for transaction."></td>
             <td class="rows">
-              <select class="input" formControlName="debitAccount" name="debitAccount" required autocomplete="new-password">
+              <select class="input" formControlName="debitAccount" name="debitAccount" required>
+                <option value="" disabled selected>Select an account</option>
                 <option *ngFor="let account of accountList | async" [ngValue]="account">{{ account.name }}</option>
               </select>
             </td>
-            <td class="rows"><input class="input" type="number" placeholder="Debit Amount"></td>
+            <td class="rows"><input class="input" type="number" name="debitAmount" formControlName="debitAmount" placeholder="Enter amount" /></td>
             <td class="rows"></td>
           </tr>
           <tr>
             <td class="rows"></td>
             <td class="rows">
-              <select class="input" formControlName="creditAccount" name="creditAccount" required autocomplete="new-password">
+              <select class="input" formControlName="creditAccount" name="creditAccount" required>
+                <option value="" disabled selected>Select an account</option>
                 <option *ngFor="let account of accountList | async" [ngValue]="account">{{ account.name }}</option>
               </select>
             </td>
             <td class="rows"></td>
-            <td class="rows"><input class="input" type="number" placeholder="Credit Amount"></td>
+            <td class="rows"><input class="input" type="number" name="creditAmount" formControlName="creditAmount" placeholder="Enter amount" /></td>
           </tr>
           <tr>
             <td></td>
@@ -69,21 +71,29 @@
   </div>
 
   <div class="column is-12">
-    <table class="table">
+    <table class="table transaction-table">
       <thead>
-        <th>Date</th>
-        <th>Account</th>
-        <th>Debit</th>
-        <th>Credit</th>
-        <th>Options</th>
+        <tr>
+          <th>Date</th>
+          <th>Description</th>
+          <th>Accounts</th>
+          <th>Debit</th>
+          <th>Credit</th>
+        </tr>
       </thead>
-      <tbody>
-        <tr *ngFor="let entry of transactionsList | async">
-          <td>{{ entry.createdAt | date }}</td>
-          <td>{{ entry.accountName }}</td>
-          <td><span *ngIf="entry.normalSide === 'debit'">{{ entry.amount | currency }}</span></td>
-          <td><span *ngIf="entry.normalSide === 'credit'">{{ entry.amount | currency }}</span></td>
-          <td><span *ngIf="user.role === 'Manager'">Edit</span> <a class="entry-option" (click)="deleteEntry(entry.id)">Delete</a></td>
+      <tbody *ngFor="let entry of transactionsList | async">
+        <tr>
+          <td class="rows">{{ entry.createdAt | date }}</td>
+          <td class="rows">{{ entry.description }}</td>
+          <td class="rows">{{ entry.debitAccountName }}</td>
+          <td class="rows">{{ entry.debitAmount | currency }}</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td class="rows credit-account-name">{{ entry.creditAccountName }}</td>
+          <td></td>
+          <td class="rows">({{ entry.creditAmount | currency }})</td>
         </tr>
       </tbody>
     </table>
