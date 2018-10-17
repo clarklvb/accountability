@@ -1,13 +1,13 @@
 input[name="desc"] {
-  max-width: 350px;
+  min-width: 350px;
 }
 
 select[name="debitAccount"] {
-  max-width: 300px;
+  width: 500px;
 }
 
 select[name="creditAccount"] {
-  max-width: 300px;
+  width: 500px;
   margin-left: 50px
 }
 
@@ -21,4 +21,13 @@ select[name="creditAccount"] {
 
 .transaction-table tbody {
   border-bottom: 1px solid #dbdbdb;
+}
+
+.approve-link {
+  margin-right: 2em;
+}
+
+.date-row {
+  max-width: 200px;
+  min-width: 200px;
 }

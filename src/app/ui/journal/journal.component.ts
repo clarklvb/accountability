@@ -78,6 +78,10 @@ export class JournalComponent implements OnInit {
     this.transactionService.deleteTransaction(id);
   }
 
+  toggleApproval(id: string, value: boolean) {
+    this.transactionService.toggleApproval(id, value);
+  }
+
   buildForm() {
     this.addJournalEntryForm = this.fb.group({
       'description': ['', [
