@@ -1,20 +1,32 @@
-<div class="columns">
-  <form [formGroup]="addJournalEntryForm" (ngSubmit)="addJournalEntry()" class="column is-4">
+<div *ngIf="(authService.user | async) as user">
+  <form [formGroup]="addJournalEntryForm" (ngSubmit)="addJournalEntry()" class="column is-12">
     <div class="add-entry-form">
-      <label for="amount">Amount</label>
-      <input type="number" class="input" formControlName="amount" name="amount" required autocomplete="new-password">
-      <div *ngIf="formErrors.amount" class="notification is-danger">
-        {{ formErrors.amount }}
+      <label for="amount">Description</label>
+      <input type="text" class="input" formControlName="description" name="description" required autocomplete="new-password">
+
+      <label for="amount">Debit Amount</label>
+      <input type="number" class="input" formControlName="debitAmount" name="debitAmount" required autocomplete="new-password">
+      <div *ngIf="formErrors.debitAmount" class="notification is-danger">
+        {{ formErrors.debitAmount }}
       </div>
-      <label for="account">Account</label>
-      <select class="input" formControlName="account" name="account" required autocomplete="new-password">
+      <label for="account">Debit Account</label>
+      <select class="input" formControlName="debitAccount" name="debitAccount" required autocomplete="new-password">
+        <option *ngFor="let account of accountList | async" [ngValue]="account">{{ account.name }}</option>
+      </select>
+      <label for="amount">Credit Amount</label>
+      <input type="number" class="input" formControlName="creditAmount" name="creditAmount" required autocomplete="new-password">
+      <div *ngIf="formErrors.creditAmount" class="notification is-danger">
+        {{ formErrors.creditAmount }}
+      </div>
+      <label for="account">Credit Account</label>
+      <select class="input" formControlName="creditAccount" name="creditAccount" required autocomplete="new-password">
         <option *ngFor="let account of accountList | async" [ngValue]="account">{{ account.name }}</option>
       </select>
     </div>
     <button type="submit" class="button" [disabled]="!addJournalEntryForm.valid">Submit</button>
   </form>
   
-  <div class="column is-8">
+  <div class="column is-12">
     <table class="table">
       <thead>
         <th>Date</th>
@@ -29,7 +41,7 @@
           <td>{{ entry.accountName }}</td>
           <td><span *ngIf="entry.normalSide === 'debit'">{{ entry.amount | currency }}</span></td>
           <td><span *ngIf="entry.normalSide === 'credit'">{{ entry.amount | currency }}</span></td>
-          <td>Edit <a class="entry-option" (click)="deleteEntry(entry.id)">Delete</a></td>
+          <td><span *ngIf="user.role === 'Manager'">Edit</span> <a class="entry-option" (click)="deleteEntry(entry.id)">Delete</a></td>
         </tr>
       </tbody>
     </table>

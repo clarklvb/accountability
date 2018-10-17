@@ -6,8 +6,9 @@ import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { AuthService } from '../../core/auth.service';
 import { TransactionsService } from './transactions.service';
+import { NotifyService } from '../../core/notify.service';
 
-type AddJournalFields = 'amount' | 'account';
+type AddJournalFields = 'debitAmount' | 'debitAccount' | 'creditAmount' | 'creditAccount' | 'description';
 type FormErrors = { [u in AddJournalFields]: string };
 
 @Component({
@@ -22,19 +23,28 @@ export class JournalComponent implements OnInit {
 
   addJournalEntryForm: FormGroup;
   formErrors: FormErrors = {
-    'amount': '',
-    'account': ''
+    'debitAmount': '',
+    'debitAccount': '',
+    'creditAmount': '',
+    'creditAccount': '',
+    'description': ''
   };
   validationMessages = {
-    'amount': {
-      'required': 'Amount is required.'
+    'debitAmount': {
+      'required': 'Debit amount is required.'
     },
-    'account': {
-      'required': 'Account is required.'
+    'debitAccount': {
+      'required': 'Debit account is required.'
+    },
+    'creditAmount': {
+      'required': 'Credit amount is required.'
+    },
+    'creditAccount': {
+      'required': 'Credit account is required.'
     },
     'active': {},
   };
-  constructor(private route: ActivatedRoute, private router: Router, private fb: FormBuilder, private transactionService: TransactionsService, private authService: AuthService) { }
+  constructor(private route: ActivatedRoute, private router: Router, private fb: FormBuilder, private transactionService: TransactionsService, private authService: AuthService, private notifyService: NotifyService) { }
 
   ngOnInit() {
     this.accountList = this.transactionService.getAccountList();
@@ -44,13 +54,21 @@ export class JournalComponent implements OnInit {
 
   addJournalEntry() {
     let transaction = {
-      amount: this.addJournalEntryForm.value['amount'],
-      accountName: this.addJournalEntryForm.value['account'].name,
-      normalSide: this.addJournalEntryForm.value['account'].normalside,
+      description: this.addJournalEntryForm.value['description'],
+      debitAmount: this.addJournalEntryForm.value['debitAmount'],
+      creditAmount: this.addJournalEntryForm.value['creditAmount'],
+      debitAccountName: this.addJournalEntryForm.value['debitAccount'].name,
+      creditAccountName: this.addJournalEntryForm.value['creditAccount'].name,
       userId: this.authService.userId,
-      createdAt: new Date().getTime()
+      createdAt: new Date().getTime(),
+      approved: false
     }
-    this.transactionService.addJournalEntry(transaction);
+
+    if (transaction.debitAmount - transaction.creditAmount !== 0) {
+      this.notifyService.update('You are dumb', 'error');
+    } else {
+      this.transactionService.addJournalEntry(transaction);
+    }
   }
 
   deleteEntry(id: string) {
@@ -59,10 +77,17 @@ export class JournalComponent implements OnInit {
 
   buildForm() {
     this.addJournalEntryForm = this.fb.group({
-      'amount': ['', [
+      'description': ['', []],
+      'debitAmount': ['', [
         Validators.required
       ]],
-      'account': ['', [
+      'debitAccount': ['', [
+        Validators.required
+      ]],
+      'creditAmount': ['', [
+        Validators.required
+      ]],
+      'creditAccount': ['', [
         Validators.required
       ]],
       'active': ['', []],
