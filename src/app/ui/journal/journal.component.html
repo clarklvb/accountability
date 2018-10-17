@@ -1,31 +1,73 @@
 <div *ngIf="(authService.user | async) as user">
-  <form [formGroup]="addJournalEntryForm" (ngSubmit)="addJournalEntry()" class="column is-12">
+  <!--  <form [formGroup]="addJournalEntryForm" (ngSubmit)="addJournalEntry()" class="column is-12">
     <div class="add-entry-form">
       <label for="amount">Description</label>
-      <input type="text" class="input" formControlName="description" name="description" required autocomplete="new-password">
-
+        <input type="text" class="input" formControlName="description" name="description" required autocomplete="new-password">
       <label for="amount">Debit Amount</label>
-      <input type="number" class="input" formControlName="debitAmount" name="debitAmount" required autocomplete="new-password">
-      <div *ngIf="formErrors.debitAmount" class="notification is-danger">
-        {{ formErrors.debitAmount }}
-      </div>
+        <input type="number" class="input" formControlName="debitAmount" name="debitAmount" required autocomplete="new-password">
+          <div *ngIf="formErrors.debitAmount" class="notification is-danger">
+           {{ formErrors.debitAmount }}
+          </div>
       <label for="account">Debit Account</label>
-      <select class="input" formControlName="debitAccount" name="debitAccount" required autocomplete="new-password">
-        <option *ngFor="let account of accountList | async" [ngValue]="account">{{ account.name }}</option>
-      </select>
+        <select class="input" formControlName="debitAccount" name="debitAccount" required autocomplete="new-password">
+          <option *ngFor="let account of accountList | async" [ngValue]="account">{{ account.name }}</option>
+        </select>
       <label for="amount">Credit Amount</label>
-      <input type="number" class="input" formControlName="creditAmount" name="creditAmount" required autocomplete="new-password">
-      <div *ngIf="formErrors.creditAmount" class="notification is-danger">
-        {{ formErrors.creditAmount }}
-      </div>
+        <input type="number" class="input" formControlName="creditAmount" name="creditAmount" required autocomplete="new-password">
+          <div *ngIf="formErrors.creditAmount" class="notification is-danger">
+            {{ formErrors.creditAmount }}
+          </div>
       <label for="account">Credit Account</label>
-      <select class="input" formControlName="creditAccount" name="creditAccount" required autocomplete="new-password">
-        <option *ngFor="let account of accountList | async" [ngValue]="account">{{ account.name }}</option>
-      </select>
+        <select class="input" formControlName="creditAccount" name="creditAccount" required autocomplete="new-password">
+          <option *ngFor="let account of accountList | async" [ngValue]="account">{{ account.name }}</option>
+        </select>
     </div>
     <button type="submit" class="button" [disabled]="!addJournalEntryForm.valid">Submit</button>
-  </form>
-  
+  </form>-->
+
+  <div class="column is-12">
+    <form [formGroup]="addJournalEntryForm" (ngSubmit)="addJournalEntry()">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Description</th>
+            <th>Accounts</th>
+            <th>Debit</th>
+            <th>Credit</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="rows"><input class="input" type="text" name="desc" placeholder="Description for transaction."></td>
+            <td class="rows">
+              <select class="input" formControlName="debitAccount" name="debitAccount" required autocomplete="new-password">
+                <option *ngFor="let account of accountList | async" [ngValue]="account">{{ account.name }}</option>
+              </select>
+            </td>
+            <td class="rows"><input class="input" type="number" placeholder="Debit Amount"></td>
+            <td class="rows"></td>
+          </tr>
+          <tr>
+            <td class="rows"></td>
+            <td class="rows">
+              <select class="input" formControlName="creditAccount" name="creditAccount" required autocomplete="new-password">
+                <option *ngFor="let account of accountList | async" [ngValue]="account">{{ account.name }}</option>
+              </select>
+            </td>
+            <td class="rows"></td>
+            <td class="rows"><input class="input" type="number" placeholder="Credit Amount"></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td><button type="submit" class="button" [disabled]="!addJournalEntryForm.valid">Submit</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </form>
+  </div>
+
   <div class="column is-12">
     <table class="table">
       <thead>

@@ -1,0 +1,20 @@
+input[name="desc"] {
+    max-width: 350px;
+}
+
+select[name="debitAccount"] {
+    max-width: 250px;
+}
+
+select[name="creditAccount"] {
+    max-width: 250px;
+    margin-left: 50px
+}
+
+.rows {
+    border-bottom: 1px solid #ffffff
+}
+
+#journal-form {
+
+}
