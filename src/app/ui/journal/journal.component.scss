@@ -1,0 +1,34 @@
+  input[name="desc"] {
+    max-width: 350px;
+  }
+  
+  select[name="debitAccount"] {
+    max-width: 300px;
+  }
+  
+  select[name="creditAccount"] {
+    max-width: 300px;
+    margin-left: 50px
+  }
+  
+  .rows {
+    border-bottom: 1px solid #ffffff
+  }
+  
+  .credit-account-name {
+    padding-left: 4em;
+    max-width: 350px;
+  }
+  
+  .transaction-table tbody {
+    border-bottom: 1px solid #dbdbdb;
+  }
+
+  h1 {
+    font-weight: bold;
+    font-size: 30px;
+  }
+
+  .approve-link {
+    padding-right: 1.2em;
+  }

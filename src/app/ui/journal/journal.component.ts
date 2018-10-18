@@ -42,6 +42,9 @@ export class JournalComponent implements OnInit {
     'creditAccount': {
       'required': 'Credit account is required.'
     },
+    'description': {
+      'required': 'Description is required.'
+    },
     'active': {},
   };
   constructor(private route: ActivatedRoute, private router: Router, private fb: FormBuilder, private transactionService: TransactionsService, private authService: AuthService, private notifyService: NotifyService) { }
@@ -65,7 +68,7 @@ export class JournalComponent implements OnInit {
     }
 
     if (transaction.debitAmount - transaction.creditAmount !== 0) {
-      this.notifyService.update('You are dumb', 'error');
+      this.notifyService.update('Amounts must equal 0', 'error');
     } else {
       this.transactionService.addJournalEntry(transaction);
     }
@@ -75,17 +78,25 @@ export class JournalComponent implements OnInit {
     this.transactionService.deleteTransaction(id);
   }
 
+  toggleApproval(id: string, value: boolean) {
+    this.transactionService.toggleApproval(id, value);
+  }
+
   buildForm() {
     this.addJournalEntryForm = this.fb.group({
-      'description': ['', []],
+      'description': ['', [
+        Validators.min(1)
+      ]],
       'debitAmount': ['', [
-        Validators.required
+        Validators.required,
+        Validators.pattern('^[-]?([1-9]{1}[0-9]{0,}(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|\.[0-9]{1,2})$')
       ]],
       'debitAccount': ['', [
         Validators.required
       ]],
       'creditAmount': ['', [
-        Validators.required
+        Validators.required,
+        Validators.pattern('^[-]?([1-9]{1}[0-9]{0,}(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|\.[0-9]{1,2})$')
       ]],
       'creditAccount': ['', [
         Validators.required
@@ -101,7 +112,7 @@ export class JournalComponent implements OnInit {
     if (!this.addJournalEntryForm) { return; }
     const form = this.addJournalEntryForm;
     for (const field in this.formErrors) {
-      if (Object.prototype.hasOwnProperty.call(this.formErrors, field) && (field === 'email' || field === 'password')) {
+      if (Object.prototype.hasOwnProperty.call(this.formErrors, field) && (field === 'description' || field === 'debitAccount' || field === 'debitAmount' || field === 'creditAmount' || field === 'creditAccount')) {
         // clear previous error message (if any)
         this.formErrors[field] = '';
         const control = form.get(field);

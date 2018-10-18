@@ -1,4 +1,5 @@
 <div *ngIf="(authService.user | async) as user">
+<<<<<<< HEAD
   <form [formGroup]="addJournalEntryForm" (ngSubmit)="addJournalEntry()" class="column is-12">
     <div class="add-entry-form">
       <label for="amount">Description</label>
@@ -70,22 +71,90 @@
   </table>
 </div>
 
+=======
+  <h1>New Journal Entry</h1>
+>>>>>>> 80e59254ec854babce2ff7b49e2772b5c66d9c45
   <div class="column is-12">
-    <table class="table">
+    <form [formGroup]="addJournalEntryForm" (ngSubmit)="addJournalEntry()">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Description</th>
+            <th>Accounts</th>
+            <th>Debit</th>
+            <th>Credit</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="rows"><input class="input" type="text" name="desc" formControlName="description" placeholder="Description for entry"></td>
+            <td class="rows">
+              <select class="input" formControlName="debitAccount" name="debitAccount" required>
+                <option value="" disabled selected>Select an account</option>
+                <option *ngFor="let account of accountList | async" [ngValue]="account">{{ account.name }}</option>
+              </select>
+            </td>
+            <td class="rows"><input class="input" type="number" name="debitAmount" formControlName="debitAmount" placeholder="Enter amount" /></td>
+            <td class="rows"></td>
+          </tr>
+          <tr>
+            <td class="rows"></td>
+            <td class="rows">
+              <select class="input" formControlName="creditAccount" name="creditAccount" required>
+                <option value="" disabled selected>Select an account</option>
+                <option *ngFor="let account of accountList | async" [ngValue]="account">{{ account.name }}</option>
+              </select>
+            </td>
+            <td class="rows"></td>
+            <td class="rows"><input class="input" type="number" name="creditAmount" formControlName="creditAmount" placeholder="Enter amount" /></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td><button type="submit" class="button is-link" [disabled]="!addJournalEntryForm.valid">Submit</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </form>
+  </div>
+  <h1>Journal</h1>
+  <div class="column is-12">
+    <table class="table transaction-table">
       <thead>
-        <th>Date</th>
-        <th>Account</th>
-        <th>Debit</th>
-        <th>Credit</th>
-        <th>Options</th>
+        <tr>
+          <th>Date</th>
+          <th>Description</th>
+          <th>Accounts</th>
+          <th>Debit</th>
+          <th>Credit</th>
+          <th *ngIf="user.role === 'Manager'">Options</th>
+        </tr>
       </thead>
-      <tbody>
-        <tr *ngFor="let entry of transactionsList | async">
-          <td>{{ entry.createdAt | date }}</td>
-          <td>{{ entry.accountName }}</td>
-          <td><span *ngIf="entry.normalSide === 'debit'">{{ entry.amount | currency }}</span></td>
-          <td><span *ngIf="entry.normalSide === 'credit'">{{ entry.amount | currency }}</span></td>
-          <td><span *ngIf="user.role === 'Manager'">Edit</span> <a class="entry-option" (click)="deleteEntry(entry.id)">Delete</a></td>
+      <tbody *ngFor="let entry of transactionsList | async">
+        <tr>
+          <td class="rows date-row">
+            {{ entry.createdAt | date }}
+            <p class="has-text-success" *ngIf="entry.approved">Approved</p>
+            <p class="has-text-danger" *ngIf="!entry.approved">Not Approved</p>
+          </td>
+          <td class="rows">{{ entry.description }}</td>
+          <td class="rows">{{ entry.debitAccountName }}</td>
+          <td class="rows">{{ entry.debitAmount | currency }}</td>
+          <td class="rows"></td>
+          <td class="rows date-row" *ngIf="user.role === 'Manager'">
+            <a class="approve-link has-text-success" *ngIf="!entry.approved" (click)="toggleApproval(entry.id, true)">Approve</a>
+            <a class="approve-link has-text-danger" *ngIf="entry.approved" (click)="toggleApproval(entry.id, false)">Disapprove</a>
+            <a (click)="deleteEntry(entry.id)">Delete</a>
+          </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td id="credit" class="rows credit-account-name">{{ entry.creditAccountName }}</td>
+          <td></td>
+          <td class="rows">({{ entry.creditAmount | currency }})</td>
+          <td *ngIf="user.role === 'Manager'"></td>
         </tr>
       </tbody>
     </table>
