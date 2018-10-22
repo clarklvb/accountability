@@ -1,12 +1,8 @@
-<<<<<<< HEAD
 <div class="columns" *ngIf="(authService.user | async) as user">
   <div class="column is-12">
-=======
-<div class="columns">
-  <div class="column is-8" *ngIf="(auth.user | async) as user">
->>>>>>> 5cd42a15697be81c0416bb39356138609bf893aa
     <table class="table">
       <thead>
+        <th>ID</th>
         <th>Name</th>
         <th>Category</th>
         <th>Normal Side</th>
@@ -15,16 +11,13 @@
       </thead>
       <tbody>
         <tr *ngFor="let account of accounts | async">
+          <td>{{ account.id }}</td>
           <td>{{ account.name }}</td>
           <td>{{ account.category }}</td>
           <td>{{ account.normalside }}</td>
           <td>{{ account.enabled }}</td>
-<<<<<<< HEAD
           <td *ngIf="account.enabled && user.role === 'Manager'"><a class="entry-option has-text-danger" (click)="toggleAccountActive(account.id, false)">Deactivate</a></td>
           <td *ngIf="!account.enabled  && user.role === 'Manager'"><a class="entry-option has-text-success" (click)="toggleAccountActive(account.id, true)">Activate</a></td>
-=======
-          <td *ngIf="user.role === 'Admin' || user.role === 'Manager'">Edit <a class="entry-option" (click)="deleteAccount(account.id)" *ngIf="user.role === 'Admin'">Delete</a></td>
->>>>>>> 5cd42a15697be81c0416bb39356138609bf893aa
         </tr>
       </tbody>
     </table>

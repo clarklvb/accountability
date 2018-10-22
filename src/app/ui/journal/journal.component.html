@@ -61,17 +61,21 @@
         <tr>
           <td class="rows date-row">
             {{ entry.createdAt | date }}
-            <p class="has-text-success" *ngIf="entry.approved">Approved</p>
-            <p class="has-text-danger" *ngIf="!entry.approved">Not Approved</p>
+            <div *ngIf="user.role === 'Accountant'">
+              <div *ngIf="!entry.pending">
+                <p class="has-text-success" *ngIf="entry.approved">Approved</p>
+                <p class="has-text-danger" *ngIf="!entry.approved">Rejected</p>
+              </div>
+                <p class="has-text-warning" *ngIf="entry.pending">Pending</p>
+            </div>
           </td>
           <td class="rows">{{ entry.description }}</td>
           <td class="rows">{{ entry.debitAccountName }}</td>
           <td class="rows">{{ entry.debitAmount | currency }}</td>
           <td class="rows"></td>
           <td class="rows date-row" *ngIf="user.role === 'Manager'">
-            <a class="approve-link has-text-success" *ngIf="!entry.approved" (click)="toggleApproval(entry.id, true)">Approve</a>
-            <a class="approve-link has-text-danger" *ngIf="entry.approved" (click)="toggleApproval(entry.id, false)">Disapprove</a>
-            <a (click)="deleteEntry(entry.id)">Delete</a>
+            <a [ngClass]="{'button is-success has-text-white': entry.approved}" class="approve-link" (click)="toggleApproval(entry.id, true)">Approve</a>
+            <a [ngClass]="{'button is-danger has-text-white': !entry.approved}" class="approve-link" (click)="toggleApproval(entry.id, false)">Disapprove</a>
           </td>
         </tr>
         <tr>
@@ -79,7 +83,7 @@
           <td></td>
           <td id="credit" class="rows credit-account-name">{{ entry.creditAccountName }}</td>
           <td></td>
-          <td class="rows">({{ entry.creditAmount | currency }})</td>
+          <td class="rows">{{ entry.creditAmount | currency }}</td>
           <td *ngIf="user.role === 'Manager'"></td>
         </tr>
       </tbody>

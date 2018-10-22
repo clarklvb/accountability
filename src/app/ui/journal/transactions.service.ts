@@ -20,6 +20,7 @@ export class TransactionsService {
   }
 
   addJournalEntry(entry) {
+    console.log('called')
     this.transactionsCollection.add(entry);
   }
 
