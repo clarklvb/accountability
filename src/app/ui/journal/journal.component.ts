@@ -64,11 +64,12 @@ export class JournalComponent implements OnInit {
       creditAccountName: this.addJournalEntryForm.value['creditAccount'].name,
       userId: this.authService.userId,
       createdAt: new Date().getTime(),
-      approved: false
+      approved: false,
+      pending: true
     }
 
-    if (transaction.debitAmount - transaction.creditAmount !== 0) {
-      this.notifyService.update('Amounts must equal 0', 'error');
+    if (transaction.debitAmount - transaction.creditAmount !== 0 || transaction.debitAmount <= 0 || transaction.creditAmount <= 0 ) {
+      this.notifyService.update('Debit amounts must equal the credit amount but both amounts must be greater than zero', 'error');
     } else {
       this.transactionService.addJournalEntry(transaction);
     }
