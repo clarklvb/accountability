@@ -5,16 +5,16 @@
         <th>ID</th>
         <th>Name</th>
         <th>Category</th>
-        <th>Normal Side</th>
+        <th>Subcategory</th>
         <th>Enabled</th>
         <th *ngIf="user.role === 'Manager'">Options</th>
       </thead>
       <tbody>
         <tr *ngFor="let account of accounts | async">
-          <td>{{ account.id }}</td>
+          <td>{{ account.number }}</td>
           <td>{{ account.name }}</td>
           <td>{{ account.category }}</td>
-          <td>{{ account.normalside }}</td>
+          <td>{{ account.subcategory }}</td>
           <td>{{ account.enabled }}</td>
           <td *ngIf="account.enabled && user.role === 'Manager'"><a class="entry-option has-text-danger" (click)="toggleAccountActive(account.id, false)">Deactivate</a></td>
           <td *ngIf="!account.enabled  && user.role === 'Manager'"><a class="entry-option has-text-success" (click)="toggleAccountActive(account.id, true)">Activate</a></td>
