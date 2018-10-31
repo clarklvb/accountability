@@ -16,7 +16,8 @@ export class TransactionsService {
   constructor(private afs: AngularFirestore, private authService: AuthService) {
     this.accountsCollection = this.afs.collection('chartofaccounts', (ref) => ref.where('enabled', '==', true).orderBy('name', 'asc'));
     this.accountsCollectionNoCondition = this.afs.collection('chartofaccounts', (ref) => ref.orderBy('name', 'asc'));
-    this.transactionsCollection = this.afs.collection('transactions', (ref) => ref.where('userId', '==', this.authService.userId).orderBy('createdAt', 'desc'));
+    // this.transactionsCollection = this.afs.collection('transactions', (ref) => ref.where('userId', '==', this.authService.userId).orderBy('createdAt', 'desc'));
+    this.transactionsCollection = this.afs.collection('transactions', (ref) => ref.orderBy('createdAt', 'desc'));
   }
 
   addJournalEntry(entry) {
@@ -60,16 +61,16 @@ export class TransactionsService {
   getTransactionsList(condition: string = '') {
     switch (condition) {
       case 'pending':
-        this.transactionsCollection = this.afs.collection('transactions', (ref) => ref.where('userId', '==', this.authService.userId).orderBy('createdAt', 'desc').where('pending', '==', true));
+        this.transactionsCollection = this.afs.collection('transactions', (ref) => ref.orderBy('createdAt', 'desc').where('pending', '==', true));
         break;
       case 'approved':
-        this.transactionsCollection = this.afs.collection('transactions', (ref) => ref.where('userId', '==', this.authService.userId).orderBy('createdAt', 'desc').where('approved', '==', true));
+        this.transactionsCollection = this.afs.collection('transactions', (ref) => ref.orderBy('createdAt', 'desc').where('approved', '==', true));
         break;
       case 'rejected':
-        this.transactionsCollection = this.afs.collection('transactions', (ref) => ref.where('userId', '==', this.authService.userId).orderBy('createdAt', 'desc').where('approved', '==', false).where('pending', '==', false));
+        this.transactionsCollection = this.afs.collection('transactions', (ref) => ref.orderBy('createdAt', 'desc').where('approved', '==', false).where('pending', '==', false));
         break;
       default:
-        this.transactionsCollection = this.afs.collection('transactions', (ref) => ref.where('userId', '==', this.authService.userId).orderBy('createdAt', 'desc'));
+        this.transactionsCollection = this.afs.collection('transactions', (ref) => ref.orderBy('createdAt', 'desc'));
       break;
     }
 
