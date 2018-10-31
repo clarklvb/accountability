@@ -7,12 +7,9 @@ import { Observable } from 'rxjs';
 import { AuthService } from '../../core/auth.service';
 import { TransactionsService } from './transactions.service';
 import { NotifyService } from '../../core/notify.service';
-<<<<<<< HEAD
 import { LedgerService } from '../ledger/ledger.service';
-=======
 import {DataSource} from '@angular/cdk/collections';
 import {MatSort, MatTableDataSource} from '@angular/material';
->>>>>>> e39a7fa2de10c104ca2be8086b4f45bf2d764546
 
 type AddJournalFields = 'debitAmount' | 'debitAccount' | 'creditAmount' | 'creditAccount' | 'description';
 type FormErrors = { [u in AddJournalFields]: string };
@@ -89,22 +86,20 @@ export class JournalComponent implements OnInit {
     } else {
       this.transactionService.addJournalEntry(transaction);
 
-      this.ledgerService.updateLedger(this.addJournalEntryForm.value['debitAccount'].number, {
+      this.ledgerService.updateLedger({
         accountId: this.addJournalEntryForm.value['debitAccount'].number, 
         accountName: transaction.debitAccountName,
-        transactions: [{
-          description: transaction.description,
-          debit: transaction.debitAmount ? transaction.debitAmount : null,
-        }]
+        createdAt: transaction.createdAt,
+        description: transaction.description,
+        debit: transaction.debitAmount
       });
 
-      this.ledgerService.updateLedger(this.addJournalEntryForm.value['creditAccount'].number, {
+      this.ledgerService.updateLedger({
         accountId: this.addJournalEntryForm.value['creditAccount'].number, 
         accountName: transaction.creditAccountName,
-        transactions: [{
-          description: transaction.description,
-          credit: transaction.creditAmount ? transaction.creditAmount : null,
-        }]
+        createdAt: transaction.createdAt,
+        description: transaction.description,
+        credit: transaction.creditAmount
       });
     }
   }

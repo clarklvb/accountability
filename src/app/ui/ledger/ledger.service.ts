@@ -10,17 +10,17 @@ export class LedgerService {
 
   ledgerCollection: AngularFirestoreCollection;
 
-  constructor(private afs: AngularFirestore) { 
+  constructor(private afs: AngularFirestore) {
+
   }
 
-  updateLedger(id: string, data: any) {
-    console.log(id, data)
-    return this.afs.doc<any>(`ledger/${id}`).set(data);
+  updateLedger(data: any) {
+    //return this.afs.doc<any>(`ledger/${id}`).set(data);
+    return this.afs.collection('ledger').add(data);
   }
 
   public getLedger(id: string) {
-    this.ledgerCollection = this.afs.collection('ledgers', (ref) => ref.where('accountId', '==', id));
-
+    this.ledgerCollection = this.afs.collection('ledger', (ref) => ref.where('accountId', '==', id).orderBy('createdAt', 'asc'));
     return this.ledgerCollection.snapshotChanges().pipe(
       map((actions) => {
         return actions.map((a) => {

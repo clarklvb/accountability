@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { LedgerService } from './ledger.service';
 
 @Component({
@@ -7,40 +10,23 @@ import { LedgerService } from './ledger.service';
   templateUrl: './ledger.component.html',
   styleUrls: ['./ledger.component.scss']
 })
-export class LedgerComponent {
+export class LedgerComponent implements OnInit {
 
   accountId: string;
+  accountName: string;
   ledger: any;
+  ledgerCollection: AngularFirestoreCollection;
   runningBalance: number = 0;
 
-  constructor(private route: ActivatedRoute, private router: Router, private ledgerService: LedgerService) {
+  constructor(private route: ActivatedRoute, private router: Router, private afs: AngularFirestore, private ledgerService: LedgerService) { }
+
+  ngOnInit() {
     this.accountId = this.route.snapshot.paramMap.get('accountId');
-<<<<<<< HEAD
-    this.ledger = ledgerService.getLedger(this.accountId);
+    this.accountName = this.route.snapshot.paramMap.get('accountName');
+    this.ledger = this.ledgerService.getLedger(this.accountId);
   }
 
   public getRunningBalance (amount: number, add: boolean) {
     return add ? this.runningBalance += amount : this.runningBalance -= amount;
-=======
-    this.ledger = this.getLedger(this.accountId);
-  }
-
-  public getRunningBalance (amount: number, add: boolean) {
-    return add ? this.runningBalance + amount : this.runningBalance - amount;
-  }
-
-  private getLedger(id: string) {
-    console.log(id)
-    return this.afs.collection("ledger").doc(id).ref.get()
-      .then(function(doc) {
-          if (doc.exists) {
-            return doc.data();
-          } else {
-            console.log("No such document!");
-          }
-      }).catch(function(error) {
-        console.log("Error getting document:", error);
-      });
->>>>>>> e39a7fa2de10c104ca2be8086b4f45bf2d764546
   }
 }
