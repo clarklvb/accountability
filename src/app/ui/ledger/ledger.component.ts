@@ -20,8 +20,6 @@ export class LedgerComponent implements OnInit {
 
   ngOnInit() {
     this.accountId = this.route.snapshot.paramMap.get('accountId');
-    this.ledgerCollection = this.afs.collection('ledgers', (ref) => ref.where('accountId', '==', this.accountId));
-    
     this.ledger = this.getLedger(this.accountId);
   }
 
@@ -30,13 +28,16 @@ export class LedgerComponent implements OnInit {
   }
 
   private getLedger(id: string) {
-    return this.ledgerCollection.snapshotChanges().pipe(
-      map((actions) => {
-        return actions.map((a) => {
-          const data = a.payload.doc.data();
-          return { id: a.payload.doc.id, ...data };
-        });
-      })
-    );
+    console.log(id)
+    return this.afs.collection("ledger").doc(id).ref.get()
+      .then(function(doc) {
+          if (doc.exists) {
+            return doc.data();
+          } else {
+            console.log("No such document!");
+          }
+      }).catch(function(error) {
+        console.log("Error getting document:", error);
+      });
   }
 }

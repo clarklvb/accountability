@@ -1,6 +1,6 @@
-<div *ngFor="let l of ledger | async" class="columns">
+<div *ngIf="ledger | async as ledger" class="columns">
   <div class="column is-12">
-    <h1>{{ l.accountName }}</h1>
+    <h1>{{ ledger.accountName }}</h1>
     <table class="table">
       <thead>
         <th>Date</th>
@@ -10,7 +10,7 @@
         <th>Balance</th>
       </thead>
       <tbody>
-        <tr *ngFor="let t of l.transactions">
+        <tr *ngFor="let t of ledger.transactions">
           <td>{{ t.createdAt | date }}</td>
           <td>{{ t.description }}</td>
           <td><span *ngIf="t.debit">{{ t.debit }}</span></td>
