@@ -21,6 +21,12 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFireFunctionsModule } from 'angularfire2/functions';
 import { HttpModule } from '@angular/http';
 
+//Angular Material Components
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MatTableModule} from '@angular/material/table';
+import {MatSortModule} from '@angular/material/sort';
+import {MatPaginatorModule} from '@angular/material/paginator';
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -37,7 +43,19 @@ import { HttpModule } from '@angular/http';
     AngularFireFunctionsModule,
     ServiceWorkerModule.register('/ngsw-worker.js', {
       enabled: environment.production
-    })
+    }),
+	BrowserModule,
+    BrowserAnimationsModule,
+	MatTableModule,
+    MatSortModule,
+    MatPaginatorModule
+  ],
+  exports: [
+	BrowserModule,
+    BrowserAnimationsModule,
+	MatTableModule,
+    MatSortModule,
+    MatPaginatorModule
   ],
   bootstrap: [AppComponent]
 })
