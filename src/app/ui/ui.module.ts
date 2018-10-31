@@ -15,6 +15,7 @@ import { EditUserComponent } from './edit-user/edit-user.component';
 import { JournalComponent } from './journal/journal.component';
 import { ModalComponent } from './modal/modal.component';
 import { ChartofaccountsComponent } from './chartofaccounts/chartofaccounts.component';
+import { LedgerComponent } from './ledger/ledger.component';
 
 @NgModule({
   imports: [CommonModule, RouterModule, ReactiveFormsModule],
@@ -30,7 +31,8 @@ import { ChartofaccountsComponent } from './chartofaccounts/chartofaccounts.comp
     EditUserComponent,
     JournalComponent,
     ModalComponent,
-    ChartofaccountsComponent
+    ChartofaccountsComponent,
+    LedgerComponent
   ],
   exports: [
     MainNavComponent,
