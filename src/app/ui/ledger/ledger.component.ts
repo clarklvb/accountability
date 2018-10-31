@@ -14,6 +14,7 @@ export class LedgerComponent implements OnInit {
   accountId: string;
   ledger: any;
   ledgerCollection: AngularFirestoreCollection;
+  runningBalance: number = 0;
 
   constructor(private route: ActivatedRoute, private router: Router, private afs: AngularFirestore) { }
 
@@ -22,6 +23,10 @@ export class LedgerComponent implements OnInit {
     this.ledgerCollection = this.afs.collection('ledgers', (ref) => ref.where('accountId', '==', this.accountId));
     
     this.ledger = this.getLedger(this.accountId);
+  }
+
+  public getRunningBalance (amount: number, add: boolean) {
+    return add ? this.runningBalance + amount : this.runningBalance - amount;
   }
 
   private getLedger(id: string) {
