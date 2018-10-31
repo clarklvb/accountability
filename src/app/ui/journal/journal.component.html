@@ -44,7 +44,14 @@
       </table>
     </form>
   </div>
-  <h1>Journal</h1>
+  <div class="column is-12">
+    <h1 class="is-pulled-left">Journal</h1>
+    <div class="buttons has-addons is-right">
+      <span (click)="getEntries('approved')" [ngClass]="{'is-selected is-success has-white-text': showApproved}" class="button">Approved</span>
+      <span (click)="getEntries('pending')" [ngClass]="{'is-selected is-warning': showPending}" class="button">Pending</span>
+      <span (click)="getEntries('rejected')" [ngClass]="{'is-selected is-danger has-white-text': showRejected}" class="button">Rejected</span>
+    </div>
+  </div>
   <div class="column is-12">
     <table class="table transaction-table">
       <thead>
@@ -66,7 +73,7 @@
                 <p class="has-text-success" *ngIf="entry.approved">Approved</p>
                 <p class="has-text-danger" *ngIf="!entry.approved">Rejected</p>
               </div>
-                <p class="has-text-warning" *ngIf="entry.pending">Pending</p>
+              <p class="has-text-warning" *ngIf="entry.pending">Pending</p>
             </div>
           </td>
           <td class="rows">{{ entry.description }}</td>
@@ -74,8 +81,8 @@
           <td class="rows">{{ entry.debitAmount | currency }}</td>
           <td class="rows"></td>
           <td class="rows date-row" *ngIf="user.role === 'Manager'">
-            <a [ngClass]="{'button is-success has-text-white': entry.approved}" class="approve-link" (click)="toggleApproval(entry.id, true)">Approve</a>
-            <a [ngClass]="{'button is-danger has-text-white': !entry.approved}" class="approve-link" (click)="toggleApproval(entry.id, false)">Disapprove</a>
+            <a [ngClass]="{'is-success has-text-white': entry.approved}" class="approve-link button" (click)="toggleApproval(entry.id, true)">Approve</a>
+            <a [ngClass]="{'is-danger has-text-white': !entry.approved && !entry.pending}" class="approve-link button" (click)="toggleApproval(entry.id, false)">Reject</a>
           </td>
         </tr>
         <tr>

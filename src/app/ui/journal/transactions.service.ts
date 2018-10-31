@@ -20,7 +20,6 @@ export class TransactionsService {
   }
 
   addJournalEntry(entry) {
-    console.log('called')
     this.transactionsCollection.add(entry);
   }
 
@@ -55,10 +54,24 @@ export class TransactionsService {
   }
 
   toggleApproval(id: string, value: boolean) {
-    this.transactionsCollection.doc(id).update({approved: value});
+    this.transactionsCollection.doc(id).update({approved: value, pending: false});
   }
 
-  getTransactionsList() {
+  getTransactionsList(condition: string = '') {
+    switch (condition) {
+      case 'pending':
+        this.transactionsCollection = this.afs.collection('transactions', (ref) => ref.where('userId', '==', this.authService.userId).orderBy('createdAt', 'desc').where('pending', '==', true));
+        break;
+      case 'approved':
+        this.transactionsCollection = this.afs.collection('transactions', (ref) => ref.where('userId', '==', this.authService.userId).orderBy('createdAt', 'desc').where('approved', '==', true));
+        break;
+      case 'rejected':
+        this.transactionsCollection = this.afs.collection('transactions', (ref) => ref.where('userId', '==', this.authService.userId).orderBy('createdAt', 'desc').where('approved', '==', false).where('pending', '==', false));
+        break;
+      default:
+      break;
+    }
+
     return this.transactionsCollection.snapshotChanges().pipe(
       map((actions) => {
         return actions.map((a) => {

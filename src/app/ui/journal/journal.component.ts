@@ -21,6 +21,10 @@ export class JournalComponent implements OnInit {
   transactionsList;
   accountList;
 
+  showPending: boolean = false;
+  showApproved: boolean = false;
+  showRejected: boolean = false;
+
   addJournalEntryForm: FormGroup;
   formErrors: FormErrors = {
     'debitAmount': '',
@@ -75,12 +79,37 @@ export class JournalComponent implements OnInit {
     }
   }
 
+  setApprovalFlag (flag: string) {
+    switch (flag) {
+      case 'approved':
+        this.showApproved = true;
+        this.showPending = false;
+        this.showRejected = false;
+        break;
+      case 'rejected':
+        this.showApproved = false;
+        this.showPending = false;
+        this.showRejected = true;
+        break;
+      case 'pending':
+        this.showApproved = false;
+        this.showPending = true;
+        this.showRejected = false;
+        break;
+    }
+  }
+
   deleteEntry(id: string) {
     this.transactionService.deleteTransaction(id);
   }
 
   toggleApproval(id: string, value: boolean) {
     this.transactionService.toggleApproval(id, value);
+  }
+
+  getEntries (condition: string = '') {
+    this.setApprovalFlag(condition);
+    this.transactionsList = this.transactionService.getTransactionsList(condition);
   }
 
   buildForm() {
