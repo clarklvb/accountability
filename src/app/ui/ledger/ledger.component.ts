@@ -15,25 +15,23 @@ export class LedgerComponent implements OnInit {
   ledger: any;
   ledgerCollection: AngularFirestoreCollection;
 
-  constructor(private route: ActivatedRoute, private router: Router, private afs: AngularFirestore) {
-    this.ledgerCollection = this.afs.collection('ledgers', (ref) => ref.where('accountId', '==', this.accountId));
-  }
+  constructor(private route: ActivatedRoute, private router: Router, private afs: AngularFirestore) { }
 
   ngOnInit() {
     this.accountId = this.route.snapshot.paramMap.get('accountId');
+    this.ledgerCollection = this.afs.collection('ledgers', (ref) => ref.where('accountId', '==', this.accountId));
+    
     this.ledger = this.getLedger(this.accountId);
   }
 
   private getLedger(id: string) {
-    return this.afs.collection("ledgers").doc(id).ref.get()
-      .then(function(doc) {
-          if (doc.exists) {
-            return doc.data();
-          } else {
-            console.log("No such document!");
-          }
-      }).catch(function(error) {
-        console.log("Error getting document:", error);
-      });
+    return this.ledgerCollection.snapshotChanges().pipe(
+      map((actions) => {
+        return actions.map((a) => {
+          const data = a.payload.doc.data();
+          return { id: a.payload.doc.id, ...data };
+        });
+      })
+    );
   }
 }
