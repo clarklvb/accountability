@@ -7,6 +7,8 @@ import { Observable } from 'rxjs';
 import { AuthService } from '../../core/auth.service';
 import { TransactionsService } from './transactions.service';
 import { NotifyService } from '../../core/notify.service';
+import {DataSource} from '@angular/cdk/collections';
+import {MatSort, MatTableDataSource} from '@angular/material';
 
 type AddJournalFields = 'debitAmount' | 'debitAccount' | 'creditAmount' | 'creditAccount' | 'description';
 type FormErrors = { [u in AddJournalFields]: string };
