@@ -12,7 +12,7 @@
       <tbody>
         <tr *ngFor="let account of accounts | async">
           <td>{{ account.number }}</td>
-          <td>{{ account.name }}</td>
+          <td><a [routerLink]="['/ledger', account.number]">{{ account.name }}</a></td>
           <td>{{ account.category }}</td>
           <td>{{ account.subcategory }}</td>
           <td>{{ account.enabled }}</td>

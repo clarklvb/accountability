@@ -47,9 +47,9 @@
   <div class="column is-12">
     <h1 class="is-pulled-left">Journal</h1>
     <div class="buttons has-addons is-right">
-      <span (click)="setApprovalFlag('approved')" [ngClass]="{'is-selected is-success has-white-text': showApproved}" class="button">Approved</span>
-      <span (click)="setApprovalFlag('pending')" [ngClass]="{'is-selected is-warning': showPending}" class="button">Pending</span>
-      <span (click)="setApprovalFlag('rejected')" [ngClass]="{'is-selected is-danger has-white-text': showRejected}" class="button">Rejected</span>
+      <span (click)="getEntries('approved')" [ngClass]="{'is-selected is-success has-white-text': showApproved}" class="button">Approved</span>
+      <span (click)="getEntries('pending')" [ngClass]="{'is-selected is-warning': showPending}" class="button">Pending</span>
+      <span (click)="getEntries('rejected')" [ngClass]="{'is-selected is-danger has-white-text': showRejected}" class="button">Rejected</span>
     </div>
   </div>
   <div class="column is-12">
