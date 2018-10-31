@@ -1,3 +1,24 @@
-<p>
-  ledger works!
-</p>
+<div *ngFor="let l of ledger | async" class="columns">
+  <div class="column is-12">
+    <h1>{{ l.accountName }}</h1>
+    <table class="table">
+      <thead>
+        <th>Date</th>
+        <th>Description</th>
+        <th>Credit</th>
+        <th>Debit</th>
+        <th>Balance</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let t of l.transactions">
+          <td>{{ t.createdAt | date }}</td>
+          <td>{{ t.description }}</td>
+          <td><span *ngIf="t.debit">{{ t.debit }}</span></td>
+          <td><span *ngIf="t.credit">{{ t.credit }}</span></td>
+          <td *ngIf="t.debit">{{ getRunningBalance(t.debit, true) }}</td>
+          <td *ngIf="t.credit">{{ getRunningBalance(t.credit, false) }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

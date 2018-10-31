@@ -8,6 +8,8 @@ import { UserManagementPageComponent } from './ui/user-management-page/user-mana
 import { EditUserComponent } from './ui/edit-user/edit-user.component';
 import { ChartofaccountsComponent } from './ui/chartofaccounts/chartofaccounts.component';
 import { JournalComponent } from './ui/journal/journal.component';
+import { LedgerComponent } from './ui/ledger/ledger.component';
+
 
 
 const routes: Routes = [
@@ -15,6 +17,7 @@ const routes: Routes = [
   { path: 'login', component: UserLoginComponent },
   { path: 'users', component: UserManagementPageComponent, canActivate: [AuthGuard]},
   { path: 'edit-user/:uid', component: EditUserComponent, canActivate: [AuthGuard]},
+  { path: 'ledger/:accountId', component: LedgerComponent, canActivate: [AuthGuard]},
   { path: 'chartofaccounts', component: ChartofaccountsComponent, canActivate: [AuthGuard]},
   { path: 'journal', component: JournalComponent, canActivate: [AuthGuard]},
 ];
