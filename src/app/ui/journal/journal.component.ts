@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { AuthService } from '../../core/auth.service';
 import { TransactionsService } from './transactions.service';
 import { NotifyService } from '../../core/notify.service';
+import { LedgerService } from '../ledger/ledger.service';
 
 type AddJournalFields = 'debitAmount' | 'debitAccount' | 'creditAmount' | 'creditAccount' | 'description';
 type FormErrors = { [u in AddJournalFields]: string };
@@ -51,7 +52,13 @@ export class JournalComponent implements OnInit {
     },
     'active': {},
   };
-  constructor(private route: ActivatedRoute, private router: Router, private fb: FormBuilder, private transactionService: TransactionsService, private authService: AuthService, private notifyService: NotifyService) { }
+  constructor(private route: ActivatedRoute,
+              private router: Router,
+              private fb: FormBuilder,
+              private transactionService: TransactionsService,
+              private authService: AuthService,
+              private notifyService: NotifyService,
+              private ledgerService: LedgerService) { }
 
   ngOnInit() {
     this.accountList = this.transactionService.getAccountList();
@@ -76,6 +83,24 @@ export class JournalComponent implements OnInit {
       this.notifyService.update('Debit amounts must equal the credit amount but both amounts must be greater than zero', 'error');
     } else {
       this.transactionService.addJournalEntry(transaction);
+
+      this.ledgerService.updateLedger(this.addJournalEntryForm.value['debitAccount'].number, {
+        accountId: this.addJournalEntryForm.value['debitAccount'].number, 
+        accountName: transaction.debitAccountName,
+        transactions: [{
+          description: transaction.description,
+          debit: transaction.debitAmount ? transaction.debitAmount : null,
+        }]
+      });
+
+      this.ledgerService.updateLedger(this.addJournalEntryForm.value['creditAccount'].number, {
+        accountId: this.addJournalEntryForm.value['creditAccount'].number, 
+        accountName: transaction.creditAccountName,
+        transactions: [{
+          description: transaction.description,
+          credit: transaction.creditAmount ? transaction.creditAmount : null,
+        }]
+      });
     }
   }
 
