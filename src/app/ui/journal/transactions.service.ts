@@ -69,6 +69,7 @@ export class TransactionsService {
         this.transactionsCollection = this.afs.collection('transactions', (ref) => ref.where('userId', '==', this.authService.userId).orderBy('createdAt', 'desc').where('approved', '==', false).where('pending', '==', false));
         break;
       default:
+        this.transactionsCollection = this.afs.collection('transactions', (ref) => ref.where('userId', '==', this.authService.userId).orderBy('createdAt', 'desc'));
       break;
     }
 

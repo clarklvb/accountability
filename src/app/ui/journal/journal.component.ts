@@ -82,19 +82,37 @@ export class JournalComponent implements OnInit {
   setApprovalFlag (flag: string) {
     switch (flag) {
       case 'approved':
-        this.showApproved = true;
+        this.showApproved = !this.showApproved;
         this.showPending = false;
         this.showRejected = false;
+
+        if (this.showApproved) {
+          this.getEntries('approved');
+        } else {
+          this.getEntries(null);
+        }
         break;
       case 'rejected':
         this.showApproved = false;
         this.showPending = false;
-        this.showRejected = true;
+        this.showRejected = !this.showRejected;
+
+        if (this.showRejected) {
+          this.getEntries('rejected');
+        } else {
+          this.getEntries(null);
+        }
         break;
       case 'pending':
         this.showApproved = false;
-        this.showPending = true;
+        this.showPending = !this.showPending;
         this.showRejected = false;
+
+        if (this.showPending) {
+          this.getEntries('pending');
+        } else {
+          this.getEntries(null);
+        }
         break;
     }
   }
@@ -108,7 +126,6 @@ export class JournalComponent implements OnInit {
   }
 
   getEntries (condition: string = '') {
-    this.setApprovalFlag(condition);
     this.transactionsList = this.transactionService.getTransactionsList(condition);
   }
 
