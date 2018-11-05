@@ -11,7 +11,7 @@ import { LedgerService } from '../ledger/ledger.service';
 import {DataSource} from '@angular/cdk/collections';
 import {MatSort, MatTableDataSource} from '@angular/material';
 
-type AddJournalFields = 'debitAmount' | 'debitAccount' | 'creditAmount' | 'creditAccount' | 'description';
+type AddJournalFields = 'debitAmount' | 'debitAccount' | 'creditAmount' | 'creditAccount' | 'description' | 'userFullName' | 'file';
 type FormErrors = { [u in AddJournalFields]: string };
 
 @Component({
@@ -23,6 +23,7 @@ export class JournalComponent implements OnInit {
 
   transactionsList;
   accountList;
+  currentDate;
 
   showPending: boolean = false;
   showApproved: boolean = false;
@@ -34,7 +35,9 @@ export class JournalComponent implements OnInit {
     'debitAccount': '',
     'creditAmount': '',
     'creditAccount': '',
-    'description': ''
+    'description': '',
+    'userFullName': '',
+    'file': ''
   };
   validationMessages = {
     'debitAmount': {
@@ -52,6 +55,9 @@ export class JournalComponent implements OnInit {
     'description': {
       'required': 'Description is required.'
     },
+    'userFullName': {
+      'required': 'User\'s full name is required.'
+    },
     'active': {},
   };
   constructor(private route: ActivatedRoute,
@@ -65,7 +71,9 @@ export class JournalComponent implements OnInit {
   ngOnInit() {
     this.accountList = this.transactionService.getAccountList();
     this.transactionsList = this.transactionService.getTransactionsList();
+    this.currentDate = Date.now();
     this.buildForm();
+    this.setApprovalFlag('pending');
   }
 
   addJournalEntry() {
@@ -76,6 +84,7 @@ export class JournalComponent implements OnInit {
       debitAccountName: this.addJournalEntryForm.value['debitAccount'].name,
       creditAccountName: this.addJournalEntryForm.value['creditAccount'].name,
       userId: this.authService.userId,
+      userFullName: this.addJournalEntryForm.value['userFullName'],
       createdAt: new Date().getTime(),
       approved: false,
       pending: true
@@ -173,11 +182,19 @@ export class JournalComponent implements OnInit {
       'creditAccount': ['', [
         Validators.required
       ]],
+      'userFullName': ['', [
+        Validators.required
+      ]],
+      'file': ['', []],
       'active': ['', []],
     });
 
     this.addJournalEntryForm.valueChanges.subscribe((data) => this.onValueChanged(data));
     this.onValueChanged(); // reset validation messages
+  }
+
+  resetForm () {
+    this.addJournalEntryForm.reset();
   }
 
   onValueChanged(data?: any) {

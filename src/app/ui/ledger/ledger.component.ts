@@ -14,6 +14,7 @@ export class LedgerComponent implements OnInit {
 
   accountId: string;
   accountName: string;
+  normalSide: string;
   ledger: any;
   ledgerCollection: AngularFirestoreCollection;
   runningBalance: number = 0;
@@ -23,10 +24,16 @@ export class LedgerComponent implements OnInit {
   ngOnInit() {
     this.accountId = this.route.snapshot.paramMap.get('accountId');
     this.accountName = this.route.snapshot.paramMap.get('accountName');
+    this.normalSide = this.route.snapshot.paramMap.get('normalSide');
     this.ledger = this.ledgerService.getLedger(this.accountId);
   }
 
-  public getRunningBalance (amount: number, add: boolean) {
-    return add ? this.runningBalance += amount : this.runningBalance -= amount;
+  // look into fixing runningBalance 
+  public getRunningBalance (debit: number, credit: number, normalSide: string) {
+    if (normalSide === 'debit') {
+      return debit ? this.runningBalance += debit : this.runningBalance -= credit;
+    } else {
+      return debit ? this.runningBalance -= debit : this.runningBalance += credit;
+    }
   }
 }

@@ -6,8 +6,8 @@
         Accounting
       </p>
       <ul class="menu-list">
-        <li><a routerLink="/chartofaccounts" *ngIf="user.role === 'Manager'">Chart of Accounts</a></li>
-        <li *ngIf="user.role === 'Accountant' || user.role === 'Manager'"><a routerLink="/journal">Journal</a></li>
+        <li><a routerLink="/chartofaccounts">Chart of Accounts</a></li>
+        <li *ngIf="user.role !== 'Admin'"><a routerLink="/journal">Journal</a></li>
       </ul>
       <p class="menu-label" *ngIf="user.role === 'Admin'">
         Administrator
