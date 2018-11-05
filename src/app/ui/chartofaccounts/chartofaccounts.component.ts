@@ -16,8 +16,6 @@ export class ChartofaccountsComponent implements OnInit {
     this.accounts = this.accountsService.getAccountsNoCondition();
   }
   
-  
-  
   ngOnInit() {
   }
 
@@ -25,4 +23,7 @@ export class ChartofaccountsComponent implements OnInit {
     this.accountsService.toggleAccountActive(id, value);
   }
 
+  editAccount (id: string) {
+    console.log(id);
+  }
 }

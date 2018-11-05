@@ -17,7 +17,7 @@ const routes: Routes = [
   { path: 'login', component: UserLoginComponent },
   { path: 'users', component: UserManagementPageComponent, canActivate: [AuthGuard]},
   { path: 'edit-user/:uid', component: EditUserComponent, canActivate: [AuthGuard]},
-  { path: 'ledger/:accountId/:accountName', component: LedgerComponent, canActivate: [AuthGuard]},
+  { path: 'ledger/:accountId/:accountName/:normalSide', component: LedgerComponent, canActivate: [AuthGuard]},
   { path: 'chartofaccounts', component: ChartofaccountsComponent, canActivate: [AuthGuard]},
   { path: 'journal', component: JournalComponent, canActivate: [AuthGuard]},
 ];

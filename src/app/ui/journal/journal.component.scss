@@ -1,4 +1,4 @@
-input[name="desc"] {
+input[name="desc"], input[name="file"] {
   max-width: 350px;
 }
 
@@ -11,8 +11,13 @@ select[name="creditAccount"] {
   margin-left: 50px
 }
 
+button[type="submit"] {
+  margin-right: 1em;
+}
+
 .rows {
-  border-bottom: 1px solid #ffffff
+  border-bottom: 1px solid #ffffff;
+  max-width: 500px;
 }
 
 .credit-account-name {
@@ -35,4 +40,25 @@ h1 {
 
 .hide {
   display: none;
+}
+
+#current-date {
+  display: block;
+  margin-bottom: 1em;
+  font-weight: bold;
+}
+
+.actions-container {
+  padding-top: 4em;
+}
+
+.info-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  input {
+    margin-left: 1em;
+    max-width: 250px;
+  }
 }

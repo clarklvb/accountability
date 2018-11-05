@@ -5,7 +5,7 @@
       <table class="table">
         <thead>
           <tr>
-            <th>Description</th>
+            <th>Information</th>
             <th>Accounts</th>
             <th>Debit</th>
             <th>Credit</th>
@@ -13,7 +13,10 @@
         </thead>
         <tbody>
           <tr>
-            <td class="rows"><input class="input" type="text" name="desc" formControlName="description" placeholder="Description for entry"></td>
+            <td class="rows info-container">
+              <span id="current-date">{{ currentDate | date }}</span>
+              <input class="input" type="text" name="userFullName" formControlName="userFullName" disabled [(ngModel)]="user.displayName">
+            </td>
             <td class="rows">
               <select class="input" formControlName="debitAccount" name="debitAccount" required>
                 <option value="" disabled selected>Select an account</option>
@@ -31,14 +34,20 @@
                 <option *ngFor="let account of accountList | async" [ngValue]="account">{{ account.name }}</option>
               </select>
             </td>
-            <td class="rows"></td>
+            <td class="rows">&nbsp;</td>
             <td class="rows"><input class="input" type="number" name="creditAmount" formControlName="creditAmount" placeholder="Enter amount" /></td>
           </tr>
           <tr>
+            <td class="rows">
+              <input class="input" type="text" name="desc" formControlName="description" placeholder="Description for entry" />
+              <input class="input" type="file" name="file" formControlName="file" />
+            </td>
             <td></td>
             <td></td>
-            <td></td>
-            <td><button type="submit" class="button is-link" [disabled]="!addJournalEntryForm.valid">Submit</button></td>
+            <td class="actions-container">
+              <button type="submit" class="button is-link" [disabled]="!addJournalEntryForm.valid">Submit</button>
+              <span (click)="buildForm()" class="button is-link is-danger">Reset</span>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -57,10 +66,11 @@
       <thead>
         <tr>
           <th>Date</th>
+          <th>User</th>
           <th>Description</th>
           <th>Accounts</th>
-          <th>Debit</th>
-          <th>Credit</th>
+          <th class="has-text-right">Debit</th>
+          <th class="has-text-right">Credit</th>
           <th *ngIf="user.role === 'Manager'">Options</th>
         </tr>
       </thead>
@@ -76,11 +86,14 @@
               <p class="has-text-warning" *ngIf="entry.pending">Pending</p>
             </div>
           </td>
+          <td class="rows">
+            <div *ngIf="entry.userFullName">{{ entry.userFullName }}</div>
+          </td>
           <td class="rows">{{ entry.description }}</td>
           <td class="rows">{{ entry.debitAccountName }}</td>
-          <td class="rows">{{ entry.debitAmount | currency }}</td>
+          <td class="rows has-text-right">{{ entry.debitAmount | currency }}</td>
           <td class="rows"></td>
-          <td class="rows date-row" *ngIf="user.role === 'Manager'">
+          <td class="rows date-row" *ngIf="user.role === 'Manager' && entry.pending">
             <a [ngClass]="{'is-success has-text-white': entry.approved}" class="approve-link button" (click)="toggleApproval(entry.id, true)">Approve</a>
             <a [ngClass]="{'is-danger has-text-white': !entry.approved && !entry.pending}" class="approve-link button" (click)="toggleApproval(entry.id, false)">Reject</a>
           </td>
@@ -88,9 +101,10 @@
         <tr>
           <td></td>
           <td></td>
+          <td></td>
           <td id="credit" class="rows credit-account-name">{{ entry.creditAccountName }}</td>
           <td></td>
-          <td class="rows">{{ entry.creditAmount | currency }}</td>
+          <td class="rows has-text-right">{{ entry.creditAmount | currency }}</td>
           <td *ngIf="user.role === 'Manager'"></td>
         </tr>
       </tbody>

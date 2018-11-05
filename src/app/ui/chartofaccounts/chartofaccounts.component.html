@@ -7,17 +7,20 @@
         <th>Category</th>
         <th>Subcategory</th>
         <th>Enabled</th>
-        <th *ngIf="user.role === 'Manager'">Options</th>
+        <th *ngIf="user.role !== 'Accountant'">Options</th>
       </thead>
       <tbody>
         <tr *ngFor="let account of accounts | async">
           <td>{{ account.number }}</td>
-          <td><a [routerLink]="['/ledger', account.number, account.name]">{{ account.name }}</a></td>
+          <td><a [routerLink]="['/ledger', account.number, account.name, account.normalside]">{{ account.name }}</a></td>
           <td>{{ account.category }}</td>
           <td>{{ account.subcategory }}</td>
           <td>{{ account.enabled }}</td>
-          <td *ngIf="account.enabled && user.role === 'Manager'"><a class="entry-option has-text-danger" (click)="toggleAccountActive(account.id, false)">Deactivate</a></td>
-          <td *ngIf="!account.enabled  && user.role === 'Manager'"><a class="entry-option has-text-success" (click)="toggleAccountActive(account.id, true)">Activate</a></td>
+          <td *ngIf="user.role !== 'Accountant'">
+            <a *ngIf="account.enabled" class="has-text-danger" (click)="toggleAccountActive(account.id, false)">Deactivate</a>
+            <a *ngIf="!account.enabled "class="has-text-success" (click)="toggleAccountActive(account.id, true)">Activate</a>
+            <a class="edit-link" (click)="editAccount(account.id)">Edit</a>
+          </td>
         </tr>
       </tbody>
     </table>

@@ -15,8 +15,7 @@
           <td>{{ l.description }}</td>
           <td><span *ngIf="l.debit">{{ l.debit }}</span></td>
           <td><span *ngIf="l.credit">{{ l.credit }}</span></td>
-          <td *ngIf="l.debit">{{ getRunningBalance(l.debit, true) }}</td>
-          <td *ngIf="l.credit">{{ getRunningBalance(l.credit, false) }}</td>
+          <td>{{ getRunningBalance(l.debit, l.credit) }}</td>
         </tr>
       </tbody>
     </table>
