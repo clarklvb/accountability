@@ -78,7 +78,7 @@
           </td>
           <td class="rows">{{ entry.description }}</td>
           <td class="rows">{{ entry.debitAccountName }}</td>
-          <td class="rows" id="number">{{ entry.debitAmount | currency }}</td>
+          <td class="rows">{{ entry.debitAmount | currency }}</td>
           <td class="rows"></td>
           <td class="rows date-row" *ngIf="user.role === 'Manager'">
             <a [ngClass]="{'is-success has-text-white': entry.approved}" class="approve-link button" (click)="toggleApproval(entry.id, true)">Approve</a>
@@ -90,7 +90,7 @@
           <td></td>
           <td id="credit" class="rows credit-account-name">{{ entry.creditAccountName }}</td>
           <td></td>
-          <td class="rows" id="number">{{ entry.creditAmount | currency }}</td>
+          <td class="rows">{{ entry.creditAmount | currency }}</td>
           <td *ngIf="user.role === 'Manager'"></td>
         </tr>
       </tbody>
