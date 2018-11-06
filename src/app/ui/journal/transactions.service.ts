@@ -46,8 +46,19 @@ export class TransactionsService {
     );
   }
 
+  resetAllAccounts() {
+    let documents = this.accountsCollection.ref.get()
+      .then(snapshot => {
+        snapshot.forEach(doc => {
+          this.accountsCollection.doc(doc.id).update({ creditAmount: 0, debitAmount: 0 })
+        });
+      }).catch(err => {
+        console.log("Error getting documents", err);
+      });
+  }
+
   toggleAccountActive(id: string, value: boolean) {
-    this.accountsCollection.doc(id).update({enabled: value});
+    this.accountsCollection.doc(id).update({ enabled: value });
   }
 
   deleteTransaction(id: string) {
@@ -55,7 +66,7 @@ export class TransactionsService {
   }
 
   toggleApproval(id: string, value: boolean) {
-    this.transactionsCollection.doc(id).update({approved: value, pending: false});
+    this.transactionsCollection.doc(id).update({ approved: value, pending: false });
   }
 
   getTransactionsList(condition: string = '') {
@@ -71,7 +82,7 @@ export class TransactionsService {
         break;
       default:
         this.transactionsCollection = this.afs.collection('transactions', (ref) => ref.orderBy('createdAt', 'desc'));
-      break;
+        break;
     }
 
     return this.transactionsCollection.snapshotChanges().pipe(
