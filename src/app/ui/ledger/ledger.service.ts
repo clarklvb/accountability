@@ -10,13 +10,18 @@ export class LedgerService {
 
   ledgerCollection: AngularFirestoreCollection;
 
-  constructor(private afs: AngularFirestore) {
+  constructor(private afs: AngularFirestore) { }
 
-  }
-
-  updateLedger(data: any) {
-    //return this.afs.doc<any>(`ledger/${id}`).set(data);
-    return this.afs.collection('ledger').add(data);
+  updateLedger(id: string, data: any) {
+    this.afs.collection('chartofaccounts').doc(id).ref.get().then(doc => {
+      if (doc.data().normalside === 'debit') {
+        data.runningBalance = doc.data().debitAmount - doc.data().creditAmount;
+        this.afs.collection('ledger').add(data);
+      } else {
+        data.runningBalance = doc.data().creditAmount - doc.data().debitAmount;
+        this.afs.collection('ledger').add(data);
+      }
+    });
   }
 
   public getLedger(id: string) {

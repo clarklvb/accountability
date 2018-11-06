@@ -1,5 +1,5 @@
 <div class="columns">
-  <div class="column is-12" >
+  <div class="column is-12">
     <h1>{{ accountName }}</h1>
     <table class="table">
       <thead>
@@ -15,7 +15,7 @@
           <td>{{ l.description }}</td>
           <td><span *ngIf="l.debit">{{ l.debit }}</span></td>
           <td><span *ngIf="l.credit">{{ l.credit }}</span></td>
-          <td>{{ getRunningBalance(l.debit, l.credit) }}</td>
+          <td>{{ l.runningBalance }}</td>
         </tr>
       </tbody>
     </table>

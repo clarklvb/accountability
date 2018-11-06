@@ -126,7 +126,7 @@ export class JournalComponent implements OnInit {
       this.updateAccountTotals(transaction.debitEntries, 'debitAmount');
       this.updateAccountTotals(transaction.creditEntries, 'creditAmount');
 
-      this.ledgerService.updateLedger({
+      this.ledgerService.updateLedger(transaction.debitEntries[0].accountId, {
         accountId: this.addJournalEntryForm.value['debitAccount'].number,
         accountName: transaction.debitEntries[0].accountName,
         createdAt: transaction.createdAt,
@@ -134,9 +134,9 @@ export class JournalComponent implements OnInit {
         debit: transaction.debitEntries[0].amount
       });
 
-      this.ledgerService.updateLedger({
+      this.ledgerService.updateLedger(transaction.creditEntries[0].accountId, {
         accountId: this.addJournalEntryForm.value['creditAccount'].number,
-        accountName: transaction.debitEntries[0].accountName,
+        accountName: transaction.creditEntries[0].accountName,
         createdAt: transaction.createdAt,
         description: transaction.description,
         credit: transaction.creditEntries[0].amount
