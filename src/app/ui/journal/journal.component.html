@@ -23,7 +23,8 @@
                 <option *ngFor="let account of accountList | async" [ngValue]="account">{{ account.name }}</option>
               </select>
             </td>
-            <td class="rows"><input class="input" type="number" name="debitAmount" formControlName="debitAmount" placeholder="Enter amount" /></td>
+            <td class="rows"><input class="input" type="number" name="debitAmount" formControlName="debitAmount"
+                placeholder="Enter amount" /></td>
             <td class="rows"></td>
           </tr>
           <tr>
@@ -35,7 +36,8 @@
               </select>
             </td>
             <td class="rows">&nbsp;</td>
-            <td class="rows"><input class="input" type="number" name="creditAmount" formControlName="creditAmount" placeholder="Enter amount" /></td>
+            <td class="rows"><input class="input" type="number" name="creditAmount" formControlName="creditAmount"
+                placeholder="Enter amount" /></td>
           </tr>
           <tr>
             <td class="rows">
@@ -56,9 +58,11 @@
   <div class="column is-12">
     <h1 class="is-pulled-left">Journal</h1>
     <div class="buttons has-addons is-right">
-      <span (click)="setApprovalFlag('approved')" [ngClass]="{'is-selected is-success has-white-text': showApproved}" class="button">Approved</span>
+      <span (click)="setApprovalFlag('approved')" [ngClass]="{'is-selected is-success has-white-text': showApproved}"
+        class="button">Approved</span>
       <span (click)="setApprovalFlag('pending')" [ngClass]="{'is-selected is-warning': showPending}" class="button">Pending</span>
-      <span (click)="setApprovalFlag('rejected')" [ngClass]="{'is-selected is-danger has-white-text': showRejected}" class="button">Rejected</span>
+      <span (click)="setApprovalFlag('rejected')" [ngClass]="{'is-selected is-danger has-white-text': showRejected}"
+        class="button">Rejected</span>
     </div>
   </div>
   <div class="column is-12">
@@ -90,27 +94,36 @@
             <div *ngIf="entry.userFullName">{{ entry.userFullName }}</div>
           </td>
           <td class="rows">{{ entry.description }}</td>
-          <td class="rows">{{ entry.debitAccountName }}</td>
-          <td class="rows has-text-right">{{ entry.debitAmount | currency }}</td>
+          <td class="rows">
+            <span *ngFor="let debitEntry of entry.debitEntries">{{ debitEntry.accountName }}</span>
+          </td>
+          <td class="rows has-text-right">
+            <span *ngFor="let debitEntry of entry.debitEntries">{{ debitEntry.amount | currency }}</span>
+          </td>
           <td class="rows"></td>
           <td class="rows date-row" *ngIf="user.role === 'Manager' && entry.pending">
             <a [ngClass]="{'is-success has-text-white': entry.approved}" class="approve-link button" (click)="toggleApproval(entry.id, true)">Approve</a>
-            <a [ngClass]="{'is-danger has-text-white': !entry.approved && !entry.pending}" class="approve-link button" (click)="toggleApproval(entry.id, false)">Reject</a>
+            <a [ngClass]="{'is-danger has-text-white': !entry.approved && !entry.pending}" class="approve-link button"
+              (click)="toggleApproval(entry.id, false)">Reject</a>
           </td>
         </tr>
         <tr>
           <td></td>
           <td></td>
           <td></td>
-          <td id="credit" class="rows credit-account-name">{{ entry.creditAccountName }}</td>
+          <td id="credit" class="rows credit-account-name">
+            <span *ngFor="let creditEntry of entry.creditEntries">{{ creditEntry.accountName }}</span>
+          </td>
           <td></td>
-          <td class="rows has-text-right">{{ entry.creditAmount | currency }}</td>
+          <td class="rows has-text-right">
+            <span *ngFor="let creditEntry of entry.creditEntries">{{ creditEntry.amount | currency }}</span>
+          </td>
           <td *ngIf="user.role === 'Manager'"></td>
         </tr>
       </tbody>
     </table>
   </div>
-	  <!--- 
+  <!--- 
 	  <table mat-table [dataSource]="transactionsList" class="mat-elevation-z8">
 
 	  <ng-container matColumnDef="createdAt">
