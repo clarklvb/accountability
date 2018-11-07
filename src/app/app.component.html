@@ -8,12 +8,19 @@
       <ul class="menu-list">
         <li><a routerLink="/chartofaccounts">Chart of Accounts</a></li>
         <li *ngIf="user.role !== 'Admin'"><a routerLink="/journal">Journal</a></li>
+        <li *ngIf="user.role !== 'Admin'"><a routerLink="/trial">Trial Balance</a></li>
       </ul>
       <p class="menu-label" *ngIf="user.role === 'Admin'">
         Administrator
       </p>
       <ul class="menu-list" *ngIf="user.role === 'Admin'">
         <li><a routerLink="/users">Users</a></li>
+      </ul>
+      <p class="menu-label">
+        Debugging
+      </p>
+      <ul class="menu-list">
+        <li><a (click)="resetAllAccounts()">Reset Account Balances</a></li>
       </ul>
     </aside>
   </div>

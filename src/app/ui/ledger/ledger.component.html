@@ -1,6 +1,7 @@
 <div class="columns">
-  <div class="column is-12" >
+  <div class="column is-12">
     <h1>{{ accountName }}</h1>
+    <input class="input column is-4" type="text" [(ngModel)]="searchText" placeholder="Search">
     <table class="table">
       <thead>
         <th>Date</th>
@@ -10,12 +11,17 @@
         <th>Balance</th>
       </thead>
       <tbody>
-        <tr *ngFor="let l of ledger | async">
+        <tr *ngFor="let l of ledger | async | filter : {
+          description: searchText,
+          debit: searchText,
+          credit: searchText,
+          runningBalance: searchText
+        }">
           <td>{{ l.createdAt | date }}</td>
           <td>{{ l.description }}</td>
           <td><span *ngIf="l.debit">{{ l.debit }}</span></td>
           <td><span *ngIf="l.credit">{{ l.credit }}</span></td>
-          <td>{{ getRunningBalance(l.debit, l.credit) }}</td>
+          <td>{{ l.runningBalance }}</td>
         </tr>
       </tbody>
     </table>

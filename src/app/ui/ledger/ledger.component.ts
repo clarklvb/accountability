@@ -27,13 +27,4 @@ export class LedgerComponent implements OnInit {
     this.normalSide = this.route.snapshot.paramMap.get('normalSide');
     this.ledger = this.ledgerService.getLedger(this.accountId);
   }
-
-  // look into fixing runningBalance 
-  public getRunningBalance (debit: number, credit: number, normalSide: string) {
-    if (normalSide === 'debit') {
-      return debit ? this.runningBalance += debit : this.runningBalance -= credit;
-    } else {
-      return debit ? this.runningBalance -= debit : this.runningBalance += credit;
-    }
-  }
 }
