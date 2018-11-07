@@ -82,13 +82,13 @@ export class JournalComponent implements OnInit {
       if (!this.addJournalEntryForm.value['debitAccount'].hasOwnProperty('debitAmount')) { this.addJournalEntryForm.value['debitAccount'].debitAmount = 0 }
       for (let i = 0; i < entries.length; i++) {
         this.transactionService.accountsCollection.doc(entries[i].accountId)
-          .set({ debitAmount: this.addJournalEntryForm.value['debitAccount'].debitAmount + entries[i].amount }, { merge: true });
+          .set({ hasBalance: true, debitAmount: this.addJournalEntryForm.value['debitAccount'].debitAmount + entries[i].amount }, { merge: true });
       }
     } else {
       if (!this.addJournalEntryForm.value['creditAccount'].hasOwnProperty('creditAmount')) { this.addJournalEntryForm.value['creditAccount'].creditAmount = 0 }
       for (let i = 0; i < entries.length; i++) {
         this.transactionService.accountsCollection.doc(entries[i].accountId)
-          .set({ creditAmount: this.addJournalEntryForm.value['creditAccount'].creditAmount + entries[i].amount }, { merge: true });
+          .set({ hasBalance: true, creditAmount: this.addJournalEntryForm.value['creditAccount'].creditAmount + entries[i].amount }, { merge: true });
       }
     }
   }

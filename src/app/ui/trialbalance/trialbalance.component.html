@@ -1,0 +1,35 @@
+<section class="hero">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">
+        Acme Company Inc.
+      </h1>
+      <h2 class="subtitle">
+        Trial Balance as of {{ currentDate | date }}
+      </h2>
+    </div>
+  </div>
+</section>
+<section>
+  <table class="table">
+    <thead>
+      <th>Account</th>
+      <th class="has-text-right">Debit</th>
+      <th class="has-text-right">Credit</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let account of accountListWithBalance | async">
+        <td><span class="account-id">{{ account.number }}</span> <strong>{{ account.name }}</strong></td>
+        <td class="has-text-right"><span *ngIf="account.debitAmount">{{ updateTotal(account.debitAmount, 'debit') |
+            currency }}</span></td>
+        <td class="has-text-right"><span *ngIf="account.creditAmount">{{ updateTotal(account.creditAmount, 'credit') |
+            currency }}</span></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td class="has-text-right"><strong>{{ debitTotal | currency }}</strong></td>
+        <td class="has-text-right"><strong>{{ creditTotal | currency }}</strong></td>
+      </tr>
+    </tbody>
+  </table>
+</section>

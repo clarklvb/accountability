@@ -46,11 +46,23 @@ export class TransactionsService {
     );
   }
 
+  getAccountListWithBalance(): Observable<any[]> {
+    let accountsCollectionNoCondition = this.afs.collection('chartofaccounts', (ref) => ref.where('hasBalance', '==', true).orderBy('name', 'asc'));
+    return accountsCollectionNoCondition.snapshotChanges().pipe(
+      map((actions) => {
+        return actions.map((a) => {
+          const data = a.payload.doc.data();
+          return { id: a.payload.doc.id, ...data };
+        });
+      })
+    );
+  }
+
   resetAllAccounts() {
     let documents = this.accountsCollection.ref.get()
       .then(snapshot => {
         snapshot.forEach(doc => {
-          this.accountsCollection.doc(doc.id).update({ creditAmount: 0, debitAmount: 0 })
+          this.accountsCollection.doc(doc.id).update({ hasBalance: false, creditAmount: 0, debitAmount: 0 })
         });
       }).catch(err => {
         console.log("Error getting documents", err);

@@ -17,6 +17,7 @@ import { ModalComponent } from './modal/modal.component';
 import { ChartofaccountsComponent } from './chartofaccounts/chartofaccounts.component';
 import { LedgerComponent } from './ledger/ledger.component';
 import { FilterPipe } from './filter.pipe';
+import { TrialbalanceComponent } from './trialbalance/trialbalance.component';
 
 @NgModule({
   imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule],
@@ -34,7 +35,8 @@ import { FilterPipe } from './filter.pipe';
     ModalComponent,
     ChartofaccountsComponent,
     LedgerComponent,
-    FilterPipe
+    FilterPipe,
+    TrialbalanceComponent
   ],
   exports: [
     MainNavComponent,

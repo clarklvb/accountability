@@ -9,17 +9,19 @@ import { EditUserComponent } from './ui/edit-user/edit-user.component';
 import { ChartofaccountsComponent } from './ui/chartofaccounts/chartofaccounts.component';
 import { JournalComponent } from './ui/journal/journal.component';
 import { LedgerComponent } from './ui/ledger/ledger.component';
+import { TrialbalanceComponent } from './ui/trialbalance/trialbalance.component';
 
 
 
 const routes: Routes = [
   { path: '', component: HomePageComponent, canActivate: [AuthGuard] },
   { path: 'login', component: UserLoginComponent },
-  { path: 'users', component: UserManagementPageComponent, canActivate: [AuthGuard]},
-  { path: 'edit-user/:uid', component: EditUserComponent, canActivate: [AuthGuard]},
-  { path: 'ledger/:accountId/:accountName/:normalSide', component: LedgerComponent, canActivate: [AuthGuard]},
-  { path: 'chartofaccounts', component: ChartofaccountsComponent, canActivate: [AuthGuard]},
-  { path: 'journal', component: JournalComponent, canActivate: [AuthGuard]},
+  { path: 'users', component: UserManagementPageComponent, canActivate: [AuthGuard] },
+  { path: 'edit-user/:uid', component: EditUserComponent, canActivate: [AuthGuard] },
+  { path: 'ledger/:accountId/:accountName/:normalSide', component: LedgerComponent, canActivate: [AuthGuard] },
+  { path: 'chartofaccounts', component: ChartofaccountsComponent, canActivate: [AuthGuard] },
+  { path: 'journal', component: JournalComponent, canActivate: [AuthGuard] },
+  { path: 'trial', component: TrialbalanceComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({
