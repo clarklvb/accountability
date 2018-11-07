@@ -66,6 +66,7 @@
     </div>
   </div>
   <div class="column is-12">
+    <input class="input column is-4" type="text" [(ngModel)]="searchText" placeholder="Search">
     <table class="table transaction-table">
       <thead>
         <tr>
@@ -78,7 +79,11 @@
           <th *ngIf="user.role === 'Manager'">Options</th>
         </tr>
       </thead>
-      <tbody *ngFor="let entry of transactionsList | async">
+      <tbody *ngFor="let entry of transactionsList | async | filter : {
+        userFullname: searchText,
+        description: searchText,
+        accountName: searchText
+      }">
         <tr>
           <td class="rows date-row">
             {{ entry.createdAt | date }}

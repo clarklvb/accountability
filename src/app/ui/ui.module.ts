@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { UserLoginComponent } from './user-login/user-login.component';
 import { HomePageComponent } from './home-page/home-page.component';
@@ -16,9 +16,10 @@ import { JournalComponent } from './journal/journal.component';
 import { ModalComponent } from './modal/modal.component';
 import { ChartofaccountsComponent } from './chartofaccounts/chartofaccounts.component';
 import { LedgerComponent } from './ledger/ledger.component';
+import { FilterPipe } from './filter.pipe';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, ReactiveFormsModule],
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule],
   declarations: [
     UserLoginComponent,
     HomePageComponent,
@@ -32,7 +33,8 @@ import { LedgerComponent } from './ledger/ledger.component';
     JournalComponent,
     ModalComponent,
     ChartofaccountsComponent,
-    LedgerComponent
+    LedgerComponent,
+    FilterPipe
   ],
   exports: [
     MainNavComponent,
@@ -43,4 +45,4 @@ import { LedgerComponent } from './ledger/ledger.component';
     ModalComponent
   ]
 })
-export class UiModule {}
+export class UiModule { }

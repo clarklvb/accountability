@@ -1,5 +1,6 @@
 <div class="columns" *ngIf="(authService.user | async) as user">
   <div class="column is-12">
+    <input class="input column is-4" type="text" [(ngModel)]="searchText" placeholder="Search">
     <table class="table">
       <thead>
         <th>ID</th>
@@ -11,7 +12,15 @@
         <th *ngIf="user.role !== 'Accountant'">Options</th>
       </thead>
       <tbody>
-        <tr *ngFor="let account of accounts | async">
+        <tr *ngFor="let account of accounts | async | filter : {
+          number: searchText,
+          name: searchText,
+          creditAmount: searchText,
+          debitAmount: searchText,
+          category: searchText,
+          subcategory: searchText,
+          enabled: searchText
+        }">
           <td>{{ account.number }}</td>
           <td><a [routerLink]="['/ledger', account.number, account.name, account.normalside]">{{ account.name }}</a></td>
           <td>
