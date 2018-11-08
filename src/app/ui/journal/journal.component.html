@@ -87,13 +87,7 @@
                 formControlName="description"
                 placeholder="Description for entry"
               />
-              <input
-                class="input"
-                type="file"
-                name="file"
-                formControlName="file"
-              />
-              <button class="upload">Upload</button>
+              <file-upload></file-upload>
             </td>
             <td class="rows"></td>
             <td class="rows"></td>
@@ -241,7 +235,15 @@
 
 
 
+
+
+
+
       <table mat-table [dataSource]="transactionsList" class="mat-elevation-z8">
+
+
+
+
 
 
 
@@ -254,7 +256,15 @@
 
 
 
+
+
+
+
     	<th mat-header-cell *matHeaderCellDef> Date </th>
+
+
+
+
 
 
 
@@ -266,7 +276,15 @@
 
 
 
+
+
+
+
       </ng-container>
+
+
+
+
 
 
 
@@ -279,7 +297,15 @@
 
 
 
+
+
+
+
       <ng-container matColumnDef="description">
+
+
+
+
 
 
 
@@ -291,13 +317,25 @@
 
 
 
+
+
+
+
     	<td mat-cell *matCellDef="let element"> {{entry.description}} </td>
 
 
 
 
 
+
+
+
+
       </ng-container>
+
+
+
+
 
 
 
@@ -310,7 +348,15 @@
 
 
 
+
+
+
+
       <ng-container matColumnDef="description">
+
+
+
+
 
 
 
@@ -322,13 +368,25 @@
 
 
 
+
+
+
+
     	<td mat-cell *matCellDef="let element"> {{entry.description}} </td>
 
 
 
 
 
+
+
+
+
       </ng-container>
+
+
+
+
 
 
 
@@ -341,7 +399,15 @@
 
 
 
+
+
+
+
       <ng-container matColumnDef="description">
+
+
+
+
 
 
 
@@ -353,13 +419,25 @@
 
 
 
+
+
+
+
     	<td mat-cell *matCellDef="let element"> {{entry.description}} </td>
 
 
 
 
 
+
+
+
+
       </ng-container>
+
+
+
+
 
 
 
@@ -371,7 +449,15 @@
 
 
 
+
+
+
+
       <ng-container matColumnDef="description">
+
+
+
+
 
 
 
@@ -383,13 +469,25 @@
 
 
 
+
+
+
+
     	<td mat-cell *matCellDef="let element"> {{entry.description}} </td>
 
 
 
 
 
+
+
+
+
       </ng-container>
+
+
+
+
 
 
 
@@ -402,7 +500,15 @@
 
 
 
+
+
+
+
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+
+
+
 
 
 

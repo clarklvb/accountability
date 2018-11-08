@@ -10,6 +10,7 @@ import { NotifyService } from '../../core/notify.service';
 import { LedgerService } from '../ledger/ledger.service';
 import { DataSource } from '@angular/cdk/collections';
 import { MatSort, MatTableDataSource } from '@angular/material';
+import { FileUploadComponent } from '../file-upload/file-upload.component';
 
 type AddJournalFields = 'debitAmount' | 'debitAccount' | 'creditAmount' | 'creditAccount' | 'description' | 'userFullName' | 'file';
 type FormErrors = { [u in AddJournalFields]: string };
