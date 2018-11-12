@@ -12,33 +12,47 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td class="rows info-container">
-              <span id="current-date">{{ currentDate | date }}</span>
-              <input class="input" type="text" name="userFullName" formControlName="userFullName" disabled [(ngModel)]="user.displayName">
-            </td>
-            <td class="rows">
-              <select class="input" formControlName="debitAccount" name="debitAccount" required>
-                <option value="" disabled selected>Select an account</option>
-                <option *ngFor="let account of accountList | async" [ngValue]="account">{{ account.name }}</option>
-              </select>
-            </td>
-            <td class="rows"><input class="input" type="number" name="debitAmount" formControlName="debitAmount"
-                placeholder="Enter amount" /></td>
-            <td class="rows"></td>
-          </tr>
-          <tr>
-            <td class="rows"></td>
-            <td class="rows">
-              <select class="input" formControlName="creditAccount" name="creditAccount" required>
-                <option value="" disabled selected>Select an account</option>
-                <option *ngFor="let account of accountList | async" [ngValue]="account">{{ account.name }}</option>
-              </select>
-            </td>
-            <td class="rows">&nbsp;</td>
-            <td class="rows"><input class="input" type="number" name="creditAmount" formControlName="creditAmount"
-                placeholder="Enter amount" /></td>
-          </tr>
+		<div formArrayName="debit">
+					<div *ngFor="let debit of debitForms.controls; let i=index" [formGroupName]="i">
+			<tr>
+				<td class="rows info-container">
+				  <span id="current-date">{{ currentDate | date }}</span>
+				  <input class="input" type="text" name="userFullName" formControlName="userFullName" disabled [(ngModel)]="user.displayName">
+				</td>
+				
+					<td class="rows">
+					  <select class="input" formControlName="debitAccount" name="debitAccount" required>
+						<option value="" disabled selected>Select an account</option>
+						<option *ngFor="let account of accountList | async" [ngValue]="account">{{ account.name }}</option>
+					  </select>
+					</td>
+					<td class="rows"><input class="input" type="number" name="debitAmount" formControlName="debitAmount"
+						placeholder="Enter amount" /></td>
+					<td class="rows"></td>
+			</tr>
+			  <button class="button is-link is-danger" (click)="deleteDebit(i)">Delete</button>
+				</div>
+			</div>
+			<button class="button is-link" (click)="addDebit()">Add Debit</button>
+			<div formArrayName="credit">
+				<div *ngFor="let credit of creditForms.controls; let i=index" [formGroupName]="i">
+			  <tr>
+				<td class="rows"></td>
+				<td class="rows">
+				  <select class="input" formControlName="creditAccount" name="creditAccount" required>
+					<option value="" disabled selected>Select an account</option>
+					<option *ngFor="let account of accountList | async" [ngValue]="account">{{ account.name }}</option>
+				  </select>
+				</td>
+			
+				<td class="rows">&nbsp;</td>
+				<td class="rows"><input class="input" type="number" name="creditAmount" formControlName="creditAmount"
+					placeholder="Enter amount" /></td>
+			  </tr>
+			  <button class="button is-link is-danger" (click)="deleteCredit(i)">Delete</button>
+			  </div>
+			</div>
+			<button class="button is-link" (click)="addCredit()">Add Credit</button>
           <tr>
             <td class="rows">
               <input class="input" type="text" name="desc" formControlName="description" placeholder="Description for entry" />

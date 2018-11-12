@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { map } from 'rxjs/operators';
@@ -199,20 +199,8 @@ export class JournalComponent implements OnInit {
       'description': ['', [
         Validators.min(1)
       ]],
-      'debitAmount': ['', [
-        Validators.required,
-        Validators.pattern('^[-]?([1-9]{1}[0-9]{0,}(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|\.[0-9]{1,2})$')
-      ]],
-      'debitAccount': ['', [
-        Validators.required
-      ]],
-      'creditAmount': ['', [
-        Validators.required,
-        Validators.pattern('^[-]?([1-9]{1}[0-9]{0,}(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|\.[0-9]{1,2})$')
-      ]],
-      'creditAccount': ['', [
-        Validators.required
-      ]],
+      'debit': this.fb.array([]),
+      'credit': this.fb.array([]),
       'userFullName': ['', [
         Validators.required
       ]],
@@ -222,6 +210,52 @@ export class JournalComponent implements OnInit {
 
     this.addJournalEntryForm.valueChanges.subscribe((data) => this.onValueChanged(data));
     this.onValueChanged(); // reset validation messages
+  }
+  
+  get debitForms() {
+	return this.addJournalEntryForm.get('debit') as FormArray
+  }
+  
+  get creditForms() {
+	return this.addJournalEntryForm.get('credit') as FormArray
+  }
+  
+  addDebit() {
+	  
+	  const debit = this.fb.group({
+		'debitAmount': ['', [
+        Validators.required,
+        Validators.pattern('^[-]?([1-9]{1}[0-9]{0,}(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|\.[0-9]{1,2})$')
+      ]],
+		'debitAccount': [this.fb.array([]), [
+        Validators.required
+      ]],
+	  })
+	  
+	  this.debitForms.push(debit);
+  }
+  
+  addCredit() {
+	  
+	  const credit = this.fb.group({
+		'creditAmount': ['', [
+        Validators.required,
+        Validators.pattern('^[-]?([1-9]{1}[0-9]{0,}(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|\.[0-9]{1,2})$')
+      ]],
+		'creditAccount': [this.fb.array([]), [
+        Validators.required
+      ]],
+	  })
+	  
+	  this.creditForms.push(credit);
+  }
+  
+  deleteDebit(i) {
+	  this.debitForms.removeAt(i);
+  }
+  
+  deleteCredit(i) {
+	  this.creditForms.removeAt(i);
   }
 
   resetForm() {
