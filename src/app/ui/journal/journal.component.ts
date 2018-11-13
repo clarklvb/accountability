@@ -79,16 +79,16 @@ export class JournalComponent implements OnInit {
   // @TODO: This is terrible with repeating code...fix it
   updateAccountTotals(entries, amountType: string) {
     if (amountType === 'debitAmount') {
-      if (!this.addJournalEntryForm.value['debitAccount'].hasOwnProperty('debitAmount')) { this.addJournalEntryForm.value['debitAccount'].debitAmount = 0 }
+      if (!this.addJournalEntryForm.value['debit'].hasOwnProperty('debitAmount')) { this.addJournalEntryForm.value['debit'].debitAmount = 0 }
       for (let i = 0; i < entries.length; i++) {
         this.transactionService.accountsCollection.doc(entries[i].accountId)
-          .set({ hasBalance: true, debitAmount: this.addJournalEntryForm.value['debitAccount'].debitAmount + entries[i].amount }, { merge: true });
+          .set({ hasBalance: true, debitAmount: this.addJournalEntryForm.value['debit'].debitAmount + entries[i].amount }, { merge: true });
       }
     } else {
-      if (!this.addJournalEntryForm.value['creditAccount'].hasOwnProperty('creditAmount')) { this.addJournalEntryForm.value['creditAccount'].creditAmount = 0 }
+      if (!this.addJournalEntryForm.value['credit'].hasOwnProperty('credit')) { this.addJournalEntryForm.value['credit'].creditAmount = 0 }
       for (let i = 0; i < entries.length; i++) {
         this.transactionService.accountsCollection.doc(entries[i].accountId)
-          .set({ hasBalance: true, creditAmount: this.addJournalEntryForm.value['creditAccount'].creditAmount + entries[i].amount }, { merge: true });
+          .set({ hasBalance: true, creditAmount: this.addJournalEntryForm.value['credit'].creditAmount + entries[i].amount }, { merge: true });
       }
     }
   }
@@ -97,50 +97,63 @@ export class JournalComponent implements OnInit {
     // Build the transaction object
     let transaction = {
       description: this.addJournalEntryForm.value['description'],
-      debitEntries: [
-        {
-          amount: this.addJournalEntryForm.value['debitAmount'],
-          accountName: this.addJournalEntryForm.value['debitAccount'].name,
-          accountId: this.addJournalEntryForm.value['debitAccount'].id
-        }
-      ],
-      creditEntries: [
-        {
-          amount: this.addJournalEntryForm.value['creditAmount'],
-          accountName: this.addJournalEntryForm.value['creditAccount'].name,
-          accountId: this.addJournalEntryForm.value['creditAccount'].id
-        }
-      ],
+      debitEntries: [],
+      creditEntries: [],
       userId: this.authService.userId,
       userFullName: this.addJournalEntryForm.value['userFullName'],
       createdAt: new Date().getTime(),
       approved: false,
       pending: true
     }
+	
+	for (let i = 0; i < this.debitForms.value.length; i++ )
+	{
+		transaction.debitEntries.push({
+			amount: this.debitForms.value[i]['debitAmount'],
+          accountName: this.debitForms.value[i]['debitAccount'].name,
+          accountId: this.debitForms.value[i]['debitAccount'].id
+		});
+	}
+	
+	for (let i = 0; i < this.creditForms.value.length; i++ )
+	{
+		transaction.creditEntries.push({
+			amount: this.creditForms.value[i]['creditAmount'],
+          accountName: this.creditForms.value[i]['creditAccount'].name,
+          accountId: this.creditForms.value[i]['creditAccount'].id
+		});
+	}
 
-    if (transaction.debitEntries[0].amount - transaction.creditEntries[0].amount !== 0 || transaction.debitEntries[0].amount <= 0 || transaction.creditEntries[0].amount <= 0) {
+    if (/*transaction.debitEntries[0].amount - transaction.creditEntries[0].amount !== 0 || transaction.debitEntries[0].amount <= 0 || transaction.creditEntries[0].amount <= 0*/!this.addJournalEntryForm.valid) {
       this.notifyService.update('Debit amounts must equal the credit amount but both amounts must be greater than zero', 'error');
     } else {
       this.transactionService.addJournalEntry(transaction);
 
       this.updateAccountTotals(transaction.debitEntries, 'debitAmount');
-      this.updateAccountTotals(transaction.creditEntries, 'creditAmount');
-
-      this.ledgerService.updateLedger(transaction.debitEntries[0].accountId, {
-        accountId: this.addJournalEntryForm.value['debitAccount'].number,
-        accountName: transaction.debitEntries[0].accountName,
-        createdAt: transaction.createdAt,
-        description: transaction.description,
-        debit: transaction.debitEntries[0].amount
-      });
-
-      this.ledgerService.updateLedger(transaction.creditEntries[0].accountId, {
-        accountId: this.addJournalEntryForm.value['creditAccount'].number,
-        accountName: transaction.creditEntries[0].accountName,
-        createdAt: transaction.createdAt,
-        description: transaction.description,
-        credit: transaction.creditEntries[0].amount
-      });
+    
+		for (let i = 0; i >= transaction.debitEntries.length; i++ )
+		{
+			
+			  this.ledgerService.updateLedger(transaction.debitEntries[i].accountId, {
+				accountId: this.addJournalEntryForm.value['debitAccount'].number,
+				accountName: transaction.debitEntries[i].accountName,
+				createdAt: transaction.createdAt,
+				description: transaction.description,
+				debit: transaction.debitEntries[i].amount
+			  });
+		}
+		
+		for (let i = 0; i >= transaction.creditEntries.length; i++ )
+		{
+			this.updateAccountTotals(transaction.creditEntries[i], 'creditAmount');
+		  this.ledgerService.updateLedger(transaction.creditEntries[i].accountId, {
+			accountId: this.addJournalEntryForm.value['creditAccount'].number,
+			accountName: transaction.creditEntries[i].accountName,
+			createdAt: transaction.createdAt,
+			description: transaction.description,
+			credit: transaction.creditEntries[i].amount
+		  });
+		}
     }
   }
 
