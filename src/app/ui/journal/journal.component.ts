@@ -79,16 +79,16 @@ export class JournalComponent implements OnInit {
   // @TODO: This is terrible with repeating code...fix it
   updateAccountTotals(entries, amountType: string) {
     if (amountType === 'debitAmount') {
-      if (!this.addJournalEntryForm.value['debit'].hasOwnProperty('debitAmount')) { this.addJournalEntryForm.value['debit'].debitAmount = 0 }
+      
       for (let i = 0; i < entries.length; i++) {
         this.transactionService.accountsCollection.doc(entries[i].accountId)
-          .set({ hasBalance: true, debitAmount: this.addJournalEntryForm.value['debit'].debitAmount + entries[i].amount }, { merge: true });
+          .set({ hasBalance: true, debitAmount: this.debitForms.value[i]['debitAccount'].debitAmount + entries[i].amount }, { merge: true });
       }
     } else {
-      if (!this.addJournalEntryForm.value['credit'].hasOwnProperty('credit')) { this.addJournalEntryForm.value['credit'].creditAmount = 0 }
+      
       for (let i = 0; i < entries.length; i++) {
         this.transactionService.accountsCollection.doc(entries[i].accountId)
-          .set({ hasBalance: true, creditAmount: this.addJournalEntryForm.value['credit'].creditAmount + entries[i].amount }, { merge: true });
+          .set({ hasBalance: true, creditAmount: this.creditForms.value[i]['creditAccount'].creditAmount + entries[i].amount }, { merge: true });
       }
     }
   }
@@ -111,7 +111,8 @@ export class JournalComponent implements OnInit {
 		transaction.debitEntries.push({
 			amount: this.debitForms.value[i]['debitAmount'],
           accountName: this.debitForms.value[i]['debitAccount'].name,
-          accountId: this.debitForms.value[i]['debitAccount'].id
+          accountId: this.debitForms.value[i]['debitAccount'].id,
+		  accountNumber: this.debitForms.value[i]['debitAccount'].number
 		});
 	}
 	
@@ -120,7 +121,8 @@ export class JournalComponent implements OnInit {
 		transaction.creditEntries.push({
 			amount: this.creditForms.value[i]['creditAmount'],
           accountName: this.creditForms.value[i]['creditAccount'].name,
-          accountId: this.creditForms.value[i]['creditAccount'].id
+          accountId: this.creditForms.value[i]['creditAccount'].id,
+		  accountNumber: this.creditForms.value[i]['creditAccount'].number
 		});
 	}
 
@@ -128,14 +130,16 @@ export class JournalComponent implements OnInit {
       this.notifyService.update('Debit amounts must equal the credit amount but both amounts must be greater than zero', 'error');
     } else {
       this.transactionService.addJournalEntry(transaction);
-
+	  
+		this.updateAccountTotals(transaction.creditEntries, 'creditAmount');
       this.updateAccountTotals(transaction.debitEntries, 'debitAmount');
-    
-		for (let i = 0; i >= transaction.debitEntries.length; i++ )
+	  
+		
+		for (let i = 0; i < transaction.debitEntries.length; i++ )
 		{
-			
+			console.log(transaction.debitEntries);
 			  this.ledgerService.updateLedger(transaction.debitEntries[i].accountId, {
-				accountId: this.addJournalEntryForm.value['debitAccount'].number,
+				accountId: transaction.debitEntries[i].accountNumber,
 				accountName: transaction.debitEntries[i].accountName,
 				createdAt: transaction.createdAt,
 				description: transaction.description,
@@ -143,11 +147,10 @@ export class JournalComponent implements OnInit {
 			  });
 		}
 		
-		for (let i = 0; i >= transaction.creditEntries.length; i++ )
+		for (let i = 0; i < transaction.creditEntries.length; i++ )
 		{
-			this.updateAccountTotals(transaction.creditEntries[i], 'creditAmount');
 		  this.ledgerService.updateLedger(transaction.creditEntries[i].accountId, {
-			accountId: this.addJournalEntryForm.value['creditAccount'].number,
+			accountId: transaction.creditEntries[i].accountNumber,
 			accountName: transaction.creditEntries[i].accountName,
 			createdAt: transaction.createdAt,
 			description: transaction.description,
