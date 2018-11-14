@@ -9,8 +9,6 @@ import { AuthService } from '../../core/auth.service';
 import { TransactionsService } from './transactions.service';
 import { NotifyService } from '../../core/notify.service';
 import { LedgerService } from '../ledger/ledger.service';
-import { DataSource } from '@angular/cdk/collections';
-import { MatSort, MatTableDataSource } from '@angular/material';
 
 type AddJournalFields = 'debitAmount' | 'debitAccount' | 'creditAmount' | 'creditAccount' | 'description' | 'userFullName' | 'file';
 type FormErrors = { [u in AddJournalFields]: string };
@@ -66,6 +64,7 @@ export class JournalComponent implements OnInit {
   percentage: Observable<number>;
   snapshot: Observable<any>;
   downloadURL: Observable<string>;
+  downloadString: string;
   isHovering: boolean;
   storagePath: string;
   
@@ -137,10 +136,14 @@ export class JournalComponent implements OnInit {
     }
 
     if (this.storagePath != "") { 
-      this.storage.ref(this.storagePath).getDownloadURL().subscribe(response => {
-        return transaction.sourceDocument = response;
+      this.downloadURL.subscribe((data) => {
+        console.log(data)
+        this.downloadString = data;
       });
     }
+
+    console.log(this.downloadString)
+    transaction.sourceDocument = this.downloadString;
 
     if (/*transaction.debitEntries[0].amount - transaction.creditEntries[0].amount !== 0 || transaction.debitEntries[0].amount <= 0 || transaction.creditEntries[0].amount <= 0*/!this.addJournalEntryForm.valid) {
       this.notifyService.update('Debit amounts must equal the credit amount but both amounts must be greater than zero', 'error');
@@ -344,14 +347,11 @@ export class JournalComponent implements OnInit {
         console.log(snap)
         if (snap.bytesTransferred === snap.totalBytes) {
           /// The file's download URL
-			this.downloadURL = this.storage.ref(path).getDownloadURL();
-			this.storagePath = path;
+          this.downloadURL = this.storage.ref(path).getDownloadURL();
+          this.storagePath = path;
         }
       })
     )
-
-
-     
   }
 
 
