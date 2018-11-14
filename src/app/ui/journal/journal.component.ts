@@ -103,7 +103,7 @@ export class JournalComponent implements OnInit {
     }
   }
 
-  addJournalEntry() {
+  async addJournalEntry() {
     // Build the transaction object
     let transaction = {
       description: this.addJournalEntryForm.value['description'],
@@ -135,14 +135,7 @@ export class JournalComponent implements OnInit {
       });
     }
 
-    if (this.storagePath != "") { 
-      this.downloadURL.subscribe((data) => {
-        console.log(data)
-        this.downloadString = data;
-      });
-    }
-
-    console.log(this.downloadString)
+    await this.getDownloadString();
     transaction.sourceDocument = this.downloadString;
 
     if (/*transaction.debitEntries[0].amount - transaction.creditEntries[0].amount !== 0 || transaction.debitEntries[0].amount <= 0 || transaction.creditEntries[0].amount <= 0*/!this.addJournalEntryForm.valid) {
@@ -173,6 +166,14 @@ export class JournalComponent implements OnInit {
         credit: transaction.creditEntries[i].amount
         });
       }
+    }
+  }
+
+  async getDownloadString() {
+    if (this.storagePath != "") { 
+      await this.downloadURL.subscribe((data) => {
+        return this.downloadString = data;
+      });
     }
   }
 
