@@ -135,8 +135,13 @@ export class JournalComponent implements OnInit {
       });
     }
 
-    await this.getDownloadString();
-    transaction.sourceDocument = this.downloadString;
+
+    if (this.storagePath != "") {
+      await this.getDownloadString();
+      transaction.sourceDocument = this.downloadString;
+    } else {
+      transaction.sourceDocument = '';
+    }
 
     if (/*transaction.debitEntries[0].amount - transaction.creditEntries[0].amount !== 0 || transaction.debitEntries[0].amount <= 0 || transaction.creditEntries[0].amount <= 0*/!this.addJournalEntryForm.valid) {
       this.notifyService.update('Debit amounts must equal the credit amount but both amounts must be greater than zero', 'error');
@@ -170,11 +175,9 @@ export class JournalComponent implements OnInit {
   }
 
   async getDownloadString() {
-    if (this.storagePath != "") { 
-      await this.downloadURL.subscribe((data) => {
-        return this.downloadString = data;
-      });
-    }
+    await this.downloadURL.subscribe((data) => {
+      return this.downloadString = data;
+    });
   }
 
   setApprovalFlag(flag: string) {
