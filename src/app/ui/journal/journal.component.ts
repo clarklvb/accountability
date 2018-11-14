@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
-import { map } from 'rxjs/operators';
+import { AngularFireStorage, AngularFireUploadTask } from 'angularfire2/storage';
+import { map, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { AuthService } from '../../core/auth.service';
 import { TransactionsService } from './transactions.service';
@@ -60,13 +61,23 @@ export class JournalComponent implements OnInit {
     },
     'active': {},
   };
+  
+  task: AngularFireUploadTask;
+  percentage: Observable<number>;
+  snapshot: Observable<any>;
+  downloadURL: Observable<string>;
+  isHovering: boolean;
+  storagePath: String;
+  
   constructor(private route: ActivatedRoute,
     private router: Router,
     private fb: FormBuilder,
     private transactionService: TransactionsService,
     private authService: AuthService,
     private notifyService: NotifyService,
-    private ledgerService: LedgerService) { }
+    private ledgerService: LedgerService,
+	private storage: AngularFireStorage,
+	private db: AngularFirestore) { }
 
   ngOnInit() {
     this.accountList = this.transactionService.getAccountList();
@@ -77,17 +88,17 @@ export class JournalComponent implements OnInit {
   }
 
   // @TODO: This is terrible with repeating code...fix it
-  updateAccountTotals(entries, amountType: string) {
+  async updateAccountTotals(entries, amountType: string) {
     if (amountType === 'debitAmount') {
       
       for (let i = 0; i < entries.length; i++) {
-        this.transactionService.accountsCollection.doc(entries[i].accountId)
+        await this.transactionService.accountsCollection.doc(entries[i].accountId)
           .set({ hasBalance: true, debitAmount: this.debitForms.value[i]['debitAccount'].debitAmount + entries[i].amount }, { merge: true });
       }
     } else {
       
       for (let i = 0; i < entries.length; i++) {
-        this.transactionService.accountsCollection.doc(entries[i].accountId)
+        await this.transactionService.accountsCollection.doc(entries[i].accountId)
           .set({ hasBalance: true, creditAmount: this.creditForms.value[i]['creditAccount'].creditAmount + entries[i].amount }, { merge: true });
       }
     }
@@ -103,7 +114,8 @@ export class JournalComponent implements OnInit {
       userFullName: this.addJournalEntryForm.value['userFullName'],
       createdAt: new Date().getTime(),
       approved: false,
-      pending: true
+      pending: true,
+	  sourceDocument: ""
     }
 	
 	for (let i = 0; i < this.debitForms.value.length; i++ )
@@ -158,6 +170,14 @@ export class JournalComponent implements OnInit {
 		  });
 		}
     }
+	
+	if (this.storagePath != "")
+	{
+		this.storage.ref(this.storagePath).getDownloadURL() => (function(url) {
+			transaction.path = url;
+		});
+	}
+	
   }
 
   setApprovalFlag(flag: string) {
@@ -298,5 +318,53 @@ export class JournalComponent implements OnInit {
         }
       }
     }
+  }
+  
+  toggleHover(event: boolean) {
+    this.isHovering = event;
+  }
+
+
+  startUpload(event: FileList) {
+    // The File object
+    const file = event.item(0)
+
+    // Client-side validation example
+    /*if (file.type.split('/')[0] !== 'image') { 
+      console.error('unsupported file type :( ')
+      return;
+    }*/
+
+    // The storage path
+    const path = `test/${new Date().getTime()}_${file.name}`;
+
+    // Totally optional metadata
+    const customMetadata = { app: 'My AngularFire-powered PWA!' };
+
+    // The main task
+    this.task = this.storage.upload(path, file, { customMetadata })
+
+    // Progress monitoring
+    this.percentage = this.task.percentageChanges();
+    this.snapshot   = this.task.snapshotChanges().pipe(
+      tap(snap => {
+        console.log(snap)
+        if (snap.bytesTransferred === snap.totalBytes) {
+          /// The file's download URL
+			this.downloadURL = this.storage.ref(path).getDownloadURL();
+			this.storagePath = path;
+        }
+      })
+    )
+
+
+     
+  }
+
+
+
+  // Determines if the upload task is active
+  isActive(snapshot) {
+    return snapshot.state === 'running' && snapshot.bytesTransferred < snapshot.totalBytes
   }
 }

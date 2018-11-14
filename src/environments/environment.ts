@@ -9,7 +9,7 @@ export const environment = {
     authDomain: "accountability-d30a5.firebaseapp.com",
     databaseURL: "https://accountability-d30a5.firebaseio.com",
     projectId: "accountability-d30a5",
-    storageBucket: "",
+    storageBucket: "accountability-d30a5.appspot.com",
     messagingSenderId: "60362820639"
   }
 };

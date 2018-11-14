@@ -1,0 +1,7 @@
+# Add any directories, files, or patterns you don't want to be tracked by version control
+
+/node_modules
+/functions/node_modules
+package-lock.json
+/dist
+/functions/accountability-d30a5-firebase-adminsdk-mvui5-51c09bfef8.json

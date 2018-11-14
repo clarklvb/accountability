@@ -18,6 +18,8 @@ import { ChartofaccountsComponent } from './chartofaccounts/chartofaccounts.comp
 import { LedgerComponent } from './ledger/ledger.component';
 import { FilterPipe } from './filter.pipe';
 import { TrialbalanceComponent } from './trialbalance/trialbalance.component';
+import { DropZoneDirective } from './journal/drop-zone.directive';
+import { FileSizePipe } from './journal/file-size.pipe';
 
 @NgModule({
   imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule],
@@ -36,7 +38,9 @@ import { TrialbalanceComponent } from './trialbalance/trialbalance.component';
     ChartofaccountsComponent,
     LedgerComponent,
     FilterPipe,
-    TrialbalanceComponent
+    TrialbalanceComponent,
+    DropZoneDirective,
+    FileSizePipe
   ],
   exports: [
     MainNavComponent,
