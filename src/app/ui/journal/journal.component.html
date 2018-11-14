@@ -2,65 +2,49 @@
   <h1>New Journal Entry</h1>
   <div class="column is-12">
     <form [formGroup]="addJournalEntryForm" (ngSubmit)="addJournalEntry()">
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Information</th>
-            <th>Accounts</th>
-            <th>Debit</th>
-            <th>Credit</th>
-          </tr>
-        </thead>
-        <tbody>					
-			<tr>
-				<td class="rows info-container">
-				  <span id="current-date">{{ currentDate | date }}</span>
-				  <input class="input" type="text" name="userFullName" formControlName="userFullName" disabled [(ngModel)]="user.displayName">
-				</td>
-				<div *ngIf="(accountList | async) as accounts">
-				<div formArrayName="debit">
-				<div *ngFor="let debit of debitForms.controls; let i=index" [formGroupName]="i">
-					<td class="rows">
-					  <select class="input" formControlName="debitAccount" name="debitAccount" required>
-						<option value="" disabled selected>Select an account</option>
-						<option *ngFor="let account of accounts" [ngValue]="account">{{ account.name }}</option>
-					  </select>
-					</td>
-					<td class="rows"><input class="input" type="number" name="debitAmount" formControlName="debitAmount"
-						placeholder="Enter amount" /></td>
-					<td class="rows"></td>
-					<span class="button is-link is-danger" (click)="deleteDebit(i)">Delete</span>
-				</div>
-				</div>
-				</div>
-			</tr>	  
-			<span class="button is-link" (click)="addDebit()">Add Debit</span>
-			<div *ngIf="(accountList | async) as accounts">
-			<div formArrayName="credit">
-				<div *ngFor="let credit of creditForms.controls; let i=index" [formGroupName]="i">
-			  <tr>
-				<td class="rows"></td>
-				<td class="rows">
-				  <select class="input" formControlName="creditAccount" name="creditAccount" required>
-					<option value="" disabled selected>Select an account</option>
-					<option *ngFor="let account of accounts" [ngValue]="account">{{ account.name }}</option>
-				  </select>
-				</td>
-			
-				<td class="rows">&nbsp;</td>
-				<td class="rows"><input class="input" type="number" name="creditAmount" formControlName="creditAmount"
-					placeholder="Enter amount" /></td>
-			  </tr>
-			  <span class="button is-link is-danger" (click)="deleteCredit(i)">Delete</span>
-			  </div>
-			</div>
-			</div>
-			<span class="button is-link" (click)="addCredit()">Add Credit</span>
-          <tr>
-            <td class="rows">
-              <input class="input" type="text" name="desc" formControlName="description" placeholder="Description for entry" />
-              <div class="dropzone" dropZone (hovered)="toggleHover($event)" (dropped)="startUpload($event)" [class.hovering]="isHovering">
-				 <h3>Attach a source document</h3>
+      <div class="rows info-container">
+        <span id="current-date">{{ currentDate | date }}</span>
+        <input class="input name" type="text" name="userFullName" formControlName="userFullName" disabled [(ngModel)]="user.displayName">
+        <input class="input desciption" type="text" name="desc" formControlName="description" placeholder="Description for entry" />
+      </div>
+      <div class="columns debit-credit-container">
+        <div class="column is-6" *ngIf="(accountList | async) as accounts">
+          <div class="form-section-header">
+            <h1>Debits</h1>
+            <span class="button is-dark add-form" (click)="addDebit()">Add Debit</span>
+          </div>
+          <div formArrayName="debit">
+            <div *ngFor="let debit of debitForms.controls; let i=index" [formGroupName]="i" class="form-section">
+              <select class="input" formControlName="debitAccount" name="debitAccount" required>
+                <option value="" disabled selected>Select an account</option>
+                <option *ngFor="let account of accounts" [ngValue]="account">{{ account.name }}</option>
+              </select>
+              <input class="input" type="number" name="debitAmount" formControlName="debitAmount"
+                placeholder="Enter amount" />
+              <span class="button is-link is-danger" (click)="deleteDebit(i)">Delete</span>
+            </div>
+          </div>
+        </div>
+        <div class="column is-6" *ngIf="(accountList | async) as accounts">
+          <div class="form-section-header">
+            <h1>Credits</h1>
+            <span class="button is-dark add-form" (click)="addCredit()">Add Credit</span>
+          </div>
+          <div formArrayName="credit">
+            <div *ngFor="let credit of creditForms.controls; let i=index" [formGroupName]="i" class="form-section">
+              <select class="input" formControlName="creditAccount" name="creditAccount" required>
+                <option value="" disabled selected>Select an account</option>
+                <option *ngFor="let account of accounts" [ngValue]="account">{{ account.name }}</option>
+              </select>
+              <input class="input" type="number" name="creditAmount" formControlName="creditAmount"
+                placeholder="Enter amount" />
+              <span class="button is-link is-danger" (click)="deleteCredit(i)">Delete</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dropzone" dropZone (hovered)="toggleHover($event)" (dropped)="startUpload($event)" [class.hovering]="isHovering">
+				<h3>Attach a source document</h3>
 				<p> Drag and drop</p>
 				 <div class="file">
 					<label class="file-label">
@@ -74,42 +58,26 @@
 						</span>
 					  </span>
 					</label>
-				  </div>
-				</div>
-				<div *ngIf="percentage | async as pct">
-
-				  <progress class="progress is-info" 
-							[value]="pct" 
-							max="100">        
-				  </progress>
-
-				  {{ pct | number }}%
-
-				</div>
-
-
-				<div *ngIf="snapshot | async as snap">
-				  {{ snap.bytesTransferred | fileSize }} of {{ snap.totalBytes | fileSize }} 
-
-				  <div *ngIf="downloadURL | async as url">
-					<h3>Upload Successful</h3>
-				  </div> 
-
-				  <button (click)="task.pause()" class="button is-warning" [disabled]="!isActive(snap)">Pause</button>
-				  <button (click)="task.cancel()" class="button is-danger" [disabled]="!isActive(snap)">Cancel</button>
-				  <button (click)="task.resume()" class="button is-info"   [disabled]="!(snap?.state === 'paused')">Resume</button>
-
-				</div>
-            </td>
-            <td></td>
-            <td></td>
-            <td class="actions-container">
-              <button type="submit" class="button is-link" [disabled]="!addJournalEntryForm.valid">Submit</button>
-              <span (click)="buildForm()" class="button is-link is-danger">Reset</span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+        </div>
+        <div class="percentage-bar" *ngIf="percentage | async as pct">
+          <progress class="progress is-info" 
+              [value]="pct" 
+              max="100">        
+          </progress>
+          {{ pct | number }}%
+        </div>
+        <div *ngIf="snapshot | async as snap">
+          {{ snap.bytesTransferred | fileSize }} of {{ snap.totalBytes | fileSize }} 
+          <div *ngIf="downloadURL | async as url">
+            <h3>Upload Successful</h3>
+          </div> 
+          <!-- <button (click)="task.pause()" class="button is-warning" [disabled]="!isActive(snap)">Pause</button>
+          <button (click)="task.cancel()" class="button is-danger" [disabled]="!isActive(snap)">Cancel</button>
+          <button (click)="task.resume()" class="button is-info"   [disabled]="!(snap?.state === 'paused')">Resume</button> -->
+        </div>
+      </div>
+      <button type="submit" class="button is-link" [disabled]="!addJournalEntryForm.valid">Submit</button>
+      <span (click)="buildForm()" class="button is-link is-danger">Reset</span>
     </form>
   </div>
   <div class="column is-12">
@@ -130,7 +98,7 @@
           <th>Date</th>
           <th>User</th>
           <th>Description</th>
-		  <th>Source Document</th>
+		      <th>Source Document</th>
           <th>Accounts</th>
           <th class="has-text-right">Debit</th>
           <th class="has-text-right">Credit</th>
@@ -157,12 +125,12 @@
             <div *ngIf="entry.userFullName">{{ entry.userFullName }}</div>
           </td>
           <td class="rows">{{ entry.description }}</td>
-		  <td class="rows" *ngIf="entry.sourceDocument">{{ entry.sourceDocument }}</td>
+		      <td class="rows">{{ entry.sourceDocument }}</td>
           <td class="rows">
-            <span *ngFor="let debitEntry of entry.debitEntries">{{ debitEntry.accountName }}</span>
+            <div *ngFor="let debitEntry of entry.debitEntries">{{ debitEntry.accountName }}</div>
           </td>
           <td class="rows has-text-right">
-            <span *ngFor="let debitEntry of entry.debitEntries">{{ debitEntry.amount | currency }}</span>
+            <div *ngFor="let debitEntry of entry.debitEntries">{{ debitEntry.amount | currency }}</div>
           </td>
           <td class="rows"></td>
           <td class="rows date-row" *ngIf="user.role === 'Manager' && entry.pending">
@@ -172,17 +140,18 @@
           </td>
         </tr>
         <tr>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td class="rows"></td>
+          <td class="rows"></td>
+          <td class="rows"></td>
+          <td class="rows"></td>
           <td id="credit" class="rows credit-account-name">
-            <span *ngFor="let creditEntry of entry.creditEntries">{{ creditEntry.accountName }}</span>
+            <div *ngFor="let creditEntry of entry.creditEntries">{{ creditEntry.accountName }}</div>
           </td>
-          <td></td>
+          <td class="rows"></td>
           <td class="rows has-text-right">
-            <span *ngFor="let creditEntry of entry.creditEntries">{{ creditEntry.amount | currency }}</span>
+            <div *ngFor="let creditEntry of entry.creditEntries">{{ creditEntry.amount | currency }}</div>
           </td>
-          <td *ngIf="user.role === 'Manager'"></td>
+          <td class="rows"></td>
         </tr>
       </tbody>
     </table>

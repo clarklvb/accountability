@@ -1,22 +1,9 @@
-input[name="desc"], input[name="file"] {
-  max-width: 350px;
-}
-
-select[name="debitAccount"] {
-  max-width: 300px;
-}
-
-select[name="creditAccount"] {
-  max-width: 300px;
-}
-
 button[type="submit"] {
   margin-right: 1em;
 }
 
 .rows {
   border-bottom: 1px solid #ffffff;
-  max-width: 500px;
 }
 
 .credit-account-name {
@@ -43,42 +30,83 @@ h1 {
 
 #current-date {
   display: block;
-  margin-bottom: 1em;
   font-weight: bold;
+  min-width: 100px;
 }
 
 .actions-container {
   padding-top: 4em;
 }
 
+.form-section {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 1em;
+
+  select, input {
+    margin-right: 1em;
+  }
+}
+
+.debit-credit-container {
+  margin-top: 2em;
+}
+
+.percentage-bar {
+  width: 100%
+}
+
 .info-container {
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  max-width: 800px;
+
+  .description {
+    width: 300px;
+  }
+
+  .name {
+    width: 150px;;
+  }
 
   input {
     margin-left: 1em;
-    max-width: 250px;
+  }
+}
+
+.form-section-header {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 1em;
+  padding-bottom: .6em;
+  border-bottom: 1px solid #ccc;
+
+  span {
+    margin-left: 1em;
   }
 }
 
 .dropzone { 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column; 
-    height: 150px;
-    border: 2px dashed #f16624;
-    border-radius: 5px;
-    background: white;
-    margin: 10px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column; 
+  height: 200px;
+  border: 2px dashed #f16624;
+  border-radius: 5px;
+  background: white;
+  margin: 10px 0;
+  width: 20%;
 
-    &.hovering {
-        border: 2px solid #f16624;
-        color: #dadada !important;
-    }
+  &.hovering {
+    border: 2px solid #f16624;
+    color: #dadada !important;
+  }
 }
 
 progress::-webkit-progress-value {
-    transition: width 0.1s ease;
+  transition: width 0.1s ease;
 }

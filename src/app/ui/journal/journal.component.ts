@@ -67,7 +67,7 @@ export class JournalComponent implements OnInit {
   snapshot: Observable<any>;
   downloadURL: Observable<string>;
   isHovering: boolean;
-  storagePath: String;
+  storagePath: string;
   
   constructor(private route: ActivatedRoute,
     private router: Router,
@@ -76,8 +76,8 @@ export class JournalComponent implements OnInit {
     private authService: AuthService,
     private notifyService: NotifyService,
     private ledgerService: LedgerService,
-	private storage: AngularFireStorage,
-	private db: AngularFirestore) { }
+    private storage: AngularFireStorage,
+    private db: AngularFirestore) { }
 
   ngOnInit() {
     this.accountList = this.transactionService.getAccountList();
@@ -115,69 +115,62 @@ export class JournalComponent implements OnInit {
       createdAt: new Date().getTime(),
       approved: false,
       pending: true,
-	  sourceDocument: ""
+	    sourceDocument: ""
     }
 	
-	for (let i = 0; i < this.debitForms.value.length; i++ )
-	{
-		transaction.debitEntries.push({
-			amount: this.debitForms.value[i]['debitAmount'],
-          accountName: this.debitForms.value[i]['debitAccount'].name,
-          accountId: this.debitForms.value[i]['debitAccount'].id,
-		  accountNumber: this.debitForms.value[i]['debitAccount'].number
-		});
-	}
-	
-	for (let i = 0; i < this.creditForms.value.length; i++ )
-	{
-		transaction.creditEntries.push({
-			amount: this.creditForms.value[i]['creditAmount'],
-          accountName: this.creditForms.value[i]['creditAccount'].name,
-          accountId: this.creditForms.value[i]['creditAccount'].id,
-		  accountNumber: this.creditForms.value[i]['creditAccount'].number
-		});
-	}
+    for (let i = 0; i < this.debitForms.value.length; i++ ) {
+      transaction.debitEntries.push({
+        amount: this.debitForms.value[i]['debitAmount'],
+        accountName: this.debitForms.value[i]['debitAccount'].name,
+        accountId: this.debitForms.value[i]['debitAccount'].id,
+        accountNumber: this.debitForms.value[i]['debitAccount'].number
+      });
+    }
+    
+    for (let i = 0; i < this.creditForms.value.length; i++ ) {
+      transaction.creditEntries.push({
+        amount: this.creditForms.value[i]['creditAmount'],
+        accountName: this.creditForms.value[i]['creditAccount'].name,
+        accountId: this.creditForms.value[i]['creditAccount'].id,
+        accountNumber: this.creditForms.value[i]['creditAccount'].number
+      });
+    }
+
+    if (this.storagePath != "") { 
+      this.storage.ref(this.storagePath).getDownloadURL().subscribe(response => {
+        return transaction.sourceDocument = response;
+      });
+    }
 
     if (/*transaction.debitEntries[0].amount - transaction.creditEntries[0].amount !== 0 || transaction.debitEntries[0].amount <= 0 || transaction.creditEntries[0].amount <= 0*/!this.addJournalEntryForm.valid) {
       this.notifyService.update('Debit amounts must equal the credit amount but both amounts must be greater than zero', 'error');
     } else {
       this.transactionService.addJournalEntry(transaction);
 	  
-		this.updateAccountTotals(transaction.creditEntries, 'creditAmount');
+		  this.updateAccountTotals(transaction.creditEntries, 'creditAmount');
       this.updateAccountTotals(transaction.debitEntries, 'debitAmount');
 	  
 		
-		for (let i = 0; i < transaction.debitEntries.length; i++ )
-		{
-			console.log(transaction.debitEntries);
-			  this.ledgerService.updateLedger(transaction.debitEntries[i].accountId, {
+		for (let i = 0; i < transaction.debitEntries.length; i++ ) {
+			this.ledgerService.updateLedger(transaction.debitEntries[i].accountId, {
 				accountId: transaction.debitEntries[i].accountNumber,
 				accountName: transaction.debitEntries[i].accountName,
 				createdAt: transaction.createdAt,
 				description: transaction.description,
 				debit: transaction.debitEntries[i].amount
-			  });
+			});
 		}
 		
-		for (let i = 0; i < transaction.creditEntries.length; i++ )
-		{
+		for (let i = 0; i < transaction.creditEntries.length; i++ ) {
 		  this.ledgerService.updateLedger(transaction.creditEntries[i].accountId, {
-			accountId: transaction.creditEntries[i].accountNumber,
-			accountName: transaction.creditEntries[i].accountName,
-			createdAt: transaction.createdAt,
-			description: transaction.description,
-			credit: transaction.creditEntries[i].amount
-		  });
-		}
+        accountId: transaction.creditEntries[i].accountNumber,
+        accountName: transaction.creditEntries[i].accountName,
+        createdAt: transaction.createdAt,
+        description: transaction.description,
+        credit: transaction.creditEntries[i].amount
+        });
+      }
     }
-	
-	if (this.storagePath != "")
-	{
-		this.storage.ref(this.storagePath).getDownloadURL() => (function(url) {
-			transaction.path = url;
-		});
-	}
-	
   }
 
   setApprovalFlag(flag: string) {
