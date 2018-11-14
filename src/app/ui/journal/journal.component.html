@@ -125,7 +125,7 @@
             <div *ngIf="entry.userFullName">{{ entry.userFullName }}</div>
           </td>
           <td class="rows">{{ entry.description }}</td>
-		      <td class="rows">{{ entry.sourceDocument }}</td>
+		      <td class="rows"><a *ngIf="entry.sourceDocument" target="_blank" href="{{ entry.sourceDocument }}" download>Download File</a></td>
           <td class="rows">
             <div *ngFor="let debitEntry of entry.debitEntries">{{ debitEntry.accountName }}</div>
           </td>

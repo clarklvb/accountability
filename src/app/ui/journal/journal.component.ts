@@ -136,7 +136,7 @@ export class JournalComponent implements OnInit {
     }
 
 
-    if (this.storagePath != "") {
+    if (this.storagePath !== undefined) {
       await this.getDownloadString();
       transaction.sourceDocument = this.downloadString;
     } else {

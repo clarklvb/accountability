@@ -5,7 +5,7 @@
       <thead>
         <th>ID</th>
         <th>Name</th>
-        <th>Balance</th>
+        <th class="has-text-right">Balance</th>
         <th>Category</th>
         <th>Subcategory</th>
         <th>Enabled</th>
@@ -23,9 +23,9 @@
         }">
           <td>{{ account.number }}</td>
           <td><a [routerLink]="['/ledger', account.number, account.name, account.normalside]">{{ account.name }}</a></td>
-          <td>
-            <span *ngIf="account.normalside === 'debit'">{{ account.debitAmount - account.creditAmount }}</span>
-            <span *ngIf="account.normalside === 'credit'">{{ account.creditAmount - account.debitAmount }}</span>
+          <td class="has-text-right">
+            <span *ngIf="account.normalside === 'debit'">{{ (account.debitAmount - account.creditAmount) | currency }}</span>
+            <span *ngIf="account.normalside === 'credit'">{{ (account.creditAmount - account.debitAmount) | currency }}</span>
           </td>
           <td>{{ account.category }}</td>
           <td>{{ account.subcategory }}</td>
