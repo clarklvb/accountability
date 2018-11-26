@@ -47,7 +47,7 @@ export class TransactionsService {
   }
 
   getAccountListWithBalance(): Observable<any[]> {
-    let accountsCollectionNoCondition = this.afs.collection('chartofaccounts', (ref) => ref.where('hasBalance', '==', true).orderBy('name', 'asc'));
+    let accountsCollectionNoCondition = this.afs.collection('chartofaccounts', (ref) => ref.where('hasBalance', '==', true).orderBy('number', 'asc'));
     return accountsCollectionNoCondition.snapshotChanges().pipe(
       map((actions) => {
         return actions.map((a) => {
