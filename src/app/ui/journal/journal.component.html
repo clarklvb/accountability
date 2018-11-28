@@ -2,10 +2,10 @@
   <h1>New Journal Entry</h1>
   <div class="column is-12">
     <form [formGroup]="addJournalEntryForm" (ngSubmit)="addJournalEntry()">
-      
+
       <div class="columns debit-credit-container">
         <div class="column is-6" *ngIf="(accountList | async) as accounts">
-          <div class="form-section-header">            
+          <div class="form-section-header">
             <span class="button is-dark add-form" (click)="addDebit()">Add Debit</span>
             <span class="button is-dark add-form" (click)="addCredit()">Add Credit</span>
           </div>
@@ -32,14 +32,14 @@
               <span class="button is-link is-danger" (click)="deleteCredit(i)">Delete</span>
             </div>
           </div>
+          <div class="form-section">
+            <input class="input desciption" type="text" name="desc" formControlName="description" placeholder="Description for entry" />
+          </div>
         </div>
         <div class="column is-6" *ngIf="(accountList | async) as accounts">
-          <div class="form-section-header">            
+          <div class="form-section-header">
               <span id="current-date">{{ currentDate | date }}</span>
-              <input class="input name" type="text" name="userFullName" formControlName="userFullName" disabled [(ngModel)]="user.displayName">      
-          </div>
-          <div class="form-section">            
-            <input class="input desciption" type="text" name="desc" formControlName="description" placeholder="Description for entry" />
+              <input class="input name" type="text" name="userFullName" formControlName="userFullName" disabled [(ngModel)]="user.displayName">
           </div>
             <div class="form-section">
             <div class="dropzone" dropZone (hovered)="toggleHover($event)" (dropped)="startUpload($event)" [class.hovering]="isHovering">
@@ -59,27 +59,27 @@
                 </label>
               </div>
               <div class="percentage-bar" *ngIf="percentage | async as pct">
-                <progress class="progress is-info" 
-                    [value]="pct" 
-                    max="100">        
+                <progress class="progress is-info"
+                    [value]="pct"
+                    max="100">
                 </progress>
                 {{ pct | number }}%
               </div>
               <div *ngIf="snapshot | async as snap">
-                {{ snap.bytesTransferred | fileSize }} of {{ snap.totalBytes | fileSize }} 
+                {{ snap.bytesTransferred | fileSize }} of {{ snap.totalBytes | fileSize }}
                 <div *ngIf="downloadURL | async as url">
                   <h3>Upload Successful</h3>
-                </div> 
+                </div>
                 <!-- <button (click)="task.pause()" class="button is-warning" [disabled]="!isActive(snap)">Pause</button>
                 <button (click)="task.cancel()" class="button is-danger" [disabled]="!isActive(snap)">Cancel</button>
                 <button (click)="task.resume()" class="button is-info"   [disabled]="!(snap?.state === 'paused')">Resume</button> -->
               </div>
             </div>
             </div>
-          </div>          
+          </div>
         </div>
-     
-      
+
+
       <button type="submit" class="button is-link" [disabled]="!addJournalEntryForm.valid">Submit</button>
       <span (click)="buildForm()" class="button is-link is-danger">Reset</span>
     </form>
