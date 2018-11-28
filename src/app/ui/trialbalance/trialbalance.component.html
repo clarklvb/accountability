@@ -8,6 +8,8 @@
         <h2 class="subtitle">
           Trial Balance
         </h2>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
         <h2 >
           As of {{ currentDate | date }}
         </h2>
@@ -30,6 +32,8 @@
         <td class="has-text-right"><span *ngIf="account.creditAmount">{{ updateTotal(account.creditAmount, 'credit') |
             currency }}</span></td>
       </tr>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
       <tr>
         <td></td>
         <td class="has-text-right"><strong>{{ debitTotal | currency }}</strong></td>
