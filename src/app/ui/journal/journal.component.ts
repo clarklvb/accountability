@@ -59,7 +59,7 @@ export class JournalComponent implements OnInit {
     },
     'active': {},
   };
-  
+
   task: AngularFireUploadTask;
   percentage: Observable<number>;
   snapshot: Observable<any>;
@@ -67,7 +67,7 @@ export class JournalComponent implements OnInit {
   downloadString: string;
   isHovering: boolean;
   storagePath: string;
-  
+
   constructor(private route: ActivatedRoute,
     private router: Router,
     private fb: FormBuilder,
@@ -89,13 +89,13 @@ export class JournalComponent implements OnInit {
   // @TODO: This is terrible with repeating code...fix it
   async updateAccountTotals(entries, amountType: string) {
     if (amountType === 'debitAmount') {
-      
+
       for (let i = 0; i < entries.length; i++) {
         await this.transactionService.accountsCollection.doc(entries[i].accountId)
           .set({ hasBalance: true, debitAmount: this.debitForms.value[i]['debitAccount'].debitAmount + entries[i].amount }, { merge: true });
       }
     } else {
-      
+
       for (let i = 0; i < entries.length; i++) {
         await this.transactionService.accountsCollection.doc(entries[i].accountId)
           .set({ hasBalance: true, creditAmount: this.creditForms.value[i]['creditAccount'].creditAmount + entries[i].amount }, { merge: true });
@@ -116,7 +116,7 @@ export class JournalComponent implements OnInit {
       pending: true,
 	    sourceDocument: ""
     }
-	
+
     for (let i = 0; i < this.debitForms.value.length; i++ ) {
       transaction.debitEntries.push({
         amount: this.debitForms.value[i]['debitAmount'],
@@ -125,7 +125,7 @@ export class JournalComponent implements OnInit {
         accountNumber: this.debitForms.value[i]['debitAccount'].number
       });
     }
-    
+
     for (let i = 0; i < this.creditForms.value.length; i++ ) {
       transaction.creditEntries.push({
         amount: this.creditForms.value[i]['creditAmount'],
@@ -143,15 +143,35 @@ export class JournalComponent implements OnInit {
       transaction.sourceDocument = '';
     }
 
-    if (/*transaction.debitEntries[0].amount - transaction.creditEntries[0].amount !== 0 || transaction.debitEntries[0].amount <= 0 || transaction.creditEntries[0].amount <= 0*/!this.addJournalEntryForm.valid) {
+    let debitEntryTotal = 0;
+    let creditEntryTotal = 0;
+    let debitsGreaterThanZero = true;
+    let creditsGreaterThanZero = true;
+
+    for (let i=0; i < transaction.debitEntries.length; i++) {
+      debitEntryTotal += transaction.debitEntries[i].amount;
+      if (transaction.debitEntries[i].amount <= 0) {
+        debitsGreaterThanZero = false;
+      }
+    }
+
+    for (let i=0; i < transaction.creditEntries.length; i++) {
+      creditEntryTotal += transaction.creditEntries[i].amount;
+      if (transaction.creditEntries[i].amount <= 0) {
+        creditsGreaterThanZero = false;
+      }
+    }
+
+    if (/*transaction.debitEntries[0].amount - transaction.creditEntries[0].amount !== 0 || transaction.debitEntries[0].amount <= 0 || transaction.creditEntries[0].amount <= 0*/
+        debitEntryTotal - creditEntryTotal !== 0 || !debitsGreaterThanZero || !creditsGreaterThanZero || !this.addJournalEntryForm.valid) {
       this.notifyService.update('Debit amounts must equal the credit amount but both amounts must be greater than zero', 'error');
     } else {
       this.transactionService.addJournalEntry(transaction);
-	  
+
 		  this.updateAccountTotals(transaction.creditEntries, 'creditAmount');
       this.updateAccountTotals(transaction.debitEntries, 'debitAmount');
-	  
-		
+
+
 		for (let i = 0; i < transaction.debitEntries.length; i++ ) {
 			this.ledgerService.updateLedger(transaction.debitEntries[i].accountId, {
 				accountId: transaction.debitEntries[i].accountNumber,
@@ -161,7 +181,7 @@ export class JournalComponent implements OnInit {
 				debit: transaction.debitEntries[i].amount
 			});
 		}
-		
+
 		for (let i = 0; i < transaction.creditEntries.length; i++ ) {
 		  this.ledgerService.updateLedger(transaction.creditEntries[i].accountId, {
         accountId: transaction.creditEntries[i].accountNumber,
@@ -247,17 +267,17 @@ export class JournalComponent implements OnInit {
     this.addJournalEntryForm.valueChanges.subscribe((data) => this.onValueChanged(data));
     this.onValueChanged(); // reset validation messages
   }
-  
+
   get debitForms() {
 	return this.addJournalEntryForm.get('debit') as FormArray
   }
-  
+
   get creditForms() {
 	return this.addJournalEntryForm.get('credit') as FormArray
   }
-  
+
   addDebit() {
-	  
+
 	  const debit = this.fb.group({
 		'debitAmount': ['', [
         Validators.required,
@@ -267,12 +287,12 @@ export class JournalComponent implements OnInit {
         Validators.required
       ]],
 	  })
-	  
+
 	  this.debitForms.push(debit);
   }
-  
+
   addCredit() {
-	  
+
 	  const credit = this.fb.group({
 		'creditAmount': ['', [
         Validators.required,
@@ -282,14 +302,14 @@ export class JournalComponent implements OnInit {
         Validators.required
       ]],
 	  })
-	  
+
 	  this.creditForms.push(credit);
   }
-  
+
   deleteDebit(i) {
 	  this.debitForms.removeAt(i);
   }
-  
+
   deleteCredit(i) {
 	  this.creditForms.removeAt(i);
   }
@@ -319,7 +339,7 @@ export class JournalComponent implements OnInit {
       }
     }
   }
-  
+
   toggleHover(event: boolean) {
     this.isHovering = event;
   }
@@ -330,7 +350,7 @@ export class JournalComponent implements OnInit {
     const file = event.item(0)
 
     // Client-side validation example
-    /*if (file.type.split('/')[0] !== 'image') { 
+    /*if (file.type.split('/')[0] !== 'image') {
       console.error('unsupported file type :( ')
       return;
     }*/
