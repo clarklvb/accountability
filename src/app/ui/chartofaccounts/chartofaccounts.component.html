@@ -1,6 +1,7 @@
 <div class="columns" *ngIf="(authService.user | async) as user">
   <div class="column is-12">
     <input class="input column is-4" type="text" [(ngModel)]="searchText" placeholder="Search">
+    <button class="button is-4" [routerLink]="['/addaccount']">Add Account</button>
     <table class="table">
       <thead>
         <th>ID</th>

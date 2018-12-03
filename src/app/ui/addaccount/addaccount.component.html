@@ -1,0 +1,54 @@
+<form [formGroup]="addAccountForm" (ngSubmit)="addAccount()">
+
+  <h3>Add Account</h3>
+  <hr />
+
+  <label for="name">Name</label>
+  <input type="text" class="input" formControlName="name" name="name" required autocomplete="new-password">
+
+  <div *ngIf="formErrors.name" class="notification is-danger">
+    {{ formErrors.name }}
+  </div>
+
+  <label for="category">Category</label>
+  <input type="text" class="input" formControlName="category" name="category" required autocomplete="new-password">
+
+  <div *ngIf="formErrors.category" class="notification is-danger">
+    {{ formErrors.category }}
+  </div>
+
+  <label for="normalside">Normal Side</label>
+  <input type="text" class="input" formControlName="normalside" name="normalside" required autocomplete="new-password">
+
+  <div *ngIf="formErrors.normalside" class="notification is-danger">
+    {{ formErrors.normalside }}
+  </div>
+
+  <label for="order">Order Number</label>
+  <input type="text" class="input" formControlName="order" name="order" required autocomplete="new-password">
+
+  <div *ngIf="formErrors.order" class="notification is-danger">
+    {{ formErrors.order }}
+  </div>
+
+  <label for="number">Account Number</label>
+  <input type="text" class="input" formControlName="number" name="number" required autocomplete="new-password">
+
+  <div *ngIf="formErrors.number" class="notification is-danger">
+    {{ formErrors.number }}
+  </div>
+
+  <label for="subcategory">Sub Category</label>
+  <input type="text" class="input" formControlName="subcategory" name="subcategory" required autocomplete="new-password">
+
+  <div *ngIf="formErrors.subcategory" class="notification is-danger">
+    {{ formErrors.subcategory }}
+  </div>
+
+  <div *ngIf="formErrors.active" class="notification is-danger">
+    {{ formErrors.active }}
+  </div>
+
+  <button type="submit" class="button is-link" [disabled]="!addAccountForm.valid">Submit</button>
+
+</form>

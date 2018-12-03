@@ -11,6 +11,7 @@ import { JournalComponent } from './ui/journal/journal.component';
 import { LedgerComponent } from './ui/ledger/ledger.component';
 import { TrialbalanceComponent } from './ui/trialbalance/trialbalance.component';
 import { EditaccountComponent } from './ui/editaccount/editaccount.component';
+import { AddaccountComponent } from './ui/addaccount/addaccount.component';
 
 
 
@@ -24,6 +25,7 @@ const routes: Routes = [
   { path: 'journal', component: JournalComponent, canActivate: [AuthGuard] },
   { path: 'trial', component: TrialbalanceComponent, canActivate: [AuthGuard] },
   { path: 'editaccount/:accountId', component: EditaccountComponent, canActivate: [AuthGuard] },
+  { path: 'addaccount', component: AddaccountComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({

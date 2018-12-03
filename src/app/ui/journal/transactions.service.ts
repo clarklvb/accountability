@@ -24,6 +24,10 @@ export class TransactionsService {
     this.transactionsCollection.add(entry);
   }
 
+  addAccount(account) {
+    this.accountsCollectionNoCondition.add(account);
+  }
+
   getAccountsNoCondition(): Observable<any[]> {
     return this.accountsCollectionNoCondition.snapshotChanges().pipe(
       map((actions) => {
