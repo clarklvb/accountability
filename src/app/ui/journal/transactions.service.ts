@@ -84,6 +84,17 @@ export class TransactionsService {
     return combinedList;
   }
 
+  getAccountsForIncomeStatement() {
+    let accountsRevenues = this.afs.collection('chartofaccounts', (ref) => ref.where('hasBalance', '==', true).where('category', '==', 'Revenues')).valueChanges();
+    let accountsExpenses = this.afs.collection('chartofaccounts', (ref) => ref.where('hasBalance', '==', true).where('category', '==', 'Expenses')).valueChanges();
+
+    const combinedList = combineLatest<any[]>(accountsRevenues, accountsExpenses).pipe(
+      map(arr => arr.reduce((acc, cur) => acc.concat(cur) ) ),
+    )
+
+    return combinedList;
+  }
+
   getAccountListWithBalance(): Observable<any[]> {
     let accountsCollectionNoCondition = this.afs.collection('chartofaccounts', (ref) => ref.where('hasBalance', '==', true).orderBy('number', 'asc'));
     return accountsCollectionNoCondition.snapshotChanges().pipe(

@@ -13,6 +13,7 @@ import { TrialbalanceComponent } from './ui/trialbalance/trialbalance.component'
 import { EditaccountComponent } from './ui/editaccount/editaccount.component';
 import { AddaccountComponent } from './ui/addaccount/addaccount.component';
 import { EventLogsComponent } from './ui/event-logs/event-logs.component';
+import { IncomeStatementComponent } from './ui/income-statement/income-statement.component';
 
 
 
@@ -28,6 +29,7 @@ const routes: Routes = [
   { path: 'editaccount/:accountId', component: EditaccountComponent, canActivate: [AuthGuard] },
   { path: 'addaccount', component: AddaccountComponent, canActivate: [AuthGuard] },
   { path: 'event-logs', component: EventLogsComponent, canActivate: [AuthGuard] },
+  { path: 'income-statement', component: IncomeStatementComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({

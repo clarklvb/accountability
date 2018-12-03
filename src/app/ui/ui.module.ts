@@ -23,6 +23,7 @@ import { FileSizePipe } from './journal/file-size.pipe';
 import { EditaccountComponent } from './editaccount/editaccount.component';
 import { AddaccountComponent } from './addaccount/addaccount.component';
 import { EventLogsComponent } from './event-logs/event-logs.component';
+import { IncomeStatementComponent } from './income-statement/income-statement.component';
 
 @NgModule({
   imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule],
@@ -46,7 +47,8 @@ import { EventLogsComponent } from './event-logs/event-logs.component';
     FileSizePipe,
     EditaccountComponent,
     AddaccountComponent,
-    EventLogsComponent
+    EventLogsComponent,
+    IncomeStatementComponent
   ],
   exports: [
     MainNavComponent,
