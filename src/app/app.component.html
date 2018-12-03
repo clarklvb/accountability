@@ -10,6 +10,7 @@
         <li *ngIf="user.role !== 'Admin'"><a routerLink="/journal">Journalize</a></li>
         <li *ngIf="user.role !== 'Admin'"><a routerLink="/trial">Trial Balance</a></li>
         <li *ngIf="user.role !== 'Admin'"><a routerLink="/income-statement">Income Statement</a></li>
+        <li *ngIf="user.role !== 'Admin'"><a routerLink="/balance-sheet">Balance Sheet</a></li>
       </ul>
       <p class="menu-label" *ngIf="user.role === 'Admin'">
         Administrator

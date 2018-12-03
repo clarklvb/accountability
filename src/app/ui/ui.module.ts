@@ -24,6 +24,7 @@ import { EditaccountComponent } from './editaccount/editaccount.component';
 import { AddaccountComponent } from './addaccount/addaccount.component';
 import { EventLogsComponent } from './event-logs/event-logs.component';
 import { IncomeStatementComponent } from './income-statement/income-statement.component';
+import { BalancesheetComponent } from './balancesheet/balancesheet.component';
 
 @NgModule({
   imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule],
@@ -48,7 +49,8 @@ import { IncomeStatementComponent } from './income-statement/income-statement.co
     EditaccountComponent,
     AddaccountComponent,
     EventLogsComponent,
-    IncomeStatementComponent
+    IncomeStatementComponent,
+    BalancesheetComponent
   ],
   exports: [
     MainNavComponent,

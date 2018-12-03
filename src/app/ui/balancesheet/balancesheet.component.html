@@ -1,0 +1,4 @@
+<ul *ngFor="let item of generateArray(accountList)">
+  <strong>{{ item.key }}</strong>
+  <li *ngFor="let i of item.value">{{i.name}}</li>
+</ul>

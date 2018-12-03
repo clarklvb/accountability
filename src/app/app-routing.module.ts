@@ -14,6 +14,7 @@ import { EditaccountComponent } from './ui/editaccount/editaccount.component';
 import { AddaccountComponent } from './ui/addaccount/addaccount.component';
 import { EventLogsComponent } from './ui/event-logs/event-logs.component';
 import { IncomeStatementComponent } from './ui/income-statement/income-statement.component';
+import { BalancesheetComponent } from './ui/balancesheet/balancesheet.component';
 
 
 
@@ -30,6 +31,7 @@ const routes: Routes = [
   { path: 'addaccount', component: AddaccountComponent, canActivate: [AuthGuard] },
   { path: 'event-logs', component: EventLogsComponent, canActivate: [AuthGuard] },
   { path: 'income-statement', component: IncomeStatementComponent, canActivate: [AuthGuard] },
+  { path: 'balance-sheet', component: BalancesheetComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({
