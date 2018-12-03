@@ -148,14 +148,14 @@ export class JournalComponent implements OnInit {
     let debitsGreaterThanZero = true;
     let creditsGreaterThanZero = true;
 
-    for (let i=0; i < transaction.debitEntries.length; i++) {
+    for (let i = 0; i < transaction.debitEntries.length; i++) {
       debitEntryTotal += transaction.debitEntries[i].amount;
       if (transaction.debitEntries[i].amount <= 0) {
         debitsGreaterThanZero = false;
       }
     }
 
-    for (let i=0; i < transaction.creditEntries.length; i++) {
+    for (let i = 0; i < transaction.creditEntries.length; i++) {
       creditEntryTotal += transaction.creditEntries[i].amount;
       if (transaction.creditEntries[i].amount <= 0) {
         creditsGreaterThanZero = false;
@@ -170,7 +170,6 @@ export class JournalComponent implements OnInit {
 
 		  this.updateAccountTotals(transaction.creditEntries, 'creditAmount');
       this.updateAccountTotals(transaction.debitEntries, 'debitAmount');
-
 
 		for (let i = 0; i < transaction.debitEntries.length; i++ ) {
 			this.ledgerService.updateLedger(transaction.debitEntries[i].accountId, {
@@ -192,6 +191,9 @@ export class JournalComponent implements OnInit {
         });
       }
     }
+
+    alert("Are you sure you want to add this entry?");
+    this.buildForm();
   }
 
   async getDownloadString() {
@@ -257,6 +259,7 @@ export class JournalComponent implements OnInit {
       ]],
       'debit': this.fb.array([]),
       'credit': this.fb.array([]),
+      // Find a way to get the users name here...
       'userFullName': ['', [
         Validators.required
       ]],
@@ -269,15 +272,14 @@ export class JournalComponent implements OnInit {
   }
 
   get debitForms() {
-	return this.addJournalEntryForm.get('debit') as FormArray
+	  return this.addJournalEntryForm.get('debit') as FormArray
   }
 
   get creditForms() {
-	return this.addJournalEntryForm.get('credit') as FormArray
+	  return this.addJournalEntryForm.get('credit') as FormArray
   }
 
   addDebit() {
-
 	  const debit = this.fb.group({
 		'debitAmount': ['', [
         Validators.required,
@@ -292,7 +294,6 @@ export class JournalComponent implements OnInit {
   }
 
   addCredit() {
-
 	  const credit = this.fb.group({
 		'creditAmount': ['', [
         Validators.required,
@@ -343,7 +344,6 @@ export class JournalComponent implements OnInit {
   toggleHover(event: boolean) {
     this.isHovering = event;
   }
-
 
   startUpload(event: FileList) {
     // The File object

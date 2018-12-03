@@ -10,6 +10,7 @@ import { ChartofaccountsComponent } from './ui/chartofaccounts/chartofaccounts.c
 import { JournalComponent } from './ui/journal/journal.component';
 import { LedgerComponent } from './ui/ledger/ledger.component';
 import { TrialbalanceComponent } from './ui/trialbalance/trialbalance.component';
+import { EditaccountComponent } from './ui/editaccount/editaccount.component';
 
 
 
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'chartofaccounts', component: ChartofaccountsComponent, canActivate: [AuthGuard] },
   { path: 'journal', component: JournalComponent, canActivate: [AuthGuard] },
   { path: 'trial', component: TrialbalanceComponent, canActivate: [AuthGuard] },
+  { path: 'editaccount/:accountId', component: EditaccountComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({

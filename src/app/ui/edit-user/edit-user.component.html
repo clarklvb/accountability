@@ -1,4 +1,4 @@
-<form [formGroup]="editUserForm" (ngSubmit)="updateUser()">
+<form [formGroup]="editUserForm" (ngSubmit)="updateUser()" >
 
   <h3>Edit {{ (user | async)?.displayName }}</h3>
   <p>{{ (user | async)?.role }}</p>
@@ -15,14 +15,14 @@
   <input type="text" class="input" formControlName="role" name="role" required autocomplete="new-password">
 
   <div *ngIf="formErrors.role" class="notification is-danger">
-      {{ formErrors.role }}
+    {{ formErrors.role }}
   </div>
 
   <label for="active">Active</label>
   <input type="checkbox" formControlName="active" name="active" autocomplete="new-password">
 
   <div *ngIf="formErrors.active" class="notification is-danger">
-      {{ formErrors.active }}
+    {{ formErrors.active }}
   </div>
 
   <div *ngIf="editUserForm.valid" class="notification is-success">Form is valid</div>

@@ -16,14 +16,13 @@ export class ChartofaccountsComponent implements OnInit {
     this.accounts = this.accountsService.getAccountsNoCondition();
   }
   
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   toggleAccountActive(id: string, value: boolean) {
     this.accountsService.toggleAccountActive(id, value);
   }
 
   editAccount (id: string) {
-    console.log(id);
+    
   }
 }

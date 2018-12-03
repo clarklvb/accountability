@@ -26,6 +26,7 @@ interface User {
 export class AuthService {
   user: Observable<User | null>;
   userId: String;
+  userName: String;
 
   constructor(
     private afAuth: AngularFireAuth,
@@ -37,6 +38,7 @@ export class AuthService {
       switchMap(user => {
         if (user) {
           this.userId = user.uid;
+          this.userName = user.displayName;
           return this.afs.doc<User>(`users/${user.uid}`).valueChanges();
         } else {
           return of(null);

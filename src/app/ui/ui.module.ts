@@ -20,6 +20,7 @@ import { FilterPipe } from './filter.pipe';
 import { TrialbalanceComponent } from './trialbalance/trialbalance.component';
 import { DropZoneDirective } from './journal/drop-zone.directive';
 import { FileSizePipe } from './journal/file-size.pipe';
+import { EditaccountComponent } from './editaccount/editaccount.component';
 
 @NgModule({
   imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule],
@@ -40,7 +41,8 @@ import { FileSizePipe } from './journal/file-size.pipe';
     FilterPipe,
     TrialbalanceComponent,
     DropZoneDirective,
-    FileSizePipe
+    FileSizePipe,
+    EditaccountComponent
   ],
   exports: [
     MainNavComponent,

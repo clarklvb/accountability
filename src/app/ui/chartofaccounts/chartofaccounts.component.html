@@ -33,7 +33,7 @@
           <td *ngIf="user.role !== 'Accountant'">
             <a *ngIf="account.enabled" class="has-text-danger" (click)="toggleAccountActive(account.id, false)">Deactivate</a>
             <a *ngIf="!account.enabled " class="has-text-success" (click)="toggleAccountActive(account.id, true)">Activate</a>
-            <a class="edit-link" (click)="editAccount(account.id)">Edit</a>
+            <a class="edit-link" [routerLink]="['/editaccount', account.id]">Edit</a>
           </td>
         </tr>
       </tbody>
