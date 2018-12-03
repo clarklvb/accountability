@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { TransactionsService } from '../journal/transactions.service';
 import { NotifyService } from 'src/app/core/notify.service';
+import { EventLogService } from '../event-log.service';
 
 type AddAccountFields = 'category' | 'name' | 'normalside' | 'order' | 'number' | 'subcategory';
 type FormErrors = { [u in AddAccountFields]: string };
@@ -45,7 +46,7 @@ export class AddaccountComponent implements OnInit {
     },
   };
 
-  constructor(public afs: AngularFirestore, private fb: FormBuilder, private accountService: TransactionsService, private notifyService: NotifyService) { }
+  constructor(public afs: AngularFirestore, private fb: FormBuilder, private accountService: TransactionsService, private notifyService: NotifyService, private eventLogService: EventLogService) { }
 
   ngOnInit() {
     this.buildForm();
@@ -68,6 +69,7 @@ export class AddaccountComponent implements OnInit {
     this.accountService.addAccount(account);
     this.buildForm();
     this.notifyService.update('You have successfully add a new account!', 'success');
+    this.eventLogService.addEventLog('Added an account to the chart of accounts');
   }
 
   buildForm() {

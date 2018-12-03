@@ -3,6 +3,7 @@ import { ReactiveFormsModule, FormGroup, FormBuilder, Validators } from '@angula
 
 import { AuthService } from '../../core/auth.service';
 import { Router } from '@angular/router';
+import { EventLogService } from '../event-log.service';
 
 type UserFields = 'email' | 'password' | 'name';
 type FormErrors = { [u in UserFields]: string };
@@ -39,7 +40,7 @@ export class UserFormComponent implements OnInit {
     },
   };
 
-  constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) { }
+  constructor(private fb: FormBuilder, private auth: AuthService, private router: Router, private eventLogService: EventLogService) { }
 
   ngOnInit() {
     if(this.newUser) { this.buildForm(); } else { this.buildLoginForm() }
@@ -61,6 +62,7 @@ export class UserFormComponent implements OnInit {
   login() {
     this.auth.emailLogin(this.userLoginForm.value['email'], this.userLoginForm.value['password'])
       .then(() => this.router.navigate(['/']));
+    this.eventLogService.addEventLog(`${this.userLoginForm.value['email']} logged in`);
   }
 
   resetPassword() {

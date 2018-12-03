@@ -3,6 +3,7 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 import { UsersService } from '../../core/users.service';
 import { ReactiveFormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { EventLogService } from '../event-log.service';
 
 type EditUserFields = 'name' | 'role' | 'active';
 type FormErrors = { [u in EditUserFields]: string };
@@ -31,7 +32,7 @@ export class EditUserComponent implements OnInit {
     },
     'active': {},
   };
-  constructor(private route: ActivatedRoute, private router: Router, private userService: UsersService, private fb: FormBuilder,) { }
+  constructor(private route: ActivatedRoute, private router: Router, private userService: UsersService, private fb: FormBuilder, private eventLogService: EventLogService) { }
 
   ngOnInit() {
     this.uid = this.route.snapshot.paramMap.get('uid');
@@ -46,6 +47,7 @@ export class EditUserComponent implements OnInit {
       isActive: this.editUserForm.value['active'] || false
     });
 
+    this.eventLogService.addEventLog(`Modified user ${this.editUserForm.value['name']}`);
     return this.router.navigate(['/users']);
   }
 

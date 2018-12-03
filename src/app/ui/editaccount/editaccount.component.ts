@@ -3,6 +3,7 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { TransactionsService } from '../journal/transactions.service';
 import { AngularFirestore } from 'angularfire2/firestore';
+import { EventLogService } from '../event-log.service';
 
 type EditAccountFields = 'category' | 'name' | 'normalside' | 'order' | 'number' | 'subcategory';
 type FormErrors = { [u in EditAccountFields]: string };
@@ -47,7 +48,7 @@ export class EditaccountComponent implements OnInit {
     },
   };
 
-  constructor(public afs: AngularFirestore, private route: ActivatedRoute, private router: Router, private fb: FormBuilder, private accountService: TransactionsService) { }
+  constructor(public afs: AngularFirestore, private route: ActivatedRoute, private router: Router, private fb: FormBuilder, private accountService: TransactionsService, private eventLogService: EventLogService) { }
 
   ngOnInit() {
     this.accountId = this.route.snapshot.paramMap.get('accountId');
@@ -92,6 +93,7 @@ export class EditaccountComponent implements OnInit {
       subcategory: this.editAccountForm.value['subcategory'],
     }
 
+    this.eventLogService.addEventLog(`Modified the ${this.editAccountForm.value['name']} account in the chart of accounts`);
     return this.afs.doc<any>(`chartofaccounts/${this.accountId}`).set(data, { merge: true });
   }
 

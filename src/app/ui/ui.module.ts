@@ -22,6 +22,7 @@ import { DropZoneDirective } from './journal/drop-zone.directive';
 import { FileSizePipe } from './journal/file-size.pipe';
 import { EditaccountComponent } from './editaccount/editaccount.component';
 import { AddaccountComponent } from './addaccount/addaccount.component';
+import { EventLogsComponent } from './event-logs/event-logs.component';
 
 @NgModule({
   imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule],
@@ -44,7 +45,8 @@ import { AddaccountComponent } from './addaccount/addaccount.component';
     DropZoneDirective,
     FileSizePipe,
     EditaccountComponent,
-    AddaccountComponent
+    AddaccountComponent,
+    EventLogsComponent
   ],
   exports: [
     MainNavComponent,

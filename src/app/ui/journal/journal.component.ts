@@ -9,6 +9,7 @@ import { AuthService } from '../../core/auth.service';
 import { TransactionsService } from './transactions.service';
 import { NotifyService } from '../../core/notify.service';
 import { LedgerService } from '../ledger/ledger.service';
+import { EventLogService } from '../event-log.service';
 
 type AddJournalFields = 'debitAmount' | 'debitAccount' | 'creditAmount' | 'creditAccount' | 'description' | 'userFullName' | 'file';
 type FormErrors = { [u in AddJournalFields]: string };
@@ -76,7 +77,8 @@ export class JournalComponent implements OnInit {
     private notifyService: NotifyService,
     private ledgerService: LedgerService,
     private storage: AngularFireStorage,
-    private db: AngularFirestore) { }
+    private db: AngularFirestore,
+    private eventLogService: EventLogService) { }
 
   ngOnInit() {
     this.accountList = this.transactionService.getAccountList();
@@ -193,6 +195,7 @@ export class JournalComponent implements OnInit {
     }
 
     alert("Are you sure you want to add this entry?");
+    this.eventLogService.addEventLog('Added a new journal entry');
     this.buildForm();
   }
 
@@ -241,6 +244,7 @@ export class JournalComponent implements OnInit {
   }
 
   deleteEntry(id: string) {
+    this.eventLogService.addEventLog('Remove a journal entry');
     this.transactionService.deleteTransaction(id);
   }
 

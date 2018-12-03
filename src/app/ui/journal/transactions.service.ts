@@ -3,6 +3,7 @@ import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/fires
 import { AuthService } from '../../core/auth.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { EventLogService } from '../event-log.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class TransactionsService {
   accountsCollection: AngularFirestoreCollection;
   accountsCollectionNoCondition: AngularFirestoreCollection;
 
-  constructor(private afs: AngularFirestore, private authService: AuthService) {
+  constructor(private afs: AngularFirestore, private authService: AuthService, private eventLogService: EventLogService) {
     this.accountsCollection = this.afs.collection('chartofaccounts', (ref) => ref.where('enabled', '==', true).orderBy('name', 'asc'));
     this.accountsCollectionNoCondition = this.afs.collection('chartofaccounts', (ref) => ref.orderBy('name', 'asc'));
     // this.transactionsCollection = this.afs.collection('transactions', (ref) => ref.where('userId', '==', this.authService.userId).orderBy('createdAt', 'desc'));
