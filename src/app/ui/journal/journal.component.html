@@ -4,10 +4,17 @@
     <form [formGroup]="addJournalEntryForm" (ngSubmit)="addJournalEntry()">
 
       <div class="columns debit-credit-container">
-        <div class="column is-6" *ngIf="(accountList | async) as accounts">
+        <div class="column is-9" *ngIf="(accountList | async) as accounts">
           <div class="form-section-header">
             <span class="button is-dark add-form" (click)="addDebit()">Add Debit</span>
             <span class="button is-dark add-form" (click)="addCredit()">Add Credit</span>
+            <select class="input" formControlName="type" name="type" id="transactionType" required>
+                <option value="" selected>Select a entry type</option>
+                <option value="Normal" [ngValue]="Normal">Normal</option>
+                <option value="Adjusting" [ngValue]="Adjusting">Adjusting</option>
+                <option value="Closing" [ngValue]="Closing">Closing</option>
+            </select>
+            <input class="input name" type="text" name="userFullName" formControlName="userFullName" disabled [(ngModel)]="user.displayName" id="NameThing">
           </div>
           <div formArrayName="debit">
             <div *ngFor="let debit of debitForms.controls; let i=index" [formGroupName]="i" class="form-section">
@@ -36,16 +43,11 @@
             <input class="input desciption" type="text" name="desc" formControlName="description" placeholder="Description for entry" />
           </div>
         </div>
-        <div class="column is-4" *ngIf="(accountList | async) as accounts">
+        <div class="column is-3" *ngIf="(accountList | async) as accounts">
           <div class="form-section-header">
               <span id="current-date">{{ currentDate | date }}</span>
-              <input class="input name" type="text" name="userFullName" formControlName="userFullName" disabled [(ngModel)]="user.displayName">
-              <select class="input" formControlName="type" name="type" required>
-                <option value="" selected>Select a entry type</option>
-                <option value="Normal" [ngValue]="Normal">Normal</option>
-                <option value="Adjusting" [ngValue]="Adjusting">Adjusting</option>
-                <option value="Closing" [ngValue]="Closing">Closing</option>
-              </select>
+              
+              
           </div>
             <div class="form-section">
             <div class="dropzone" dropZone (hovered)="toggleHover($event)" (dropped)="startUpload($event)" [class.hovering]="isHovering">
