@@ -7,7 +7,9 @@ import { TransactionsService } from '../journal/transactions.service';
   styleUrls: ['./retained-earnings.component.scss']
 })
 export class RetainedEarningsComponent implements OnInit {
-
+  
+  currentDate: number = Date.now();
+  
   initialAccountBalance = 0;
   revenuesAccountsTotal = 0;
   expensesAccountsTotal = 0;
