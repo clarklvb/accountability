@@ -12,18 +12,33 @@ export class TrialbalanceComponent implements OnInit {
   accountListWithBalance: Observable<any[]>;
   debitTotal: number = 0;
   creditTotal: number = 0;
+  creditTotals = [];
+  debitTotals = [];
 
   constructor(private accountService: TransactionsService) { }
   ngOnInit() {
     this.accountListWithBalance = this.accountService.getAccountListWithBalance();
   }
 
-  updateTotal(amount: number = 0, type: string) {
-    if (type === 'debit') {
-      this.debitTotal += amount;
+  updateTotalBalance(amount, type) {
+    if(type === "debit") {
+      this.debitTotals.push(amount);
     } else {
-      this.creditTotal += amount;
+      this.creditTotals.push(amount);
     }
-    return amount;
+  }
+
+  getTotal(type) {
+    if(type === 'debit') {
+      for(let i = 0; i < this.debitTotals.length; i++) {
+        this.debitTotal += this.debitTotals[i];
+      }
+      return this.debitTotal;
+    } else {
+      for(let i = 0; i < this.creditTotals.length; i++) {
+        this.creditTotal += this.creditTotals[i];
+      }
+      return this.creditTotal;
+    }   
   }
 }

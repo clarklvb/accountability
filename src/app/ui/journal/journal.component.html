@@ -36,10 +36,16 @@
             <input class="input desciption" type="text" name="desc" formControlName="description" placeholder="Description for entry" />
           </div>
         </div>
-        <div class="column is-6" *ngIf="(accountList | async) as accounts">
+        <div class="column is-4" *ngIf="(accountList | async) as accounts">
           <div class="form-section-header">
               <span id="current-date">{{ currentDate | date }}</span>
               <input class="input name" type="text" name="userFullName" formControlName="userFullName" disabled [(ngModel)]="user.displayName">
+              <select class="input" formControlName="type" name="type" required>
+                <option value="" selected>Select a entry type</option>
+                <option value="Normal" [ngValue]="Normal">Normal</option>
+                <option value="Adjusting" [ngValue]="Adjusting">Adjusting</option>
+                <option value="Closing" [ngValue]="Closing">Closing</option>
+              </select>
           </div>
             <div class="form-section">
             <div class="dropzone" dropZone (hovered)="toggleHover($event)" (dropped)="startUpload($event)" [class.hovering]="isHovering">
@@ -102,6 +108,7 @@
           <th>Date</th>
           <th>User</th>
           <th>Description</th>
+          <th>Type</th>
 		      <th>Source Document</th>
           <th>Accounts</th>
           <th class="has-text-right">Debit</th>
@@ -129,6 +136,7 @@
             <div *ngIf="entry.userFullName">{{ entry.userFullName }}</div>
           </td>
           <td class="rows">{{ entry.description }}</td>
+          <td class="rows">{{ entry.type }}</td>
 		      <td class="rows"><a *ngIf="entry.sourceDocument" target="_blank" href="{{ entry.sourceDocument }}" download>Download File</a></td>
           <td class="rows">
             <div *ngFor="let debitEntry of entry.debitEntries">{{ debitEntry.accountName }}</div>
@@ -144,6 +152,7 @@
           </td>
         </tr>
         <tr>
+          <td class="rows"></td>
           <td class="rows"></td>
           <td class="rows"></td>
           <td class="rows"></td>

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { AuthService } from '../../core/auth.service';
-import { Observable } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { EventLogService } from '../event-log.service';
 
@@ -49,6 +49,39 @@ export class TransactionsService {
         });
       })
     );
+  }
+
+  getAccountsForCurrentRatio() {
+    let accountsCurrentAsset = this.afs.collection('chartofaccounts', (ref) => ref.where('hasBalance', '==', true).where('subcategory', '==', 'Current Asset')).valueChanges();
+    let accountsCurrentLiability = this.afs.collection('chartofaccounts', (ref) => ref.where('hasBalance', '==', true).where('subcategory', '==', 'Current Liability')).valueChanges();
+
+    const combinedList = combineLatest<any[]>(accountsCurrentAsset, accountsCurrentLiability).pipe(
+      map(arr => arr.reduce((acc, cur) => acc.concat(cur) ) ),
+    )
+
+    return combinedList;
+  }
+
+  getAccountsForDebtToAssets() {
+    let accountsAssets = this.afs.collection('chartofaccounts', (ref) => ref.where('hasBalance', '==', true).where('category', '==', 'Assets')).valueChanges();
+    let accountsLiabilities = this.afs.collection('chartofaccounts', (ref) => ref.where('hasBalance', '==', true).where('category', '==', 'Liabilities')).valueChanges();
+
+    const combinedList = combineLatest<any[]>(accountsAssets, accountsLiabilities).pipe(
+      map(arr => arr.reduce((acc, cur) => acc.concat(cur) ) ),
+    )
+
+    return combinedList;
+  }
+
+  getAccountsForDebtToEquity() {
+    let accountsLiabilities = this.afs.collection('chartofaccounts', (ref) => ref.where('hasBalance', '==', true).where('category', '==', 'Liabilities')).valueChanges();
+    let accountsOwnersEquity = this.afs.collection('chartofaccounts', (ref) => ref.where('hasBalance', '==', true).where('category', '==', 'Owner\'s Equity')).valueChanges();
+
+    const combinedList = combineLatest<any[]>(accountsLiabilities, accountsOwnersEquity).pipe(
+      map(arr => arr.reduce((acc, cur) => acc.concat(cur) ) ),
+    )
+
+    return combinedList;
   }
 
   getAccountListWithBalance(): Observable<any[]> {

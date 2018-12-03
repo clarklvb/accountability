@@ -1,0 +1,57 @@
+<div class="dashboard">
+  <div class="columns is-multiline">
+    <div class="column is-one-third">
+      <div class="card">
+        <header class="card-header">
+          <p class="card-header-title">
+            Current Ratio
+          </p>
+        </header>
+        <div class="card-content">
+          <div class="content">
+            <div class="media">
+              <div class="media-content  has-text-center">
+                <div *ngIf="currentRatioAccounts as accts">{{ getCurrentRatio(accts) | number: '.2-2' }}%</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="column is-one-third">
+      <div class="card">
+        <header class="card-header">
+          <p class="card-header-title">
+            Debt-to-Assets Ratio
+          </p>
+        </header>
+        <div class="card-content">
+          <div class="content">
+            <div class="media">
+              <div class="media-content  has-text-center">
+                <div *ngIf="currentRatioAccounts as accts">{{ getDebtToAssetRatio(accts) | number: '.2-2' }}%</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="column is-one-third">
+      <div class="card">
+        <header class="card-header">
+          <p class="card-header-title">
+            Debt-to-Equity Ratio
+          </p>
+        </header>
+        <div class="card-content">
+          <div class="content">
+            <div class="media">
+              <div class="media-content  has-text-center">
+                <div *ngIf="currentRatioAccounts as accts">{{ getDebtToEquityRatio(accts) | number: '.2-2' }}%</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

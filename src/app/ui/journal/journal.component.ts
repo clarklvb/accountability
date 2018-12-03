@@ -11,7 +11,7 @@ import { NotifyService } from '../../core/notify.service';
 import { LedgerService } from '../ledger/ledger.service';
 import { EventLogService } from '../event-log.service';
 
-type AddJournalFields = 'debitAmount' | 'debitAccount' | 'creditAmount' | 'creditAccount' | 'description' | 'userFullName' | 'file';
+type AddJournalFields = 'debitAmount' | 'debitAccount' | 'creditAmount' | 'creditAccount' | 'description' | 'userFullName' | 'file' | 'type';
 type FormErrors = { [u in AddJournalFields]: string };
 
 @Component({
@@ -37,7 +37,8 @@ export class JournalComponent implements OnInit {
     'creditAccount': '',
     'description': '',
     'userFullName': '',
-    'file': ''
+    'file': '',
+    'type': ''
   };
   validationMessages = {
     'debitAmount': {
@@ -57,6 +58,9 @@ export class JournalComponent implements OnInit {
     },
     'userFullName': {
       'required': 'User\'s full name is required.'
+    },
+    'type': {
+      'required': 'Type is required.'
     },
     'active': {},
   };
@@ -116,6 +120,7 @@ export class JournalComponent implements OnInit {
       createdAt: new Date().getTime(),
       approved: false,
       pending: true,
+      type: this.addJournalEntryForm.value['type'],
 	    sourceDocument: ""
     }
 
@@ -268,6 +273,7 @@ export class JournalComponent implements OnInit {
         Validators.required
       ]],
       'file': ['', []],
+      'type': ['', []],
       'active': ['', []],
     });
 
