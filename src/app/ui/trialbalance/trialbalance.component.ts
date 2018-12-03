@@ -9,7 +9,7 @@ import { TransactionsService } from '../journal/transactions.service';
 })
 export class TrialbalanceComponent implements OnInit {
   currentDate: number = Date.now();
-  accountListWithBalance: Observable<any[]>;
+  accountListWithBalance;
   debitTotal: number = 0;
   creditTotal: number = 0;
   creditTotals = [];
@@ -17,15 +17,16 @@ export class TrialbalanceComponent implements OnInit {
 
   constructor(private accountService: TransactionsService) { }
   ngOnInit() {
-    this.accountListWithBalance = this.accountService.getAccountListWithBalance();
-  }
-
-  updateTotalBalance(amount, type) {
-    if(type === "debit") {
-      this.debitTotals.push(amount);
-    } else {
-      this.creditTotals.push(amount);
-    }
+    this.accountService.getAccountListWithBalance().subscribe(accounts => {
+      this.accountListWithBalance = accounts;
+      for(let i = 0; i < this.accountListWithBalance.length; i++) {
+        if(accounts[i].normalside === 'debit') {
+          this.debitTotal += accounts[i].debitAmount - accounts[i].creditAmount;
+        } else {
+          this.creditTotal += accounts[i].creditAmount - accounts[i].debitAmount;
+        }
+      }
+    });
   }
 
   getTotal(type) {
