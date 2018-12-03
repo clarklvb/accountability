@@ -1,3 +1,22 @@
-<p>
-  event-logs works!
-</p>
+<div class="columns">
+  <div class="column is-12">
+    <input class="input column is-4" type="text" [(ngModel)]="searchText" placeholder="Search">
+    <table class="table">
+      <thead>
+        <th>User</th>
+        <th>Description</th>
+        <th>Date</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let log of logs | async | filter : {
+          user: searchText,
+          description: searchText
+        }">
+          <td>{{ log.user }}</td>
+          <td>{{ log.description }}</td>
+          <td>{{ log.createdAt | date }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

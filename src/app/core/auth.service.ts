@@ -11,8 +11,9 @@ import {
 import { NotifyService } from './notify.service';
 
 import { Observable, of } from 'rxjs';
-import { switchMap, startWith, tap, filter } from 'rxjs/operators';
+import { switchMap, startWith, tap, filter, take } from 'rxjs/operators';
 import { setupTestingRouter } from '@angular/router/testing';
+import { map } from 'bluebird';
 
 interface User {
   uid: string;
@@ -26,7 +27,6 @@ interface User {
 export class AuthService {
   user: Observable<User | null>;
   userId: String;
-  userName: String;
 
   constructor(
     private afAuth: AngularFireAuth,
@@ -38,7 +38,6 @@ export class AuthService {
       switchMap(user => {
         if (user) {
           this.userId = user.uid;
-          this.userName = user.displayName;
           return this.afs.doc<User>(`users/${user.uid}`).valueChanges();
         } else {
           return of(null);

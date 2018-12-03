@@ -16,7 +16,7 @@ export class EventLogService {
   }
 
   addEventLog(log) {
-    let newLog = { user: this.authService.userName, description: log, createdAt: new Date() }
+    let newLog = { user: this.authService.userId, description: log, createdAt: Date.now() }
     this.eventLogCollection.add(newLog);
   }
 

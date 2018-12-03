@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { EventLogService } from '../event-log.service';
 
 @Component({
   selector: 'event-logs',
@@ -7,9 +9,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EventLogsComponent implements OnInit {
 
-  constructor() { }
+  logs: Observable<any[]>
+
+  constructor(private eventLogService: EventLogService) { }
 
   ngOnInit() {
+    this.logs = this.eventLogService.getEventLogs();
   }
 
 }
