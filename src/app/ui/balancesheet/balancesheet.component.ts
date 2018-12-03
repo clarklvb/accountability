@@ -18,11 +18,9 @@ export class BalancesheetComponent implements OnInit {
       this.accountList = _.groupBy(accounts, 'category');
       for (var property in this.accountList) {
         if (this.accountList.hasOwnProperty(property)) {
-          this.accountList.property = _.groupBy(this.accountList.property, 'subcategory');
+          this.accountList[property] = _.groupBy(this.accountList[property], 'subcategory');
         }
       }
-
-      console.log(this.accountList)
     });
   }
 

@@ -1,4 +1,19 @@
-<ul *ngFor="let item of generateArray(accountList)">
-  <strong>{{ item.key }}</strong>
-  <li *ngFor="let i of item.value">{{i.name}}</li>
-</ul>
+<div class="columns">
+  <div class="column is-6">
+    <ul *ngFor="let item of generateArray(accountList)">
+      <div *ngIf="item.key !== 'Expenses'">
+        <div *ngIf="item.key !== 'Revenues'">
+          <strong>{{ item.key }}</strong>
+          <li *ngFor="let i of generateArray(item.value)">
+            <span class="sub-category">{{ i.key }}</span>
+            <div class="account-container" *ngFor="let ix of i.value">
+              <span>{{ ix.name }}</span>
+              <span *ngIf="ix.normalside === 'debit'">{{ ix.debitAmount - ix.creditAmount | number: '.2-2' }}</span>
+              <span *ngIf="ix.normalside === 'credit'">{{ ix.creditAmount - ix.debitAmount | number: '.2-2' }}</span>
+            </div>
+          </li>
+        </div>
+      </div>
+    </ul>
+  </div>
+</div>
