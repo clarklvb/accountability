@@ -5,7 +5,7 @@
       <table class="table">
         <thead>
           <th>Account</th>
-          <th class="has-text-right">Value</th>
+          <th class="has-text-right">$ Value</th>
         </thead>
         <tbody *ngFor="let racct of accountList">
           <tr *ngIf="racct.category === 'Revenues'">
@@ -29,7 +29,7 @@
       <table class="table">
         <thead>
           <th>Account</th>
-          <th class="has-text-right">Value</th>
+          <th class="has-text-right">$ Value</th>
         </thead>
         <tbody *ngFor="let eacct of accountList">
           <tr *ngIf="eacct.category === 'Expenses'">
@@ -47,7 +47,7 @@
     </div>
   </div>
   <div class="has-text-right">
-    <strong>Net Income - $</strong><br>
+    <strong>$ Net Income</strong><br>
     {{ revenuesAccountsTotal - expensesAccountsTotal }}
   </div>
 </div>
