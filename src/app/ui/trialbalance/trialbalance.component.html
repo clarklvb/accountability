@@ -1,5 +1,5 @@
 <section class="hero">
-  <div class="hero-body">
+  <div>
     <div class="container-fluid">
       <div class="row has-text-centered">
         <h1 class="title">
@@ -8,7 +8,7 @@
         <h2 class="subtitle">
           Trial Balance
         </h2>
-        <h2 >
+        <h2>
           As of {{ currentDate | date }}
         </h2>
       </div>
@@ -25,8 +25,10 @@
     <tbody>
       <tr *ngFor="let account of accountListWithBalance">
         <td><span class="account-id">{{ account.number }}</span> <strong>{{ account.name }}</strong></td>
-        <td class="has-text-right"><span *ngIf="account.normalside === 'debit'">{{ account.debitAmount - account.creditAmount | number:'.2-2' }}</span></td>
-        <td class="has-text-right"><span *ngIf="account.normalside === 'credit'">{{ account.creditAmount - account.debitAmount | number:'.2-2' }}</span></td>
+        <td class="has-text-right"><span *ngIf="account.normalside === 'debit'">{{ account.debitAmount -
+            account.creditAmount | number:'.2-2' }}</span></td>
+        <td class="has-text-right"><span *ngIf="account.normalside === 'credit'">{{ account.creditAmount -
+            account.debitAmount | number:'.2-2' }}</span></td>
       </tr>
       <p>&nbsp;</p>
       <p>&nbsp;</p>
