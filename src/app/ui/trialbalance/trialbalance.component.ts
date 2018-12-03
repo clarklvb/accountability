@@ -29,16 +29,19 @@ export class TrialbalanceComponent implements OnInit {
   }
 
   getTotal(type) {
+    let debitTotalValue = 0;
+    let creditTotalValue = 0;
+
     if(type === 'debit') {
       for(let i = 0; i < this.debitTotals.length; i++) {
-        this.debitTotal += this.debitTotals[i];
+        debitTotalValue += this.debitTotals[i];
       }
-      return this.debitTotal;
+      return debitTotalValue;
     } else {
       for(let i = 0; i < this.creditTotals.length; i++) {
-        this.creditTotal += this.creditTotals[i];
+        creditTotalValue += this.creditTotals[i];
       }
-      return this.creditTotal;
-    }   
+      return creditTotalValue;
+    }
   }
 }
