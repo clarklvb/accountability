@@ -5,31 +5,31 @@
       <table class="table">
         <thead>
           <th>Account</th>
-          <th>Value</th>
+          <th class="has-text-right">Value</th>
         </thead>
         <tbody *ngFor="let racct of accountList">
           <tr *ngIf="racct.category === 'Revenues'">
             <td>{{ racct.name }}</td>
-            <td>{{ racct.creditAmount - racct.debitAmount }}</td>
+            <td class="has-text-right">{{ racct.creditAmount - racct.debitAmount }}</td>
           </tr>
         </tbody>
-        <tbody class="has-text-right">
+        <tbody>
           <tr>
             <td><strong>Revenues Total</strong></td>
-            <td><strong>{{ revenuesAccountsTotal }}</strong></td>
+            <td class="has-text-right">{{ revenuesAccountsTotal }}</td>
           </tr>
         </tbody>
       </table>
     </div>
   </div>
-  
+
   <div class="columns account-total-balance">
     <div class="column is-12">
       <h1>Expenses</h1>
       <table class="table">
         <thead>
           <th>Account</th>
-          <th>Value</th>
+          <th class="has-text-right">Value</th>
         </thead>
         <tbody *ngFor="let eacct of accountList">
           <tr *ngIf="eacct.category === 'Expenses'">
@@ -37,14 +37,17 @@
             <td>{{ eacct.debitAmount - eacct.creditAmount }}</td>
           </tr>
         </tbody>
-        <tbody class="has-text-right">
+        <tbody>
           <tr>
             <td><strong>Expenses Total</strong></td>
-            <td><strong>{{ revenuesAccountsTotal }}</strong></td>
+            <td class="has-text-right">{{ revenuesAccountsTotal }}</td>
           </tr>
         </tbody>
       </table>
     </div>
   </div>
-  <div><strong>Net Income: {{ revenuesAccountsTotal - expensesAccountsTotal }}</strong></div>
+  <div class="has-text-right">
+    <strong>Net Income - $</strong><br>
+    {{ revenuesAccountsTotal - expensesAccountsTotal }}
+  </div>
 </div>
