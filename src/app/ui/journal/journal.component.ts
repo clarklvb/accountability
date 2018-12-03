@@ -175,8 +175,8 @@ export class JournalComponent implements OnInit {
     } else {
       this.transactionService.addJournalEntry(transaction);
 
-		  this.updateAccountTotals(transaction.creditEntries, 'creditAmount');
-      this.updateAccountTotals(transaction.debitEntries, 'debitAmount');
+		  await this.updateAccountTotals(transaction.creditEntries, 'creditAmount');
+      await this.updateAccountTotals(transaction.debitEntries, 'debitAmount');
 
 		for (let i = 0; i < transaction.debitEntries.length; i++ ) {
 			this.ledgerService.updateLedger(transaction.debitEntries[i].accountId, {
