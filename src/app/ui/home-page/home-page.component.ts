@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TransactionsService } from '../journal/transactions.service';
+import { AuthService } from "../../core/auth.service";
 
 @Component({
   selector: 'home-page',
@@ -17,7 +18,7 @@ export class HomePageComponent implements OnInit {
   debtToEquityAccounts;
   debtToEquityRatio = [0, 0];
 
-  constructor(private accountService: TransactionsService) { }
+  constructor(private accountService: TransactionsService, public auth: AuthService) { }
 
   ngOnInit() {
     this.accountService.getAccountsForCurrentRatio().subscribe(accounts => { this.currentRatioAccounts = accounts });
@@ -26,8 +27,8 @@ export class HomePageComponent implements OnInit {
   }
 
   getCurrentRatio(accounts) {
-    for(let i = 0; i < accounts.length; i++) {
-      if(accounts[i].subcategory === 'Current Asset') {
+    for (let i = 0; i < accounts.length; i++) {
+      if (accounts[i].subcategory === 'Current Asset') {
         this.currentRatio[0] += accounts[i].debitAmount - accounts[i].creditAmount;
       } else {
         this.currentRatio[1] += accounts[i].creditAmount - accounts[i].debitAmount;
@@ -38,8 +39,8 @@ export class HomePageComponent implements OnInit {
   }
 
   getDebtToAssetRatio(accounts) {
-    for(let i = 0; i < accounts.length; i++) {
-      if(accounts[i].category === 'Assets') {
+    for (let i = 0; i < accounts.length; i++) {
+      if (accounts[i].category === 'Assets') {
         this.debtToAssetsRatio[0] += accounts[i].debitAmount - accounts[i].creditAmount;
       } else {
         this.debtToAssetsRatio[1] += accounts[i].creditAmount - accounts[i].debitAmount;
@@ -50,8 +51,8 @@ export class HomePageComponent implements OnInit {
   }
 
   getDebtToEquityRatio(accounts) {
-    for(let i = 0; i < accounts.length; i++) {
-      if(accounts[i].category === 'Liabilities') {
+    for (let i = 0; i < accounts.length; i++) {
+      if (accounts[i].category === 'Liabilities') {
         this.debtToEquityRatio[0] += accounts[i].creditAmount - accounts[i].debitAmount;
       } else {
         this.debtToEquityRatio[1] += accounts[i].creditAmount - accounts[i].debitAmount;
