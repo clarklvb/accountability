@@ -35,6 +35,7 @@ export class HomePageComponent implements OnInit {
       }
     }
 
+    if(this.currentRatio[1] === 0) return 0;
     return this.currentRatio[0] / this.currentRatio[1];
   }
 
@@ -47,6 +48,7 @@ export class HomePageComponent implements OnInit {
       }
     }
 
+    if(this.currentRatio[1] === 0) return 0;
     return this.debtToAssetsRatio[0] / this.debtToAssetsRatio[1];
   }
 
@@ -59,6 +61,7 @@ export class HomePageComponent implements OnInit {
       }
     }
 
+    if(this.currentRatio[1] === 0) return 0;
     return this.debtToEquityRatio[0] / this.debtToEquityRatio[1];
   }
 }
