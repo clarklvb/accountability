@@ -1,0 +1,10 @@
+<div class="container">
+  <div class="columns">
+    <div class="column is-6">
+      <div>Beginning Retained Earnings: {{ initialAccountBalance }}</div>
+      <div>Add Net Income: {{ revenuesAccountsTotal - expensesAccountsTotal }}</div>
+      <div>Less Dividends: {{ dividends }}</div>
+      <div>Total: {{ initialAccountBalance + (revenuesAccountsTotal - expensesAccountsTotal) +  dividends }}</div>
+    </div>
+  </div>
+</div>
