@@ -10,6 +10,7 @@ import * as _ from "lodash";
 export class BalancesheetComponent implements OnInit {
 
   accountList;
+  currentDate: number = Date.now();
 
   constructor(private accountService: TransactionsService) { }
 
@@ -28,7 +29,7 @@ export class BalancesheetComponent implements OnInit {
     this.accountList = _.groupBy(this.accountList, 'category');
   }
 
-  generateArray(obj){
-    return Object.keys(obj).map((key)=>{ return {key:key, value:obj[key]}});
+  generateArray(obj) {
+    return Object.keys(obj).map((key) => { return { key: key, value: obj[key] } });
   }
 }

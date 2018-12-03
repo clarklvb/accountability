@@ -20,12 +20,6 @@
       <ul class="menu-list" *ngIf="user.role === 'Admin'">
         <li><a routerLink="/users">Users</a></li>
       </ul>
-      <p class="menu-label">
-        Debugging
-      </p>
-      <ul class="menu-list">
-        <li><a (click)="resetAllAccounts()">Reset Account Balances</a></li>
-      </ul>
     </aside>
   </div>
   <div class="column is-main-content">
