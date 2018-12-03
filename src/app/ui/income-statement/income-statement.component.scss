@@ -7,11 +7,17 @@
   margin-bottom: 4em;
 }
 
-h1 {
+h1.title {
   font-size: 3em;
   text-align: center;
   background-color: darkgreen;
   color: white;
+  padding-bottom: 5px;
+}
+
+h1.coname {
+  font-weight: bold;
+  font-size: 2em;
 }
 
 .has-text-right strong {
@@ -20,4 +26,8 @@ h1 {
 
 .has-text-right {
   //border-top: 1px solid #000;
+}
+
+.has-text-centered {
+  padding-bottom: 2em;
 }

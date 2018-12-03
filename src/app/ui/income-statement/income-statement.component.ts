@@ -8,6 +8,7 @@ import { TransactionsService } from '../journal/transactions.service';
 })
 export class IncomeStatementComponent implements OnInit {
 
+  currentDate: number = Date.now();
   accountList;
   revenuesAccounts = [];
   expensesAccounts = [];
@@ -20,8 +21,8 @@ export class IncomeStatementComponent implements OnInit {
   ngOnInit() {
     this.accountService.getAccountsForIncomeStatement().subscribe(accounts => {
       this.accountList = accounts;
-      for(let i = 0; i < accounts.length; i++) {
-        if(accounts[i].category === 'Expenses') {
+      for (let i = 0; i < accounts.length; i++) {
+        if (accounts[i].category === 'Expenses') {
           this.expensesAccountsTotal += accounts[i].debitAmount - accounts[i].creditAmount;
         } else {
           this.revenuesAccountsTotal += accounts[i].creditAmount - accounts[i].debitAmount;
