@@ -10,7 +10,7 @@
         <div class="card-content">
           <div class="content">
             <div class="media">
-              <div class="media-content  has-text-center">
+              <div class="media-content">
                 <div *ngIf="currentRatioAccounts as accts">{{ getCurrentRatio(accts) | number: '.2-2' }}%</div>
               </div>
             </div>
@@ -28,7 +28,7 @@
         <div class="card-content">
           <div class="content">
             <div class="media">
-              <div class="media-content  has-text-center">
+              <div class="media-content">
                 <div *ngIf="currentRatioAccounts as accts">{{ getDebtToAssetRatio(accts) | number: '.2-2' }}%</div>
               </div>
             </div>
@@ -46,7 +46,7 @@
         <div class="card-content">
           <div class="content">
             <div class="media">
-              <div class="media-content  has-text-center">
+              <div class="media-content">
                 <div *ngIf="currentRatioAccounts as accts">{{ getDebtToEquityRatio(accts) | number: '.2-2' }}%</div>
               </div>
             </div>
