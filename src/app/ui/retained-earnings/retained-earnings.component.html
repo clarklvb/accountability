@@ -9,13 +9,21 @@
   <h2>
     For the Year Ended {{ currentDate | date }}
   </h2>
-</div>
+  </div>
   <div class="columns">
-    <div class="column is-6">
-      <div>Beginning Retained Earnings: {{ initialAccountBalance }}</div>
-      <div>Add Net Income: {{ revenuesAccountsTotal - expensesAccountsTotal }}</div>
-      <div>Less Dividends: {{ dividends }}</div>
-      <div>Total: {{ initialAccountBalance + (revenuesAccountsTotal - expensesAccountsTotal) +  dividends }}</div>
+    <div class="column"></div>
+    <div class="column">
+      <div>Retained Earnings, {{ currentDate | date }} </div>
+      <div>Add: Net Income </div>
+      <div>Less: Dividends </div>
+      <div>Total, {{ currentDate | date }}: </div>
     </div>
+    <div>
+      <div class="has-text-right">$ {{ initialAccountBalance | number: '.2-2' }}</div>
+      <div class="has-text-right">{{ revenuesAccountsTotal - expensesAccountsTotal | number: '.2-2' }}</div>
+      <div class="has-text-right last">{{ dividends | number: '.2-2' }}</div>
+      <div class="has-text-right final">$ {{ initialAccountBalance + (revenuesAccountsTotal - expensesAccountsTotal) +  dividends | number: '.2-2' }}</div>
+    </div>
+    <div class="column"></div>
   </div>
 </div>

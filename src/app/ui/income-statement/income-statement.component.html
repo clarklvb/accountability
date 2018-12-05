@@ -57,8 +57,10 @@
       </table>
     </div>
   </div>
-  <div class="has-text-right">
+  <div>
     <strong>$ Net Income</strong><br>
-    {{ revenuesAccountsTotal - expensesAccountsTotal | number: '.2-2' }}
+    <div class="has-text-right">
+      {{ revenuesAccountsTotal - expensesAccountsTotal | number: '.2-2' }}
+    </div>
   </div>
 </div>
